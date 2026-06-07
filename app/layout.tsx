@@ -18,7 +18,7 @@ const SITE = "https://gjorgikrmzov.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default: "Gjorgi Krmzov, Automation for SEO Agencies",
+    default: "Gjorgi Krmzov",
     template: "%s, Gjorgi Krmzov",
   },
   description:

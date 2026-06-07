@@ -12,7 +12,10 @@ const LINES = ["I build automated systems", "that remove manual work."];
 
 export default function Hero() {
   const reduce = useReducedMotion();
-  const yHidden = reduce ? 0 : "165%";
+  // line-height is 0.6, so the glyphs are ~1.2em tall and overflow their line
+  // box. The hidden offset must exceed the glyph height (not just the line box)
+  // or their tops peek above the mask before the rise. ~240% clears them fully.
+  const yHidden = reduce ? 0 : "240%";
 
   const fadeUp = (delay: number) => ({
     initial: { opacity: 0, y: reduce ? 0 : 16 },
@@ -22,17 +25,27 @@ export default function Hero() {
 
   return (
     <section className="hero" id="top">
+      {/* Morphs in (blur + scale + opacity, no rotation) only after the text
+          has fully settled. */}
       <motion.img
         className="hero__portrait"
         src="/gjorgi.png"
         alt="Gjorgi Krmzov"
-        initial={{ opacity: 0, y: reduce ? 0 : 28, rotate: 7 }}
-        animate={{ opacity: 1, y: 0, rotate: 4 }}
-        transition={{ duration: 0.95, ease: EASE, delay: 0.2 }}
+        initial={
+          reduce
+            ? { opacity: 0 }
+            : { opacity: 0, scale: 1.06, filter: "blur(26px)" }
+        }
+        animate={
+          reduce
+            ? { opacity: 1 }
+            : { opacity: 1, scale: 1, filter: "blur(0px)" }
+        }
+        transition={{ duration: reduce ? 0.5 : 0.9, ease: EASE, delay: 0.1 }}
       />
 
       <div className="hero__content">
-        <motion.p className="hero__greeting" {...fadeUp(0.05)}>
+        <motion.p className="hero__greeting" {...fadeUp(0.4)}>
           <span>
             Hey there
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -50,7 +63,7 @@ export default function Hero() {
               <motion.span
                 initial={{ y: yHidden }}
                 animate={{ y: 0 }}
-                transition={{ duration: 0.85, ease: EASE, delay: 0.16 + i * 0.09 }}
+                transition={{ duration: 0.85, ease: EASE, delay: 0.5 + i * 0.08 }}
               >
                 {line}
               </motion.span>
@@ -58,8 +71,8 @@ export default function Hero() {
           ))}
         </h1>
 
-        <motion.div className="hero__foot" {...fadeUp(0.5)}>
-          <a className="btn" href={BOOKING_URL}>
+        <motion.div className="hero__foot" {...fadeUp(0.7)}>
+          <a className="btn" target="_blank" href={BOOKING_URL}>
             Book a 30 minute call
             <ArrowRight size={16} weight="bold" />
           </a>

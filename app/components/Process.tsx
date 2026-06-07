@@ -1,4 +1,10 @@
+"use client";
+
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import Reveal from "./Reveal";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 const STEPS = [
   {
@@ -20,21 +26,38 @@ const STEPS = [
 ];
 
 export default function Process() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+
   return (
     <section className="section wrap" id="process">
-      <div className="section__head">
-        <h2 className="section__title">The process</h2>
-      </div>
+      <Reveal>
+        <h2 className="section__title process__title">The Process</h2>
+      </Reveal>
 
-      <div className="bento" data-n="4">
+      <div className="timeline" ref={ref}>
         {STEPS.map((s, i) => (
-          <Reveal key={s.n} delay={i * 0.08} className="bcard bcard--step">
-            <span className="bcard__step">{s.n}</span>
-            <div className="bcard__top">
-              <h3 className="bcard__name">{s.l}</h3>
-              <p className="bcard__text">{s.d}</p>
+          <div className="tstep" key={s.n}>
+            {/* the rule draws left to right as the section enters */}
+            <motion.span
+              className="tstep__rule"
+              initial={{ scaleX: 0 }}
+              animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
+              transition={{ duration: 0.9, ease: EASE, delay: i * 0.12 }}
+            />
+            {/* IMPORTANT: this row must NOT have a transform/opacity of its own.
+                Either one creates a stacking context that isolates the children's
+                mix-blend, so the type would blend against the row's transparent
+                backdrop and render white. Keep it a plain static element; the
+                drawing rules above are the entry animation. */}
+            <div className="tstep__row">
+              {/* dark bar wipes in on hover; the type inverts over it */}
+              <span className="tstep__fill" aria-hidden="true" />
+              <span className="tstep__num">{s.n}</span>
+              <h3 className="tstep__label">{s.l}</h3>
+              <p className="tstep__desc">{s.d}</p>
             </div>
-          </Reveal>
+          </div>
         ))}
       </div>
     </section>

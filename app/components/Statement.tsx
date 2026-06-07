@@ -2,15 +2,15 @@ import Reveal from "./Reveal";
 import Words from "./Words";
 
 const LINES = [
-  "It is never just one task.",
-  "The hours pile up.",
-  "Your best people do work no one bills for.",
-  "I find that work and remove it.",
+  "Every new client adds manual work.",
+  "So you hire, and your margins thin.",
+  "I build systems that do the work instead.",
+  "Your team takes on more.",
 ];
 
 export default function Statement() {
   return (
-    <section className="section wrap">
+    <section className="section wrap statement-sec">
       <div className="statement">
         {LINES.map((line, i) => (
           <Reveal key={i} delay={i * 0.05}>

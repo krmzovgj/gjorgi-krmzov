@@ -18,7 +18,7 @@ const SITE = "https://gjorgikrmzov.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default: "Gjorgi Krmzov, AI and automation engineer",
+    default: "Gjorgi Krmzov, Automation for SEO Agencies",
     template: "%s, Gjorgi Krmzov",
   },
   description:
@@ -28,7 +28,6 @@ export const metadata: Metadata = {
     "SEO agency automation",
     "n8n",
     "workflow automation",
-    "AI engineer",
     "Gjorgi Krmzov",
   ],
   authors: [{ name: "Gjorgi Krmzov" }],
@@ -38,13 +37,13 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE,
     siteName: "Gjorgi Krmzov",
-    title: "Gjorgi Krmzov, AI and automation engineer",
+    title: "Gjorgi Krmzov, Automation for SEO Agencies",
     description:
       "I remove the manual work inside SEO agencies. Systems live in 14 days. You pay when it saves you hours.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Gjorgi Krmzov, AI and automation engineer",
+    title: "Gjorgi Krmzov, Automation for SEO Agencies",
     description:
       "I remove the manual work inside SEO agencies. Systems live in 14 days. You pay when it saves you hours.",
   },

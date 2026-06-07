@@ -9,6 +9,8 @@ const ICONS: Record<string, string> = {
   Slack: "slack",
   MCP: "modelcontextprotocol",
   WordPress: "wordpress",
+  Sheets: "googlesheets",
+  "Google Drive": "googledrive",
 };
 
 export default function ToolIcon({ name }: { name: string }) {

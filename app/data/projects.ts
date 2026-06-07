@@ -17,7 +17,7 @@ export const PROJECTS: Project[] = [
     cat: "Outreach",
     name: "Email Outreach Engine",
     metric: "A paid tool replaced, bill flat at any volume",
-    stack: "Next.js / Supabase / Gmail",
+    stack: "Next.js / Supabase / Gmail / n8n",
     before:
       "Outreach ran through a paid cold email tool. Limited control, reply detection on their schedule, no way to wire it into the rest of the stack.",
     built:
@@ -30,7 +30,7 @@ export const PROJECTS: Project[] = [
     cat: "Reporting",
     name: "AI Visibility Tracker",
     metric: "A paid tool replaced, new revenue line",
-    stack: "n8n / Claude",
+    stack: "n8n / Claude / Sheets",
     before:
       "Clients had no visibility into whether they show up in AI search. Some were being hallucinated about. The agency was paying a third party tool for the data.",
     built:
@@ -43,7 +43,7 @@ export const PROJECTS: Project[] = [
     cat: "Outreach",
     name: "Reddit Comment Engine",
     metric: "5+ hours a week per client, gone",
-    stack: "n8n / Claude",
+    stack: "n8n / Claude / Sheets / Slack",
     before:
       "Finding relevant Reddit threads, drafting on-brand replies, and posting them took 5+ hours a week per client. Manual and repetitive.",
     built:
@@ -69,7 +69,7 @@ export const PROJECTS: Project[] = [
     cat: "Outreach",
     name: "AI PR & Link Earning",
     metric: "$24k to $60k a year in link budget saved",
-    stack: "n8n / Claude",
+    stack: "n8n / Claude / Sheets / Slack",
     before:
       "Earned media was fully manual. Check the platform daily, match opportunities to clients, draft pitches in the expert's voice, humanize past AI detection, submit. 30 to 45 minutes per client. At 20 clients that is a full time job nobody was doing.",
     built:
@@ -82,7 +82,7 @@ export const PROJECTS: Project[] = [
     cat: "Reporting",
     name: "Keyword Ranking Reports",
     metric: "5 to 10 hours a month gone",
-    stack: "n8n / Airtable",
+    stack: "n8n / Airtable / Sheets / Slack",
     before:
       "Someone spent 5 to 10 hours a month pulling ranking reports by hand for 10+ clients, one client and one location at a time.",
     built:
@@ -108,7 +108,7 @@ export const PROJECTS: Project[] = [
     cat: "Content",
     name: "Guest Post Engine",
     metric: "Same cost per post at any volume",
-    stack: "n8n / Claude",
+    stack: "n8n / Claude / Google Drive / Slack",
     before:
       "Writing guest posts was manual, piece by piece. Brief the writer, draft the article, match the host site's tone, verify the backlink lands in the right place, revise. An hour or more per post, across a full link-building roster.",
     built:
@@ -121,7 +121,7 @@ export const PROJECTS: Project[] = [
     cat: "Content",
     name: "Page Copy Pipeline",
     metric: "More clients, no new writing hours",
-    stack: "n8n / Claude",
+    stack: "n8n / Claude / Google Drive / Slack",
     before:
       "Writing and briefing a page took hours per piece. A manual process that did not scale with client volume.",
     built:

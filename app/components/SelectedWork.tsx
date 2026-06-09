@@ -6,6 +6,7 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { PROJECTS } from "../data/projects";
 import WorkCard from "./WorkCard";
 import Reveal from "./Reveal";
+import { DoodleSpark } from "./Doodles";
 
 const CATS = ["Outreach", "Content", "Reporting", "Ops"];
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -40,7 +41,10 @@ export default function SelectedWork() {
       <div className="work-layout">
         <aside className="work-aside">
           <Reveal>
-            <h2 className="section__title">My Work</h2>
+            <h2 className="section__title work-aside__title">
+              My Work
+              <DoodleSpark className="work-aside__spark" />
+            </h2>
           </Reveal>
           <Reveal className="work-aside__tags" delay={0.12}>
             {CATS.map((c) => (

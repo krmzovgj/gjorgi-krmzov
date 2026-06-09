@@ -1,5 +1,6 @@
 import Words from "./Words";
 import Reveal from "./Reveal";
+import { DoodleArrow } from "./Doodles";
 import { AUDIT_URL, BOOKING_URL } from "../config";
 
 export default function Contact() {
@@ -50,6 +51,8 @@ export default function Contact() {
           </a>
         </div>
       </Reveal>
+      {/* points back up-left at the booking button from the empty right side */}
+      <DoodleArrow className="contact__doodle" />
     </section>
   );
 }

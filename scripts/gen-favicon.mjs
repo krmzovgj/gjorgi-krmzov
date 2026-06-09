@@ -1,4 +1,4 @@
-// One-time favicon generator. Renders the [GK] mark from app/icon.svg into a
+// One-time favicon generator. Renders the G mark from app/icon.svg into a
 // black-on-transparent PNG (app/icon.png) and a multi-size ICO (app/favicon.ico).
 // Run: node scripts/gen-favicon.mjs  -- then commit the generated files.
 import sharp from "sharp";
@@ -7,15 +7,15 @@ import { readFile, writeFile } from "node:fs/promises";
 const SIZE = 512;
 const PAD = 0.12; // 12% each side -> the mark fills ~76% of the canvas
 
-// Pull the [GK] path straight from the existing favicon source.
+// Pull the G path straight from the existing favicon source.
 const src = await readFile(new URL("../app/icon.svg", import.meta.url), "utf8");
 const d = src.match(/\sd="([^"]+)"/)?.[1];
-if (!d) throw new Error("Could not find the [GK] path in app/icon.svg");
+if (!d) throw new Error("Could not find the G path in app/icon.svg");
 
-// Bounds of the [GK] mark in the path's own coordinate space.
-const BW = 21.9534;
-const BH = 9.70803;
-const scale = (SIZE * (1 - 2 * PAD)) / BW;
+// Bounds of the G mark in the path's own coordinate space.
+const BW = 140.4;
+const BH = 164.64;
+const scale = (SIZE * (1 - 2 * PAD)) / Math.max(BW, BH);
 const tx = (SIZE - BW * scale) / 2;
 const ty = (SIZE - BH * scale) / 2;
 

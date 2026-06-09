@@ -8,7 +8,11 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 // Controlled line breaks. On wide screens each line is masked and rises in;
 // on small screens it simply wraps.
-const LINES = ["I build automated systems", "that remove manual work."];
+const LINES = [
+  "I build the systems",
+  "that remove manual work",
+  "inside agencies.",
+];
 
 export default function Hero() {
   const reduce = useReducedMotion();
@@ -56,7 +60,7 @@ export default function Hero() {
 
         <h1
           className="hero__title"
-          aria-label="I build automated systems that remove manual work."
+          aria-label="I build the systems that remove manual work inside agencies."
         >
           {LINES.map((line, i) => (
             <span className="hero__line" key={i} aria-hidden="true">

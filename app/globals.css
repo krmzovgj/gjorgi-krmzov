@@ -989,6 +989,57 @@ video {
 .contact__actions .contact__email {
   margin-top: 0;
 }
+.contact__alt {
+  max-width: 46ch;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+.contact__alt-link {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color var(--dur) var(--ease);
+}
+.contact__alt-link:hover {
+  color: var(--accent);
+}
+
+/* =================================================================
+   Audit strip - thin full-width band between statement and work
+   ================================================================= */
+.audit {
+  border-block: 1px solid var(--line);
+  background: var(--bg-2);
+}
+.audit__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  padding-block: clamp(1.75rem, 3vw, 2.5rem);
+  flex-wrap: wrap;
+}
+.audit__text {
+  max-width: 64ch;
+}
+.audit__lead {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(1.2rem, 1.9vw, 1.55rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.audit__desc {
+  margin-top: 0.5rem;
+  font-size: clamp(0.98rem, 1.1vw, 1.1rem);
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+.audit__cta {
+  flex-shrink: 0;
+}
 
 .contact__socials {
   display: flex;

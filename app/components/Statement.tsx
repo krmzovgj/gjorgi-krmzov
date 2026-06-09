@@ -2,10 +2,10 @@ import Reveal from "./Reveal";
 import Words from "./Words";
 
 const LINES = [
-  "Every new client adds more manual work for the same team.",
-  "Do enough of it and you hire, or the team burns out.",
-  "I build the systems that quietly do that work for you.",
-  "So the same team can take on more clients without hiring.",
+  "Every new client adds 15 to 20 hours of work nobody bills.",
+  "Do enough of it and you either hire or the team burns out.",
+  "I build the system that does that work instead.",
+  "So the same team takes on more clients without hiring.",
 ];
 
 export default function Statement() {

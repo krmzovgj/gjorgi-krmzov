@@ -1,6 +1,6 @@
 import Words from "./Words";
 import Reveal from "./Reveal";
-import { BOOKING_URL } from "../config";
+import { AUDIT_URL, BOOKING_URL } from "../config";
 
 export default function Contact() {
   return (
@@ -28,6 +28,19 @@ export default function Contact() {
               />
             </svg>
           </a>
+          <p className="contact__alt">
+            Or start smaller. The free Hours Audit takes 15 minutes and you
+            leave knowing where your hours go.{" "}
+            <a
+              className="contact__alt-link"
+              href={AUDIT_URL}
+              target="_blank"
+              rel="noreferrer"
+              data-cursor="Let's talk"
+            >
+              Get yours
+            </a>
+          </p>
           <a
             className="contact__email"
             href="mailto:krmzovgj@gmail.com"

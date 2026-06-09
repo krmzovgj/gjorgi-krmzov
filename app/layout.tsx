@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     default: "Gjorgi Krmzov, AI & Automation Engineer",
     template: "%s, Gjorgi Krmzov",
   },
-  description: "I build automated systems that remove the manual work.",
+  description: "I build the systems that remove manual work inside agencies. 15 live systems. You pay when it's saving you the hours we agreed on.",
   keywords: [
     "AI automation",
     "SEO agency automation",
@@ -38,13 +38,13 @@ export const metadata: Metadata = {
     siteName: "Gjorgi Krmzov",
     title: "Gjorgi Krmzov, AI & Automation Engineer",
     description:
-      "I build automated systems that remove the manual work.",
+      "I build the systems that remove manual work inside agencies. 15 live systems. You pay when it's saving you the hours we agreed on.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Gjorgi Krmzov, AI & Automation Engineer",
     description:
-      "I build automated systems that remove the manual work.",
+      "I build the systems that remove manual work inside agencies. 15 live systems. You pay when it's saving you the hours we agreed on.",
   },
   robots: { index: true, follow: true },
 };

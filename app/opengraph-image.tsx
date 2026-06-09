@@ -53,7 +53,7 @@ export default async function Image() {
                 maxWidth: 540,
               }}
             >
-              I build automated systems that remove the manual work.
+              I build the systems that remove manual work inside agencies.
             </div>
           </div>
           <div style={{ display: "flex", fontSize: 26, color: "#ff5a1e" }}>

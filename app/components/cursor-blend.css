@@ -1,0 +1,30 @@
+/* Blend-mode circle cursor. White + difference inverts whatever is behind it,
+   so it reads dark on the light canvas and light over the dark portrait/footer. */
+.cursor-blend {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  border-radius: 50%;
+  background: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+}
+
+/* When the blend cursor is active (fine pointer only), hide the OS cursor so the
+   circle replaces it. The class is only added on capable devices. */
+html.has-blend-cursor,
+html.has-blend-cursor * {
+  cursor: none !important;
+}
+
+/* Touch / coarse pointers never get the circle. */
+@media (hover: none), (pointer: coarse) {
+  .cursor-blend {
+    display: none !important;
+  }
+}

@@ -56,6 +56,8 @@ export default function CaseStudy({
   });
 
   const hasMedia = !!project.media && project.media.length > 0;
+  const hasDeliverables =
+    !!project.deliverables && project.deliverables.length > 0;
 
   return (
     <motion.main
@@ -65,7 +67,7 @@ export default function CaseStudy({
       transition={{ duration: reduce ? 0 : 0.4, ease: EASE }}
     >
       <div className="cs__grid">
-        {/* left: name + meta + cta (no Result here, no close here) */}
+        {/* left: name + meta + cta, with close pinned to the bottom (sticky) */}
         <aside className="cs__meta">
           <motion.h1 className="cs__name" {...rise(0.05)}>
             {project.name}
@@ -86,6 +88,20 @@ export default function CaseStudy({
                 ))}
               </dd>
             </div>
+            {hasDeliverables && (
+              <div className="cs__field">
+                <dt>Deliverables</dt>
+                <dd>
+                  <div className="cs__pills">
+                    {project.deliverables!.map((d) => (
+                      <span className="cs__pill" key={d}>
+                        {d}
+                      </span>
+                    ))}
+                  </div>
+                </dd>
+              </div>
+            )}
           </motion.dl>
 
           <motion.a
@@ -106,6 +122,19 @@ export default function CaseStudy({
               />
             </svg>
           </motion.a>
+
+          {/* pinned to the bottom of the sticky panel on desktop */}
+          <button className="cs__close" type="button" onClick={close}>
+            Close
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M5 5 19 19M19 5 5 19"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
         </aside>
 
         {/* right: headline + description, then media */}
@@ -128,7 +157,12 @@ export default function CaseStudy({
                   <figure className="cs__media-item">
                     <div className="cs__frame">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={m.src} alt={m.caption ?? project.name} />
+                      <img
+                        src={m.src}
+                        alt={m.caption ?? project.name}
+                        loading="lazy"
+                        decoding="async"
+                      />
                     </div>
                     {m.caption && (
                       <figcaption className="cs__cap">{m.caption}</figcaption>
@@ -141,20 +175,8 @@ export default function CaseStudy({
         </div>
       </div>
 
-      {/* very bottom: Close on the left, Next across from it on the right */}
+      {/* very bottom: next project on the right */}
       <div className="cs__foot">
-        <button className="cs__close" type="button" onClick={close}>
-          Close
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="M5 5 19 19M19 5 5 19"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            />
-          </svg>
-        </button>
-
         <Link className="cs__next" href={`/work/${next.slug}`}>
           <span className="cs__next-tag">Next</span>
           {next.name}

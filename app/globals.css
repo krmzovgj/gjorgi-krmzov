@@ -381,7 +381,7 @@ video {
      tops out near the reference's ~133px on large screens. */
   font-size: clamp(2.6rem, 8vw, 8.5rem);
   font-weight: 350;
-  line-height: 0.6;
+  line-height: 0.5;
   letter-spacing: -0.03em;
   /* White type blended against everything behind it: reads near-black on the
      light canvas, inverts to light where it crosses the dark portrait. */
@@ -468,7 +468,7 @@ video {
    down from ~1000px up. Large screens still top out at the 8.5rem cap. */
 @media (min-width: 1000px) {
   .hero__title {
-    font-size: clamp(2.6rem, 7vw, 8.5rem);
+    font-size: clamp(2.6rem, 8.2vw, 8.5rem);
   }
 }
 
@@ -1791,7 +1791,7 @@ video {
 
 .work-card__arrow {
   flex: 0 0 auto;
-  color: var(--accent);
+  color: var(--text);
   opacity: 0;
   transform: translate(-5px, 5px);
   transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);

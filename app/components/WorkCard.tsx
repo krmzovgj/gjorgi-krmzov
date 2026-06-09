@@ -8,6 +8,7 @@ import {
   useTransform,
   useReducedMotion,
 } from "framer-motion";
+import { ArrowLineUpRight } from "@phosphor-icons/react";
 import type { Project } from "../data/projects";
 import ToolIcon from "./ToolIcon";
 
@@ -84,22 +85,12 @@ export default function WorkCard({
               <ToolIcon key={t} name={t} />
             ))}
           </span>
-          <svg
+          <ArrowLineUpRight
             className="work-card__arrow"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
+            size={18}
+            weight="bold"
             aria-hidden="true"
-          >
-            <path
-              d="M7 17 17 7M9 7h8v8"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          />
         </div>
       </div>
     </motion.article>

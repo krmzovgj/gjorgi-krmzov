@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Gjorgi Krmzov, automation for SEO agencies";
+export const alt = "Gjorgi Krmzov, AI & Automation Engineer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -19,8 +19,8 @@ export default function Image() {
           padding: 90,
         }}
       >
-        <div style={{ display: "flex", fontSize: 34, color: "#56565a" }}>
-          Gjorgi Krmzov
+        <div style={{ display: "flex", fontSize: 32, color: "#56565a" }}>
+          Gjorgi Krmzov, AI & Automation Engineer
         </div>
         <div
           style={{
@@ -31,7 +31,7 @@ export default function Image() {
             maxWidth: 980,
           }}
         >
-          I build the systems that remove the manual work inside SEO agencies.
+          I build automated systems that remove the manual work.
         </div>
         <div style={{ display: "flex", fontSize: 30, color: "#ff5a1e" }}>
           www.krmzov.com

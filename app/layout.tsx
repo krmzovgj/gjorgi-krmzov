@@ -18,11 +18,10 @@ const SITE = "https://www.krmzov.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default: "Gjorgi Krmzov",
+    default: "Gjorgi Krmzov, AI & Automation Engineer",
     template: "%s, Gjorgi Krmzov",
   },
-  description:
-    "I remove the manual work inside SEO agencies, so the same team handles more clients without new hires. Systems live in 14 days. You pay when it saves you hours.",
+  description: "I build automated systems that remove the manual work.",
   keywords: [
     "AI automation",
     "SEO agency automation",
@@ -37,15 +36,15 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE,
     siteName: "Gjorgi Krmzov",
-    title: "Gjorgi Krmzov, Automation for SEO Agencies",
+    title: "Gjorgi Krmzov, AI & Automation Engineer",
     description:
-      "I remove the manual work inside SEO agencies. Systems live in 14 days. You pay when it saves you hours.",
+      "I build automated systems that remove the manual work.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Gjorgi Krmzov, Automation for SEO Agencies",
+    title: "Gjorgi Krmzov, AI & Automation Engineer",
     description:
-      "I remove the manual work inside SEO agencies. Systems live in 14 days. You pay when it saves you hours.",
+      "I build automated systems that remove the manual work.",
   },
   robots: { index: true, follow: true },
 };

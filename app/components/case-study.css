@@ -13,6 +13,13 @@
   padding-block: clamp(2.25rem, 4.5vw, 3.75rem) clamp(1.75rem, 3.5vw, 2.75rem);
 }
 
+/* Mobile: the close button is fixed top-right, so drop the title clear of it. */
+@media (max-width: 999px) {
+  .cs {
+    padding-top: clamp(4.5rem, 10vw, 5.5rem);
+  }
+}
+
 .cs__grid,
 .cs__foot {
   width: 100%;

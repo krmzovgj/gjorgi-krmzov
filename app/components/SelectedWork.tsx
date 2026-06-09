@@ -74,7 +74,11 @@ export default function SelectedWork() {
                   delay: entered ? 0 : idx * 0.05,
                 }}
               >
-                <Link className="works-grid__link" href={`/work/${p.slug}`}>
+                <Link
+                  className="works-grid__link"
+                  href={`/work/${p.slug}`}
+                  data-cursor="Open"
+                >
                   <WorkCard project={p} index={p.n} />
                 </Link>
               </motion.div>

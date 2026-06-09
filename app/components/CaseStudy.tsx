@@ -155,7 +155,13 @@ export default function CaseStudy({
               {project.media!.map((m, i) => (
                 <Reveal key={m.src} delay={i * 0.05}>
                   <figure className="cs__media-item">
-                    <div className="cs__frame">
+                    <a
+                      className="cs__frame"
+                      href={m.src}
+                      target="_blank"
+                      rel="noreferrer"
+                      data-cursor="Open"
+                    >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={m.src}
@@ -163,7 +169,7 @@ export default function CaseStudy({
                         loading="lazy"
                         decoding="async"
                       />
-                    </div>
+                    </a>
                     {m.caption && (
                       <figcaption className="cs__cap">{m.caption}</figcaption>
                     )}

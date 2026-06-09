@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
-import CursorBlend from "./components/CursorBlend";
+import CursorDot from "./components/CursorDot";
 
 // One typeface across the whole site: Bricolage Grotesque (variable). It runs
 // light in the hero; globals.css aliases --font-body to it so body and UI match.
@@ -65,7 +65,7 @@ export default function RootLayout({
     <html lang="en" className={display.variable}>
       <body>
         <SmoothScroll>{children}</SmoothScroll>
-        <CursorBlend />
+        <CursorDot />
       </body>
     </html>
   );

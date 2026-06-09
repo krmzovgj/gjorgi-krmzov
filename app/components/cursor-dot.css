@@ -1,0 +1,60 @@
+/* Dot cursor: trails the real cursor (which stays visible). Over [data-cursor]
+   elements it grows into a label pill. Size is animated (height/padding/max-width),
+   never transform: scale, so the pill is always crisp. */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.cursor-dot__inner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 12px;
+  min-width: 12px;
+  padding: 0;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+  white-space: nowrap;
+  overflow: hidden;
+  transition: height 0.32s var(--ease), padding 0.32s var(--ease),
+    transform 0.32s var(--ease);
+}
+
+.cursor-dot__text {
+  display: block;
+  max-width: 0;
+  opacity: 0;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: max-width 0.32s var(--ease), opacity 0.22s var(--ease);
+}
+
+.cursor-dot__inner.is-label {
+  height: 42px;
+  padding: 0 1.2rem;
+  transform: translate(-50%, -50%) rotate(-5deg);
+}
+.cursor-dot__inner.is-label .cursor-dot__text {
+  max-width: 200px;
+  opacity: 1;
+}
+
+/* No custom cursor on touch / coarse pointers. */
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot {
+    display: none !important;
+  }
+}

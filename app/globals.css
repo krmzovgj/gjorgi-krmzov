@@ -263,11 +263,24 @@ video {
   opacity: 0.6;
 }
 
-.nav__cta {
+.nav__actions {
   position: fixed;
   top: clamp(0.9rem, 1.8vw, 1.35rem);
   right: var(--pad-x);
   z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.65rem, 1.2vw, 1rem);
+}
+.nav__social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  transition: opacity var(--dur) var(--ease);
+}
+.nav__social:hover {
+  opacity: 0.6;
 }
 
 .nav__links {

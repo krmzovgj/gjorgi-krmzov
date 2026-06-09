@@ -9,8 +9,8 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 // Controlled line breaks. On wide screens each line is masked and rises in;
 // on small screens it simply wraps.
 const LINES = [
-  "I build the systems",
-  "that remove manual work",
+  "I build the systems that",
+  "remove manual work",
   "inside agencies.",
 ];
 

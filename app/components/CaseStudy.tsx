@@ -7,7 +7,6 @@ import { motion, useReducedMotion } from "framer-motion";
 import type { Project } from "../data/projects";
 import ToolIcon from "./ToolIcon";
 import Reveal from "./Reveal";
-import { BOOKING_URL } from "../config";
 import "./case-study.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -103,26 +102,6 @@ export default function CaseStudy({
               </div>
             )}
           </motion.dl>
-
-          <motion.a
-            className="cs__cta"
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noreferrer"
-            data-cursor="Let's talk"
-            {...rise(0.26)}
-          >
-            Book a call
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M7 17 17 7M9 7h8v8"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </motion.a>
 
           {/* pinned to the bottom of the sticky panel on desktop */}
           <button className="cs__close" type="button" onClick={close}>

@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "@phosphor-icons/react";
+import { DoodleArrow } from "./Doodles";
 import { AUDIT_URL, BOOKING_URL } from "../config";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -105,6 +106,12 @@ export default function Hero() {
           </a>
         </motion.p>
       </div>
+
+      {/* hand-drawn arrow in the whitespace right of the CTAs, flipped so the
+          head points up-right at "work" in the headline */}
+      <motion.span className="hero__doodle" aria-hidden="true" {...fadeUp(0.95)}>
+        <DoodleArrow />
+      </motion.span>
     </section>
   );
 }

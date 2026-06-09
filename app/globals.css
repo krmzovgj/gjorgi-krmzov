@@ -464,6 +464,28 @@ video {
   font-size: 0.95rem;
   color: var(--text-dim);
 }
+
+/* Curly arrow in the gap between the CTAs and the portrait, aimed up-right
+   at "work" in the headline. Mirrored: the artwork's head points up-left. */
+.hero__doodle {
+  position: absolute;
+  left: clamp(28rem, 53vw, 64rem);
+  bottom: clamp(4.5rem, 11vh, 8rem);
+  width: clamp(70px, 7vw, 120px);
+  color: var(--text);
+  pointer-events: none;
+}
+.hero__doodle svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform: scaleX(-1);
+}
+@media (max-width: 999px) {
+  .hero__doodle {
+    display: none;
+  }
+}
 .hero__audit a {
   display: inline-flex;
   align-items: center;
@@ -991,24 +1013,7 @@ video {
    Contact
    ================================================================= */
 .contact {
-  position: relative;
   padding-block: clamp(7rem, 16vh, 12rem);
-}
-
-/* Hand-drawn curly arrow in the right-side whitespace, nodding at the CTA. */
-.contact__doodle {
-  position: absolute;
-  right: clamp(3rem, 16vw, 20rem);
-  bottom: clamp(7rem, 18vh, 13rem);
-  width: clamp(80px, 9vw, 140px);
-  height: auto;
-  color: var(--text);
-  pointer-events: none;
-}
-@media (max-width: 800px) {
-  .contact__doodle {
-    display: none;
-  }
 }
 
 .contact__cta {

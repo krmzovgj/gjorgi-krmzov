@@ -39,12 +39,14 @@ export const metadata: Metadata = {
     title: "Gjorgi Krmzov, AI & Automation Engineer",
     description:
       "I build the systems that remove manual work inside agencies. 15 live systems. You pay when it's saving you the hours we agreed on.",
+    images: [{ url: "/gjorgi.png", width: 1024, height: 1536, alt: "Gjorgi Krmzov" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Gjorgi Krmzov, AI & Automation Engineer",
     description:
       "I build the systems that remove manual work inside agencies. 15 live systems. You pay when it's saving you the hours we agreed on.",
+    images: ["/gjorgi.png"],
   },
   robots: { index: true, follow: true },
 };

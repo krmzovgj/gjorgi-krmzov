@@ -439,6 +439,22 @@ video {
   transform: scaleX(1);
 }
 
+.hero__audit {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  font-size: 0.95rem;
+  color: var(--text-dim);
+}
+.hero__audit a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-dim);
+  transition: color var(--dur) var(--ease);
+}
+.hero__audit a:hover {
+  color: var(--text);
+}
+
 @media (max-width: 760px) {
   /* Keep nowrap + the mask (overflow: hidden from the base rule) so the line
      rise still works on mobile; only the size steps down. The vw size keeps each
@@ -991,7 +1007,7 @@ video {
 }
 .contact__alt {
   max-width: 46ch;
-  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  font-size: clamp(0.9rem, 1vw, 1rem);
   line-height: 1.55;
   color: var(--text-dim);
 }
@@ -1004,41 +1020,6 @@ video {
 }
 .contact__alt-link:hover {
   color: var(--accent);
-}
-
-/* =================================================================
-   Audit strip - thin full-width band between statement and work
-   ================================================================= */
-.audit {
-  border-block: 1px solid var(--line);
-  background: var(--bg-2);
-}
-.audit__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: clamp(1.5rem, 4vw, 3rem);
-  padding-block: clamp(1.75rem, 3vw, 2.5rem);
-  flex-wrap: wrap;
-}
-.audit__text {
-  max-width: 64ch;
-}
-.audit__lead {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: clamp(1.2rem, 1.9vw, 1.55rem);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  color: var(--text);
-}
-.audit__desc {
-  margin-top: 0.5rem;
-  font-size: clamp(0.98rem, 1.1vw, 1.1rem);
-  line-height: 1.5;
-  color: var(--text-dim);
-}
-.audit__cta {
-  flex-shrink: 0;
 }
 
 .contact__socials {

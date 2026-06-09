@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "@phosphor-icons/react";
-import { BOOKING_URL } from "../config";
+import { AUDIT_URL, BOOKING_URL } from "../config";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -74,6 +74,21 @@ export default function Hero() {
             </span>
           ))}
         </h1>
+
+        <motion.p className="hero__audit" {...fadeUp(0.62)}>
+          <a href={AUDIT_URL} target="_blank" rel="noreferrer" data-cursor="Let's talk">
+            Or start with a free 15 minute Hours Audit
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M7 17 17 7M9 7h8v8"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
+        </motion.p>
 
         <motion.div className="hero__foot" {...fadeUp(0.7)}>
           <a

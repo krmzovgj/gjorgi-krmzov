@@ -13,7 +13,8 @@ export default function CursorBlend() {
   const y = useMotionValue(-100);
   const sx = useSpring(x, { stiffness: 700, damping: 45, mass: 0.3 });
   const sy = useSpring(y, { stiffness: 700, damping: 45, mass: 0.3 });
-  const scale = useSpring(1, { stiffness: 450, damping: 32 });
+  // base 0.4 (~22px) -> 1 (54px) on hover. Never above 1, so it never blurs.
+  const scale = useSpring(0.4, { stiffness: 450, damping: 32 });
 
   useEffect(() => {
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -32,10 +33,10 @@ export default function CursorBlend() {
       y.set(e.clientY);
     };
     const over = (e: MouseEvent) => {
-      if (interactive(e.target)) scale.set(2.4);
+      if (interactive(e.target)) scale.set(1);
     };
     const out = (e: MouseEvent) => {
-      if (interactive(e.target)) scale.set(1);
+      if (interactive(e.target)) scale.set(0.4);
     };
 
     window.addEventListener("mousemove", move, { passive: true });

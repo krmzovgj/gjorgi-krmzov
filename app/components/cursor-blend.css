@@ -4,9 +4,11 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 22px;
-  height: 22px;
-  margin: -11px 0 0 -11px;
+  /* Rendered at the full (hover) size and scaled DOWN at rest, so the circle is
+     never magnified above its rasterized texture and stays crisp at every size. */
+  width: 54px;
+  height: 54px;
+  margin: -27px 0 0 -27px;
   border-radius: 50%;
   background: #fff;
   mix-blend-mode: difference;

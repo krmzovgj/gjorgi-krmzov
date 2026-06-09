@@ -72,11 +72,16 @@ export default function Hero() {
         </h1>
 
         <motion.div className="hero__foot" {...fadeUp(0.7)}>
-          <a className="btn" target="_blank" href={BOOKING_URL}>
+          <a
+            className="btn"
+            target="_blank"
+            href={BOOKING_URL}
+            data-cursor="Let's talk"
+          >
             Book a 30 minute call
             <ArrowRight size={16} weight="bold" />
           </a>
-          <a className="hero__link" href="#work">
+          <a className="hero__link" href="#work" data-cursor="Work">
             My work
           </a>
         </motion.div>

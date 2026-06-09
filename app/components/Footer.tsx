@@ -25,6 +25,7 @@ export default function Footer() {
           target="_blank"
           rel="noreferrer"
           aria-label="LinkedIn"
+          data-cursor="Connect"
         >
           <LinkedinLogo size={28} weight="duotone" />
         </a>

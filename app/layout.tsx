@@ -13,8 +13,7 @@ const display = Bricolage_Grotesque({
   axes: ["opsz"],
 });
 
-// TODO: swap for the real domain once chosen.
-const SITE = "https://gjorgikrmzov.com";
+const SITE = "https://www.krmzov.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),

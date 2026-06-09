@@ -22,9 +22,10 @@ export default function CursorDot() {
     if (!fine.matches || reduce.matches) return;
     setEnabled(true);
 
+    // offset to the bottom-right so it sits beside the OS cursor, not under it
     const move = (e: MouseEvent) => {
-      x.set(e.clientX);
-      y.set(e.clientY);
+      x.set(e.clientX + 24);
+      y.set(e.clientY + 30);
     };
     const over = (e: MouseEvent) => {
       const el =

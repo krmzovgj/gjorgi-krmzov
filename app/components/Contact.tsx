@@ -10,7 +10,13 @@ export default function Contact() {
           <Words text="Let's remove the manual work" />
         </h2>
         <div className="contact__actions">
-          <a className="btn" href={BOOKING_URL} target="_blank" rel="noreferrer">
+          <a
+            className="btn"
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noreferrer"
+            data-cursor="Let's talk"
+          >
             Book a 30 minute call
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
@@ -22,7 +28,11 @@ export default function Contact() {
               />
             </svg>
           </a>
-          <a className="contact__email" href="mailto:krmzovgj@gmail.com">
+          <a
+            className="contact__email"
+            href="mailto:krmzovgj@gmail.com"
+            data-cursor="Say hi"
+          >
             krmzovgj@gmail.com
           </a>
         </div>

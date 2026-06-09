@@ -15,6 +15,7 @@ export default function Header() {
                 target="_blank"
                 className="btn btn--sm nav__cta"
                 href={BOOKING_URL}
+                data-cursor="Let's talk"
             >
                 Book a call
             </a>

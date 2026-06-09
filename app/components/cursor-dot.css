@@ -14,7 +14,7 @@
   position: absolute;
   left: 0;
   top: 0;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,9 +35,9 @@
   max-width: 0;
   opacity: 0;
   font-family: var(--font-display), system-ui, sans-serif;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   transition: max-width 0.32s var(--ease), opacity 0.22s var(--ease);
 }
@@ -45,7 +45,7 @@
 .cursor-dot__inner.is-label {
   height: 42px;
   padding: 0 1.2rem;
-  transform: translate(-50%, -50%) rotate(-5deg);
+  transform: translateY(-50%) rotate(-5deg);
 }
 .cursor-dot__inner.is-label .cursor-dot__text {
   max-width: 200px;

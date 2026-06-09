@@ -419,8 +419,6 @@ video {
   letter-spacing: -0.01em;
   /* White + difference like the headline: near-black on the canvas, inverts to
      light where it overlaps the portrait. */
-  color: #fff;
-  mix-blend-mode: difference;
   padding-bottom: 2px;
 }
 

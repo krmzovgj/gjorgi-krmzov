@@ -1,0 +1,214 @@
+/* =================================================================
+   Case study - full-screen project detail (/work/[slug]).
+   ngan template: a left column holds the name (biggest, heaviest) +
+   meta; the right column holds the headline, description, then media.
+   A footer bar pinned to the very bottom carries Close (left) and the
+   next project (right). Bricolage, tight display tracking, sentence-
+   case labels.
+   ================================================================= */
+.cs {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  background: var(--bg);
+  padding-block: clamp(2.25rem, 4.5vw, 3.75rem) clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+.cs__grid,
+.cs__foot {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: clamp(1.5rem, 3.5vw, 4rem);
+}
+
+.cs__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+/* ---- left: name + meta + cta ---- */
+.cs__meta {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.6rem, 2.6vw, 2.25rem);
+}
+.cs__name {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-optical-sizing: none;
+  font-size: clamp(2.5rem, 4.6vw, 4.6rem);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+.cs__fields {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.4rem, 2.1vw, 1.8rem);
+}
+.cs__field dt {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 0.45rem;
+}
+.cs__field dd {
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--text-dim);
+}
+.cs__tools {
+  display: inline-flex;
+}
+.cs__pill {
+  display: inline-block;
+  padding: 0.4em 0.95em;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  font-size: 0.9rem;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.cs__cta {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.35rem;
+  background: var(--text);
+  color: var(--bg);
+  border: 1px solid var(--text);
+  border-radius: var(--r-pill);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease),
+    transform 0.2s var(--ease);
+}
+.cs__cta:hover {
+  background: transparent;
+  color: var(--text);
+  transform: scale(1.04);
+}
+
+/* ---- right: headline, description, media ---- */
+.cs__main {
+  min-width: 0;
+}
+.cs__intro {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.75rem, 3.5vw, 3rem);
+}
+.cs__headline {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(1.7rem, 2.8vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  max-width: 22ch;
+}
+.cs__body {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.1rem, 1.8vw, 1.5rem);
+  max-width: 58ch;
+}
+.cs__body p {
+  font-size: clamp(1.05rem, 1.2vw, 1.2rem);
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  color: var(--text-dim);
+}
+
+.cs__media {
+  margin-top: clamp(3rem, 6vw, 5.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 3.25rem);
+}
+.cs__frame {
+  background: var(--frame);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.cs__frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.cs__cap {
+  display: block;
+  margin-top: 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-dim);
+}
+
+/* ---- footer bar pinned to the very bottom: Close <-> Next ---- */
+.cs__foot {
+  margin-top: auto;
+  padding-top: clamp(2.75rem, 6vw, 5rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+.cs__close {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  transition: opacity var(--dur) var(--ease);
+}
+.cs__close:hover {
+  opacity: 0.55;
+}
+.cs__next {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  transition: gap var(--dur) var(--ease);
+}
+.cs__next-tag {
+  color: var(--text-dim);
+  font-weight: 600;
+}
+.cs__next:hover {
+  gap: 1.1rem;
+}
+
+/* ---- desktop: meta sticky on the left, headline beside the body ---- */
+@media (min-width: 1000px) {
+  .cs__grid {
+    grid-template-columns: minmax(18rem, 22rem) 1fr;
+    gap: clamp(2.5rem, 4vw, 4.5rem);
+    align-items: start;
+  }
+  .cs__meta {
+    position: sticky;
+    top: clamp(2.25rem, 4vw, 3.5rem);
+  }
+  .cs__intro {
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: clamp(2.5rem, 3.5vw, 4rem);
+    align-items: start;
+  }
+}

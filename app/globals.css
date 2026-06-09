@@ -340,11 +340,8 @@ video {
      mix-blend keeps them legible where they cross it. The image bleeds off the
      corner so you never see where it ends until you scroll. */
   .hero {
-    justify-content: center;
+    justify-content: start;
     padding-bottom: clamp(7rem, 20vh, 10rem);
-  }
-  .hero__content {
-    margin-bottom: 5rem;
   }
   .hero__portrait {
     right: clamp(-5rem, -12vw, -1rem);
@@ -453,6 +450,14 @@ video {
   }
 }
 
+/* Laptops: at full 8vw the headline crosses the portrait too hard, so ease it
+   down from ~1000px up. Large screens still top out at the 8.5rem cap. */
+@media (min-width: 1000px) {
+  .hero__title {
+    font-size: clamp(2.6rem, 7vw, 8.5rem);
+  }
+}
+
 /* =================================================================
    Tech stack chips - stacked, slightly overlapping
    ================================================================= */
@@ -536,10 +541,10 @@ video {
    Statement (kinetic value lines)
    ================================================================= */
 .statement {
-  font-size: clamp(1.6rem, 3.4vw, 3.6rem);
+  font-size: clamp(1.35rem, 2.5vw, 2.5rem);
   font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: -0.03em;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
 }
 
 .statement p {
@@ -976,6 +981,17 @@ video {
   color: var(--accent);
 }
 
+.contact__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(1.75rem, 4vw, 2.75rem);
+  margin-top: clamp(2.25rem, 5vw, 3.5rem);
+}
+.contact__actions .contact__email {
+  margin-top: 0;
+}
+
 .contact__socials {
   display: flex;
   gap: 1.5rem;
@@ -1050,8 +1066,8 @@ video {
   font-optical-sizing: none;
   /* cqw = % of the footer's content width, so the name fills the section width
      on one line at ANY viewport (vw would cap out past the 1920px max-width) */
-  font-size: 15.65cqw;
-  font-weight: 400;
+  font-size: 27.5cqw;
+  font-weight: 800;
   line-height: 0.9;
   letter-spacing: -0.04em;
   text-transform: uppercase;
@@ -1207,206 +1223,8 @@ video {
   }
 }
 
-/* =================================================================
-   Case study (full screen bento)
-   ================================================================= */
-.cs {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: grid;
-  place-items: center;
-  padding: clamp(1rem, 3vw, 2.5rem);
-  background: rgba(14, 14, 16, 0.42);
-  backdrop-filter: blur(8px);
-}
-
-.cs__panel {
-  position: relative;
-  width: 100%;
-  max-width: 1080px;
-  max-height: 92vh;
-  overflow-y: auto;
-  background: var(--bg);
-  border-radius: var(--r-lg);
-  padding: clamp(1.5rem, 3vw, 3rem);
-}
-
-.cs__bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: clamp(1rem, 2vw, 1.5rem);
-}
-
-.cs__index {
-  font-size: var(--fs-label);
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--text-dim);
-}
-
-.cs__close {
-  width: 46px;
-  height: 46px;
-  display: grid;
-  place-items: center;
-  border-radius: var(--r-pill);
-  background: var(--text);
-  color: var(--bg);
-  border: none;
-  cursor: pointer;
-  transition: transform var(--dur) var(--ease);
-}
-
-.cs__close:hover {
-  transform: rotate(90deg);
-}
-
-.cs__name {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: clamp(2.2rem, 6vw, 4.5rem);
-  font-weight: 400;
-  line-height: 0.95;
-  letter-spacing: -0.035em;
-  margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
-}
-
-.cs__bento {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(0.75rem, 1.4vw, 1.1rem);
-}
-
-.cs__cell {
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  padding: clamp(1.25rem, 2vw, 1.75rem);
-}
-
-.cs__media {
-  grid-column: span 2;
-  grid-row: span 2;
-  padding: 0;
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(135deg, #1c1c20, #0e0e0f);
-  border-color: transparent;
-  min-height: 240px;
-}
-
-.cs__mediaLabel {
-  position: absolute;
-  left: 1.25rem;
-  bottom: 1.1rem;
-  font-size: var(--fs-label);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.cs__metric {
-  grid-column: span 2;
-  background: var(--text);
-  border-color: transparent;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.cs__metricLabel {
-  font-size: var(--fs-label);
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.cs__metricVal {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: clamp(1.3rem, 2vw, 1.9rem);
-  font-weight: 400;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  color: #fff;
-}
-
-.cs__stack {
-  grid-column: span 2;
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-}
-
-.cs__stackNames {
-  font-size: 0.9rem;
-  color: var(--text-dim);
-}
-
-.cs__text {
-  grid-column: span 2;
-}
-
-.cs__impact {
-  grid-column: span 4;
-}
-
-.cs__text p,
-.cs__impact p {
-  margin-top: 0.6rem;
-  color: var(--text-dim);
-  line-height: 1.5;
-}
-
-.cs__label {
-  font-size: var(--fs-label);
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--text-dim);
-}
-
-.cs__cta {
-  grid-column: span 4;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  background: var(--text);
-  border-color: transparent;
-  color: #fff;
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: clamp(1.3rem, 2.5vw, 2rem);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-}
-
-@media (max-width: 720px) {
-  .cs__bento {
-    grid-template-columns: 1fr;
-  }
-  .cs__cell,
-  .cs__media,
-  .cs__metric,
-  .cs__stack,
-  .cs__text,
-  .cs__impact,
-  .cs__cta {
-    grid-column: 1 / -1;
-    grid-row: auto;
-  }
-}
-
-.flow {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-html.modal-open {
-  overflow: hidden;
-}
+/* Case study styles now live in app/components/case-study.css (the old
+   full-screen bento version was removed; it collided with the new design). */
 
 /* =================================================================
    Work hover image reveal (Tom Sears pattern)
@@ -1818,7 +1636,15 @@ html.modal-open {
 
 .works-grid__item {
   display: flex;
+}
+
+/* the whole card is a link to its case study; perspective lives here so the
+   inner card (the link's child) still gets its cursor-follow 3D tilt */
+.works-grid__link {
+  flex: 1 1 auto;
+  display: flex;
   perspective: 1000px;
+  border-radius: 16px;
 }
 
 .work-card {

@@ -4,11 +4,16 @@ export type Project = {
   slug: string;
   cat: string;
   name: string;
+  headline: string;
   metric: string;
   stack: string;
   before: string;
   built: string;
   impact: string;
+  // Optional. Drop real (anonymized) screenshots in here per project, e.g.
+  // media: [{ src: "/work/cold-email/dashboard.png", caption: "Dashboard" }]
+  // When empty, the case study reads as a clean text-led page (no placeholders).
+  media?: { src: string; caption?: string }[];
 };
 
 export const PROJECTS: Project[] = [
@@ -16,130 +21,171 @@ export const PROJECTS: Project[] = [
     slug: "cold-email-engine",
     cat: "Outreach",
     name: "Email Outreach Engine",
-    metric: "A paid tool replaced, bill flat at any volume",
+    headline: "A cold email engine built into the agency dashboard",
+    metric: "Adding inboxes costs just a Gmail seat",
     stack: "Next.js / Supabase / Gmail / n8n",
     before:
-      "Outreach ran through a paid cold email tool. Limited control, reply detection on their schedule, no way to wire it into the rest of the stack.",
+      "Outreach ran on a paid tool like Instantly, or the team just found addresses and sent from Gmail by hand. The paid tools bill you per inbox and per seat, so the cost goes up every time you add a sending account. Doing it by hand ate hours on finding emails, spacing out the sends, tracking replies, and figuring out which inbound was a real answer versus a bounce.",
     built:
-      "A full custom outreach engine. A Next.js dashboard for the UI, Supabase for the queue, schedule and audit logs, n8n proxying Gmail sends across multiple accounts. The send path runs 13 steps with a race free atomic claim. Inbox watchers classify every inbound as reply, bounce or auto responder and stop the sequence the second someone replies. Leads are verified so it sends zero bounces.",
+      "It's a cold email engine that lives inside the agency dashboard, running on Next.js, Supabase, and the Gmail API. It runs multiple inboxes through OAuth with daily caps and rotation, finds and verifies prospect emails through Anymail Finder, and sends sequences of three messages on randomized gaps inside set send windows so the timing looks human. It does the follow up on its own and stops the second someone replies. Every inbound gets tagged as a reply, a bounce, or an autoresponder using a mix of rules and an LLM, and dead addresses drop out on their own. The team runs all of it from one screen.",
     impact:
-      "Replaced the paid tool entirely. Database triggers cut execution count by 10x and it runs fully autonomous, zero manual triggers. Adding an inbox costs a seat and nothing else, so volume goes up while the bill stays flat.",
+      "Now adding an inbox just costs a Gmail seat, so the team can send more without the vendor bill going up every time. The send logic, the caps, and the tagging rules are ours to tune now, instead of being stuck with whatever a vendor lets us change. And nobody has to sit there running sequences and sorting inboxes by hand anymore.",
   },
   {
     slug: "ai-visibility-tracker",
     cat: "Reporting",
     name: "AI Visibility Tracker",
-    metric: "A paid tool replaced, new revenue line",
+    headline: "Tracking whether clients show up in AI search",
+    metric: "Paid tool dropped, now a revenue line",
     stack: "n8n / Claude / Sheets",
     before:
-      "Clients had no visibility into whether they show up in AI search. Some were being hallucinated about. The agency was paying a third party tool for the data.",
+      "Clients had no real way to know whether they were showing up in AI search. A few of them were actually getting hallucinated about, which is worse than being invisible. On top of all that, the agency was paying a third party every month just to get the data.",
     built:
-      "A scheduled system that tracks AI presence, position and citations across the top language models and outputs a readable report per client.",
+      "It's a scheduled run in n8n that checks each client across the top language models and looks at three things, whether they show up at all, where they land, and what gets cited about them. Claude reads through the results and makes sense of them. Then it writes the whole thing up as a clean report for each client.",
     impact:
-      "Replaced the paid subscription and opened a new recurring revenue line from the same client base.",
+      "It replaced the paid subscription, so that monthly cost went away. The bigger thing is what it turned into. The agency now sells the reporting as its own recurring line to the same clients it already works with, so something they used to pay for is now something they get paid for.",
   },
   {
     slug: "reddit-comment-engine",
     cat: "Outreach",
     name: "Reddit Comment Engine",
-    metric: "5+ hours a week per client, gone",
+    headline: "Finds the right Reddit threads and drafts the replies",
+    metric: "5+ hours a week saved per client",
     stack: "n8n / Claude / Sheets / Slack",
     before:
-      "Finding relevant Reddit threads, drafting on-brand replies, and posting them took 5+ hours a week per client. Manual and repetitive.",
+      "For every client we were spending 5+ hours a week on Reddit. Someone had to dig through threads to find the ones actually worth answering, write a reply that sounded like the client and not a bot, then go post it. It was all by hand and it was the same repetitive work every week.",
     built:
-      "A two-part system. n8n searches Reddit, surfaces relevant threads, and drafts on-brand replies. An automation submits the approved comments and logs them.",
+      "n8n searches Reddit and pulls out the threads that are actually worth replying to, then it uses Claude to draft a reply in the client voice. The draft shows up for us in Slack so someone can read it over. Once it's approved, n8n posts the comment and logs it in Sheets so we have a record of what went out.",
     impact:
-      "5+ hours a week per client, gone. Across the roster, that is a full-time hire replaced by a scheduled workflow. Every comment is free traffic, and the threads keep ranking for months.",
+      "That 5+ hours a week per client is gone now. Across the whole roster it adds up to roughly one person's worth of time back. The comments stick around too. The threads keep ranking, so people are still finding them months after we posted.",
   },
   {
     slug: "revenue-attribution",
     cat: "Ops",
     name: "Revenue Attribution",
-    metric: "Decisions on revenue, not lead count",
+    headline: "Which ads actually closed deals, not just leads",
+    metric: "Ad spend tied to booked revenue",
     stack: "n8n / MCP / Claude",
     before:
-      "No way to connect ad spend to closed won revenue without manually pulling CSVs and joining them in a spreadsheet. Lead data in one place, ad data in another.",
+      "Tying ad spend to closed won revenue used to mean pulling CSVs by hand and joining them in a spreadsheet. The lead data sat in one place and the ad data in another, so somebody had to reconcile the two before any of it made sense. Nobody had time for that, so most months it just did not happen.",
     built:
-      "An MCP server that exposes the lead platform's endpoints as tools the model can call directly: closed won attribution, won reports, calls, transcripts. It pairs with the ad data so one prompt joins spend with booked revenue per ad.",
+      "I built an MCP server that gives the model the lead platform's own endpoints as tools it can call. That covers closed won attribution, won reports, calls, and transcripts. You pair that with the ad data, and then one prompt joins the spend to the booked revenue for each ad.",
     impact:
-      "Ask which ads closed deals last month and get a real answer in seconds. Ad spend decisions move from lead count to booked revenue per creative.",
+      "Now you can ask which ads closed deals last month and get a real answer back in seconds. You end up looking at each ad by the revenue it actually booked instead of just the number of leads it brought in.",
   },
   {
-    slug: "ai-pr-link-earning",
-    cat: "Outreach",
-    name: "AI PR & Link Earning",
-    metric: "$24k to $60k a year in link budget saved",
-    stack: "n8n / Claude / Sheets / Slack",
+    slug: "blog-content-pipeline",
+    cat: "Content",
+    name: "Blog Content Pipeline",
+    headline: "Finished posts without briefing a writer",
+    metric: "No more freelance writer invoices",
+    stack: "n8n / Claude / Google Docs / WordPress",
     before:
-      "Earned media was fully manual. Check the platform daily, match opportunities to clients, draft pitches in the expert's voice, humanize past AI detection, submit. 30 to 45 minutes per client. At 20 clients that is a full time job nobody was doing.",
+      "Our blog posts, page copy, and guest posts came from a mix of outside freelancers and writing it in house. Every piece meant briefing a writer, waiting on a draft, then editing it back into shape. Outsourced posts ran $100 to $300+ each, and when we wrote in house we traded that bill for hours nobody was charging the client for.",
     built:
-      "Four n8n workflows in an orchestrator and worker pattern. A scout hits the PR platform's API directly, Claude scores opportunities against expert profiles and logs the good ones, a drafter writes the pitches and runs them past AI detection. Only the final form submit stays manual.",
+      "I built a two stage pipeline on n8n and Claude that runs from the dashboard, so anyone on the team can start it without coming to me. Stage one pulls the latest post from the destination site to match its voice, researches the outline, then writes the piece section by section with internal links and cited sources. Stage two does an editorial pass with fresh research and ships a WordPress ready version with a table of contents, key takeaways, and FAQ and Article schema. The same engine handles blog posts, page copy, and guest posts.",
     impact:
-      "The full 20 client roster scouted and drafted in under 15 minutes, unattended. 10+ hours a week of manual work gone. One earned placement per client per month at $200 to $500 in equivalent paid link value is $24,000 to $60,000 a year in link budget saved.",
+      "A piece that used to get briefed out or written by hand now drafts and gets optimized in a few minutes, and anyone on the team can start it. When we take on more clients we just run it more. We are not paying freelancers for the work and nobody is hiring a writer to keep up.",
   },
   {
     slug: "keyword-ranking-reports",
     cat: "Reporting",
     name: "Keyword Ranking Reports",
-    metric: "5 to 10 hours a month gone",
+    headline: "Ranking reports, no longer a manual job",
+    metric: "5 to 10 hours a month, back",
     stack: "n8n / Airtable / Sheets / Slack",
     before:
-      "Someone spent 5 to 10 hours a month pulling ranking reports by hand for 10+ clients, one client and one location at a time.",
+      "Once a month someone on the team sat down and pulled ranking reports by hand for more than 10 clients. They went one client at a time, and within each client one location at a time, copying the numbers out as they went. The whole thing took 5 to 10 hours every month and nobody enjoyed it.",
     built:
-      "An n8n workflow pulls the client list, triggers the ranking reports, dedupes the data and writes a clean sheet per client.",
+      "An n8n workflow pulls the client list, runs the ranking reports, dedupes the data, and writes a clean sheet for each client. It does the same passes the person was doing by hand, just without anyone sitting there clicking through clients and locations.",
     impact:
-      "5 to 10 hours of manual reporting a month, gone. A full workweek every month across the client roster.",
+      "Now nobody spends those 5 to 10 hours a month pulling reports. The sheets get built and land on time, and the person who used to do it got that time back to spend on actual client work.",
+  },
+  {
+    slug: "review-engine",
+    cat: "Ops",
+    name: "Review Engine",
+    headline: "A review tool I rebuilt on Twilio",
+    metric: "$6,000 a year saved",
+    stack: "Twilio / n8n / Sheets",
+    before:
+      "We were paying $500 a month for a tool that ran our client feedback and sent out review requests. It did the job, but we had almost no control over how it worked, and the bill showed up every month whether we used it much or not.",
+    built:
+      "So I built our own version on Twilio. When a client is happy, they get sent to leave a Google review. When someone is unhappy, we catch that privately before they post anything public. Once it was running, there was no ongoing cost.",
+    impact:
+      "That works out to $6,000 a year saved, and it rolls out to every new client for free now that it is built. The review side is the part that matters most to me. Happy clients leave a Google review without us asking, so reviews go up and the local rankings tend to follow.",
   },
   {
     slug: "link-reclamation",
     cat: "Ops",
     name: "Link Reclamation",
-    metric: "$200 to $500 saved per catch",
+    headline: "Catching broken backlinks before they cost rankings",
+    metric: "$200 to $500 saved per broken link",
     stack: "n8n / Slack",
     before:
-      "Clients pay real money for backlinks. When those links break, rankings slip and nobody notices until it shows up in a report weeks later.",
+      "Clients pay real money for backlinks, and those links don't always stay up. When one breaks, rankings start to slip, but nobody on the team is sitting there checking link by link. So it usually goes unnoticed until it lands in a report weeks later, and by then the rankings have already taken the hit.",
     built:
-      "A monthly automated scan of full backlink profiles. It flags broken links, notifies the team and re-checks every 7 days until they are fixed.",
+      "I built a monthly scan that runs through the whole backlink profile and finds the ones that are broken. When it catches one, it pings the team in Slack so somebody actually sees it. Then it keeps checking that link every 7 days until it's fixed, so nothing gets lost after the first alert.",
     impact:
-      "Every broken link is $200 to $500 of paid link value walking out the door. One catch per client per month pays for the entire system. Pure n8n, zero AI.",
+      "A broken link is somewhere between $200 and $500 of paid link value gone. If it catches even one a month for a client, that already covers what the whole thing costs to run. It's all built in n8n and there's no AI in it anywhere. Not a fancy build, but it does the job.",
   },
   {
     slug: "guest-post-engine",
     cat: "Content",
     name: "Guest Post Engine",
+    headline: "Turns a brief into a guest post ready to send",
     metric: "Same cost per post at any volume",
-    stack: "n8n / Claude / Google Drive / Slack",
+    stack: "n8n / Claude / Google Docs / Google Drive / Slack",
     before:
-      "Writing guest posts was manual, piece by piece. Brief the writer, draft the article, match the host site's tone, verify the backlink lands in the right place, revise. An hour or more per post, across a full link-building roster.",
+      "Guest posts got written one at a time. You brief the writer, wait for a draft, then check it against the host site so the tone matches, make sure the client backlink landed in the right spot, and send it back for revisions. That was an hour or more on every single post, and we were doing it across the whole link building roster.",
     built:
-      "An n8n workflow triggered by a web form. It takes a brief, fetches the host site, runs a Claude style analysis, then generates and humanizes the article. A quality gate checks the rest: word count in range, the client backlink placed once in the middle third, clean structure, and an AI score above 6.5. Posts that pass land in a formatted doc, the rest route to review.",
+      "It is an n8n workflow that starts from a web form. It takes the brief, reads the host site, runs a Claude pass on the tone so the writing fits, then drafts the article and cleans up the phrasing so it reads like a person wrote it. After that a quality gate does the checking I used to do by hand. It confirms the word count is in range, the client backlink shows up once in the middle third, the structure is clean, and the AI score comes in above 6.5. Anything that clears the gate lands in a formatted doc, and anything that does not gets routed to a person.",
     impact:
-      "One form submission, one ready-to-send doc. No writing time, no tone matching, no backlink hunting through drafts. Every client covered at the same cost per post, whatever the volume.",
+      "One form submission turns into a doc that is ready to send. Nobody spends an hour writing it, matching the tone, or digging through a draft to find where the backlink ended up. Every client on the roster gets covered, and a post costs about the same whether we run a few or a lot of them.",
+  },
+  {
+    slug: "retention-analysis",
+    cat: "Reporting",
+    name: "Retention Analysis",
+    headline: "Six years of payment data, down to the churn month",
+    metric: "Found the month clients churn",
+    stack: "n8n / Stripe / Airtable / Sheets",
+    before:
+      "Six years of payment data was split between Stripe and Upwork, and nobody had ever pulled it together. There was no single view of what a client was worth over their lifetime, when they tended to churn, or how long they usually stayed. So deciding which clients to prioritize was basically a gut call.",
+    built:
+      "I used n8n to pull the whole payment history out of both Stripe and Upwork into one Airtable base. Then I tagged every client with their lifetime value, how long they had been around, and whether they had churned. Once that was in place I ran a cohort analysis in Sheets to find the month where a client either drops off or settles in for the long run.",
+    impact:
+      "The cohort analysis surfaced the exact month where a client either churns or stays for the long run. That one number tells the agency which clients to call and when to call them. Before this, retention was guesswork, and now there is a real number to act on.",
   },
   {
     slug: "page-copy-pipeline",
     cat: "Content",
     name: "Page Copy Pipeline",
-    metric: "More clients, no new writing hours",
-    stack: "n8n / Claude / Google Drive / Slack",
+    headline: "A brief turned into a publish ready page",
+    metric: "More clients, no extra writing hours",
+    stack: "n8n / Claude / Google Docs / Google Drive / Slack",
     before:
-      "Writing and briefing a page took hours per piece. A manual process that did not scale with client volume.",
+      "Writing and briefing a single page used to run hours a piece. It was all manual, and that was fine when there were a handful of clients. As the client count grew, the process just stopped keeping up.",
     built:
-      "A two-stage n8n pipeline. The team enters a brief in a web dashboard, the first workflow returns a draft, and the second improves it into a publish-ready version. Nobody needs workflow access.",
+      "It's a two stage pipeline in n8n. The team drops a brief into a dashboard, the first workflow comes back with a draft, and the second one rewrites that draft into a publish ready version. Nobody on the team needs access to the workflow itself, they just work off the dashboard.",
     impact:
-      "Adding a client no longer adds writing hours. The pipeline handles the volume, so headcount stays flat while output goes up.",
+      "So now the agency can take on a client without putting more writing hours on anyone's plate. The pipeline takes the extra volume, so output goes up even though the writing headcount stays where it is.",
   },
   {
     slug: "backlink-vetting",
     cat: "Outreach",
     name: "Backlink Vetting",
-    metric: "4+ hours per outreach batch, now seconds",
+    headline: "Flags any site that already links to the client",
+    metric: "25 min per client, now seconds",
     stack: "n8n / Slack",
     before:
-      "25 minutes of manual checking per client before every outreach batch. Recommend a link from a site that already links to the client and you look like you do not know what you are doing.",
+      "Before every outreach batch, someone on the team spent about 25 minutes per client checking sites by hand. What you're trying to avoid is recommending a site that already links to the client. When that happens, you look like you don't know what you're doing.",
     built:
-      "An automated pre-outreach check. It flags existing backlink relationships before the team sends anything.",
+      "I built an automatic check in n8n that runs before outreach goes out and flags any site that already links to the client. If a site is already linking, it gets pulled before anyone pitches it, so nothing gets pitched twice.",
     impact:
-      "25 minutes across 10+ clients is 4+ hours per outreach batch, now seconds. The team never pitches a site that already links to the client, and one bad recommendation kills credibility.",
+      "At 25 minutes across 10+ clients, that's 4+ hours of checking per batch, and now it takes seconds. The team also never pitches a site that already links to the client, which matters because one bad call is all it takes to lose credibility.",
   },
 ];
+
+export const getProject = (slug: string) =>
+  PROJECTS.find((p) => p.slug === slug);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { PROJECTS } from "../data/projects";
 import WorkCard from "./WorkCard";
@@ -73,7 +74,9 @@ export default function SelectedWork() {
                   delay: entered ? 0 : idx * 0.05,
                 }}
               >
-                <WorkCard project={p} index={p.n} />
+                <Link className="works-grid__link" href={`/work/${p.slug}`}>
+                  <WorkCard project={p} index={p.n} />
+                </Link>
               </motion.div>
             ))}
           </AnimatePresence>

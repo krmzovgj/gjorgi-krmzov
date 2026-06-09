@@ -11,6 +11,9 @@ const ICONS: Record<string, string> = {
   WordPress: "wordpress",
   Sheets: "googlesheets",
   "Google Drive": "googledrive",
+  "Google Docs": "googledocs",
+  Twilio: "twilio",
+  Stripe: "stripe",
 };
 
 export default function ToolIcon({ name }: { name: string }) {

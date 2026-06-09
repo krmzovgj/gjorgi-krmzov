@@ -1,1 +1,18 @@
-<svg fill="#34A853" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Google Sheets</title><path d="M11.318 12.545H7.91v-1.909h3.41v1.91zM14.728 0v6h6l-6-6zm1.363 10.636h-3.41v1.91h3.41v-1.91zm0 3.273h-3.41v1.91h3.41v-1.91zM20.727 6.5v15.864c0 .904-.732 1.636-1.636 1.636H4.909a1.636 1.636 0 0 1-1.636-1.636V1.636C3.273.732 4.005 0 4.909 0h9.318v6.5h6.5zm-3.273 2.773H6.545v7.909h10.91v-7.91zm-6.136 4.636H7.91v1.91h3.41v-1.91z"/></svg>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="5.5" width="13" height="13" rx="2.5" fill="#029853"/>
+<path d="M3 6.5C3 5.11929 4.11929 4 5.5 4H20.75C22.1307 4 23.25 5.11929 23.25 6.5V17.5C23.25 18.8807 22.1307 20 20.75 20H5.5C4.11929 20 3 18.8807 3 17.5V6.5Z" fill="url(#paint0_linear_9_7)"/>
+<path d="M3 6.5C3 5.11929 4.11929 4 5.5 4H20.75C22.1307 4 23.25 5.11929 23.25 6.5V17.5C23.25 18.8807 22.1307 20 20.75 20H5.5C4.11929 20 3 18.8807 3 17.5V6.5Z" fill="url(#paint1_linear_9_7)"/>
+<path d="M18.125 9.5V17.5M20.75 15.125H10" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+<defs>
+<linearGradient id="paint0_linear_9_7" x1="3" y1="12" x2="23.25" y2="12" gradientUnits="userSpaceOnUse">
+<stop stop-color="#7BC8FE"/>
+<stop offset="0.676754" stop-color="#11BC5C"/>
+</linearGradient>
+<linearGradient id="paint1_linear_9_7" x1="13.1968" y1="20" x2="13.1968" y2="4" gradientUnits="userSpaceOnUse">
+<stop stop-color="#14BA61"/>
+<stop offset="0.19" stop-color="#14BA61" stop-opacity="0"/>
+<stop offset="0.81" stop-color="#14BA61" stop-opacity="0"/>
+<stop offset="1" stop-color="#14BA61"/>
+</linearGradient>
+</defs>
+</svg>

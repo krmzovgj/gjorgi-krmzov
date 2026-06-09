@@ -14,7 +14,7 @@ export default function Footer() {
     target: ref,
     offset: ["start end", "end end"],
   });
-  const scaleY = useTransform(scrollYProgress, [0, 0.85], [0, 1]);
+  const scaleY = useTransform(scrollYProgress, [0, 1], [-0.5, 1]);
 
   return (
     <footer className="footer wrap" ref={ref}>
@@ -35,9 +35,9 @@ export default function Footer() {
       <div className="footer__name" aria-label="Gjorgi Krmzov">
         <motion.span
           aria-hidden="true"
-          style={{ scaleY, transformOrigin: "left bottom" }}
+          style={{ scaleY, transformOrigin: "bottom" }}
         >
-          Gjorgi Krmzov
+          KRMZOV
         </motion.span>
       </div>
     </footer>

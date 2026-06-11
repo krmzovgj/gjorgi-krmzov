@@ -40,19 +40,19 @@ export const metadata: Metadata = {
   // Homepage only. /work/[slug] pages set their own canonical in
   // generateMetadata, otherwise this would be inherited (shallow merge).
   alternates: { canonical: "/" },
+  // og/twitter images come from app/opengraph-image.tsx (1200x630, generated
+  // at build); listing /gjorgi.png here too would emit duplicate image tags.
   openGraph: {
     type: "website",
     url: SITE,
     siteName: "Gjorgi Krmzov",
     title: TITLE,
     description: DESCRIPTION,
-    images: [{ url: "/gjorgi.png", width: 1024, height: 1536, alt: "Gjorgi Krmzov" }],
   },
   twitter: {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
-    images: ["/gjorgi.png"],
   },
   robots: { index: true, follow: true },
 };

@@ -12,7 +12,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 const LINES = [
   "I build the systems that",
   "remove manual work",
-  "inside agencies.",
+  "inside SEO agencies.",
 ];
 
 export default function Hero() {
@@ -61,7 +61,7 @@ export default function Hero() {
 
         <h1
           className="hero__title"
-          aria-label="I build the systems that remove manual work inside agencies."
+          aria-label="I build the systems that remove manual work inside SEO agencies."
         >
           {LINES.map((line, i) => (
             <span className="hero__line" key={i} aria-hidden="true">

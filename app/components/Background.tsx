@@ -24,7 +24,7 @@ export default function Background() {
             className="about__note"
             style={{ marginTop: "clamp(1.5rem, 3vw, 2.5rem)" }}
           >
-            I build and run automation inside US SEO agencies. I find the manual
+            I build and run automation inside agencies. I find the manual
             work that piles up with every new client, and I remove it. You get a
             system your team uses, live in 14 days.
           </p>

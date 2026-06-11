@@ -9,7 +9,7 @@ import { join } from "node:path";
 // dissolving off the right edge, accent only as a tiny mark.
 
 export const alt =
-  "Gjorgi Krmzov. I build the systems that remove manual work inside SEO agencies.";
+  "Gjorgi Krmzov. I build the systems that remove manual work inside agencies.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -96,7 +96,7 @@ export default async function Image() {
           >
             <span>I build the systems</span>
             <span>that remove manual work</span>
-            <span>inside SEO agencies.</span>
+            <span>inside agencies.</span>
           </div>
         </div>
       </div>

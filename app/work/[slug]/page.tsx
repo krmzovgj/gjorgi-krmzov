@@ -19,7 +19,7 @@ export async function generateMetadata({
   // The metric is the hook, so it leads the SERP snippet. Metadata merging is
   // shallow: without an explicit canonical + openGraph here, every project
   // page would inherit the homepage's (and tell Google it's a duplicate).
-  const description = `${project.headline}. ${project.metric}. Built with ${project.stack.split(" / ").join(", ")} inside a US SEO agency.`;
+  const description = `${project.headline}. ${project.metric}. Built with ${project.stack.split(" / ").join(", ")}.`;
   const url = `/work/${slug}`;
   return {
     title: project.name,

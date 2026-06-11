@@ -1,4 +1,4 @@
-// Real systems shipped inside US SEO agencies. Client and company names removed.
+// Real systems shipped inside agencies. Client and company names removed.
 
 export type Project = {
   slug: string;
@@ -95,7 +95,7 @@ export const PROJECTS: Project[] = [
     headline: "Finished posts without briefing a writer",
     metric: "No more freelance writer invoices",
     stack: "n8n / Claude / Google Docs / Google Drive / Slack",
-    deliverables: ["Content pipeline", "WordPress publishing", "SEO schema"],
+    deliverables: ["Content pipeline", "WordPress publishing", "Article schema"],
     before:
       "Our blog posts, page copy, and guest posts came from a mix of outside freelancers and writing it in house. Every piece meant briefing a writer, waiting on a draft, then editing it back into shape. Outsourced posts ran $100 to $300+ each, and when we wrote in house we traded that bill for hours nobody was charging the client for.",
     built:

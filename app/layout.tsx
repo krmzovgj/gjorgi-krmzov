@@ -19,8 +19,8 @@ const SITE = "https://www.krmzov.com";
 
 // Outcome-led, niche-named, no job title (DESIGN.md voice rule). The build
 // count stays honest by deriving from the data file.
-const TITLE = "Gjorgi Krmzov. AI automation systems for SEO agencies";
-const DESCRIPTION = `I build the systems that remove manual work inside SEO agencies. ${PROJECTS.length} live builds with real numbers. You pay when it saves you the hours we agreed on.`;
+const TITLE = "Gjorgi Krmzov. AI automation systems for agencies";
+const DESCRIPTION = `I build the systems that remove manual work inside agencies. ${PROJECTS.length} live builds with real numbers. You pay when it saves you the hours we agreed on.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   description: DESCRIPTION,
   keywords: [
     "AI automation",
-    "SEO agency automation",
+    "agency automation",
     "n8n",
     "workflow automation",
     "Gjorgi Krmzov",

@@ -104,6 +104,27 @@
   color: var(--text);
   transform: scale(1.04);
 }
+/* booking block: button + the quiet Hours Audit alt path (hero__audit pattern) */
+.cs__book {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+.cs__alt {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+}
+.cs__alt a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-dim);
+  transition: color var(--dur) var(--ease);
+}
+.cs__alt a:hover {
+  color: var(--text);
+}
 .cs__close {
   /* mobile: pinned to the top-right, above everything */
   position: fixed;
@@ -192,8 +213,22 @@
   padding-top: clamp(2.75rem, 6vw, 5rem);
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 1.5rem;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+}
+.cs__foot-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text-dim);
+  transition: color var(--dur) var(--ease);
+}
+.cs__foot-cta:hover {
+  color: var(--text);
 }
 .cs__next {
   display: inline-flex;

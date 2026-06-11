@@ -48,8 +48,7 @@ export default function SelectedWork() {
           </Reveal>
           <Reveal delay={0.08}>
             <p className="work-aside__line">
-              Everything below is running inside real agencies right now. I
-              just can&apos;t name the clients.
+              Twelve systems that agencies run every day.
             </p>
           </Reveal>
           <Reveal className="work-aside__tags" delay={0.12}>

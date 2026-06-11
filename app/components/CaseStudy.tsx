@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Project } from "../data/projects";
-import { AUDIT_URL, BOOKING_URL } from "../config";
+import { AUDIT_URL, BOOKING_URL, withUtm } from "../config";
 import ToolIcon from "./ToolIcon";
 import Reveal from "./Reveal";
 import "./case-study.css";
@@ -109,7 +109,7 @@ export default function CaseStudy({
           <motion.div className="cs__book" {...rise(0.24)}>
             <a
               className="cs__cta"
-              href={BOOKING_URL}
+              href={withUtm(BOOKING_URL, "case-study")}
               target="_blank"
               rel="noopener"
               data-cursor="Let's talk"
@@ -127,7 +127,7 @@ export default function CaseStudy({
             </a>
             <p className="cs__alt">
               <a
-                href={AUDIT_URL}
+                href={withUtm(AUDIT_URL, "case-study-audit")}
                 target="_blank"
                 rel="noopener"
                 data-cursor="Let's talk"
@@ -203,7 +203,7 @@ export default function CaseStudy({
       <div className="cs__foot">
         <a
           className="cs__foot-cta"
-          href={BOOKING_URL}
+          href={withUtm(BOOKING_URL, "case-study-foot")}
           target="_blank"
           rel="noopener"
           data-cursor="Let's talk"

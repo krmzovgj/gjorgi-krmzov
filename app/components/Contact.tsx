@@ -1,6 +1,6 @@
 import Words from "./Words";
 import Reveal from "./Reveal";
-import { AUDIT_URL, BOOKING_URL } from "../config";
+import { AUDIT_URL, BOOKING_URL, withUtm } from "../config";
 
 export default function Contact() {
   return (
@@ -12,9 +12,9 @@ export default function Contact() {
         <div className="contact__actions">
           <a
             className="btn"
-            href={BOOKING_URL}
+            href={withUtm(BOOKING_URL, "contact")}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener"
             data-cursor="Let's talk"
           >
             Book a 30 minute call
@@ -33,9 +33,9 @@ export default function Contact() {
             leave knowing where your hours go.{" "}
             <a
               className="contact__alt-link"
-              href={AUDIT_URL}
+              href={withUtm(AUDIT_URL, "contact-audit")}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener"
               data-cursor="Let's talk"
             >
               Get yours

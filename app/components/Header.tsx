@@ -1,4 +1,4 @@
-import { BOOKING_URL, LINKEDIN_URL } from "../config";
+import { BOOKING_URL, LINKEDIN_URL, withUtm } from "../config";
 
 // Case-study pages render this brand-only (actions={false}): their booking CTA
 // lives in the sticky case-study panel, and the nav actions would collide with
@@ -22,7 +22,8 @@ export default function Header({
           <a
             className="btn btn--sm"
             target="_blank"
-            href={BOOKING_URL}
+            rel="noopener"
+            href={withUtm(BOOKING_URL, "header")}
             data-cursor="Let's talk"
           >
             Book a call

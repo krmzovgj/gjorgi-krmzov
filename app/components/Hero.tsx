@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "@phosphor-icons/react";
 import { DoodleArrow } from "./Doodles";
-import { AUDIT_URL, BOOKING_URL } from "../config";
+import { AUDIT_URL, BOOKING_URL, withUtm } from "../config";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -80,7 +80,8 @@ export default function Hero() {
           <a
             className="btn"
             target="_blank"
-            href={BOOKING_URL}
+            rel="noopener"
+            href={withUtm(BOOKING_URL, "hero")}
             data-cursor="Let's talk"
           >
             Book a 30 minute call
@@ -92,7 +93,12 @@ export default function Hero() {
         </motion.div>
 
         <motion.p className="hero__audit" {...fadeUp(0.82)}>
-          <a href={AUDIT_URL} target="_blank" rel="noreferrer" data-cursor="Let's talk">
+          <a
+            href={withUtm(AUDIT_URL, "hero-audit")}
+            target="_blank"
+            rel="noopener"
+            data-cursor="Let's talk"
+          >
             Or start with a free 15 minute Hours Audit
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path

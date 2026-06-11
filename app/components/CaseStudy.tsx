@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Project } from "../data/projects";
+import { AUDIT_URL, BOOKING_URL, withUtm } from "../config";
 import ToolIcon from "./ToolIcon";
 import Reveal from "./Reveal";
 import "./case-study.css";
@@ -103,6 +104,48 @@ export default function CaseStudy({
             )}
           </motion.dl>
 
+          {/* the booking ask, in view for the whole read (panel is sticky on
+              desktop). Same copy as the homepage; .cs__cta was built for this. */}
+          <motion.div className="cs__book" {...rise(0.24)}>
+            <a
+              className="cs__cta"
+              href={withUtm(BOOKING_URL, "case-study")}
+              target="_blank"
+              rel="noopener"
+              data-cursor="Let's talk"
+            >
+              Book a 30 minute call
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M5 12h14M13 6l6 6-6 6"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </a>
+            <p className="cs__alt">
+              <a
+                href={withUtm(AUDIT_URL, "case-study-audit")}
+                target="_blank"
+                rel="noopener"
+                data-cursor="Let's talk"
+              >
+                Or start with a free 15 minute Hours Audit
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M7 17 17 7M9 7h8v8"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </a>
+            </p>
+          </motion.div>
+
           {/* pinned to the bottom of the sticky panel on desktop */}
           <button className="cs__close" type="button" onClick={close}>
             Close
@@ -155,8 +198,27 @@ export default function CaseStudy({
         </div>
       </div>
 
-      {/* very bottom: next project on the right */}
+      {/* very bottom: book on the left, next project on the right, so the end
+          of the read always has an action */}
       <div className="cs__foot">
+        <a
+          className="cs__foot-cta"
+          href={withUtm(BOOKING_URL, "case-study-foot")}
+          target="_blank"
+          rel="noopener"
+          data-cursor="Let's talk"
+        >
+          Book a 30 minute call
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M7 17 17 7M9 7h8v8"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </a>
         <Link className="cs__next" href={`/work/${next.slug}`}>
           <span className="cs__next-tag">Next</span>
           {next.name}

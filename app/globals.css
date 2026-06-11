@@ -1859,11 +1859,16 @@ video {
   transform: translate(0, 0);
 }
 
-/* Touch devices have no hover: show the result by default. */
+/* Touch devices have no hover: the open-arrow (the card's only clickability
+   cue) must be visible at rest, and a press state stands in for hover. */
 @media (hover: none) {
-  .work-card__reveal {
-    grid-template-rows: 1fr;
+  .work-card__arrow {
     opacity: 1;
+    transform: none;
+  }
+  /* on the link, not the card: the card carries framer inline transforms */
+  .works-grid__link:active {
+    transform: scale(0.985);
   }
 }
 

@@ -46,6 +46,11 @@ export default function SelectedWork() {
               <DoodleSpark className="work-aside__spark" />
             </h2>
           </Reveal>
+          <Reveal delay={0.08}>
+            <p className="work-aside__line">
+              Twelve systems that agencies run every day.
+            </p>
+          </Reveal>
           <Reveal className="work-aside__tags" delay={0.12}>
             {CATS.map((c) => (
               <button

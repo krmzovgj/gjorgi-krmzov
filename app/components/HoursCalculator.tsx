@@ -8,6 +8,7 @@ import {
   useReducedMotion,
   useTransform,
 } from "framer-motion";
+import { ArrowRight } from "@phosphor-icons/react";
 import { AUDIT_URL, LINKEDIN_URL, withUtm } from "../config";
 import Reveal from "./Reveal";
 import "./hours.css";
@@ -99,11 +100,6 @@ export default function HoursCalculator() {
     <main className="hours">
       <Reveal className="hours__head wrap">
         <h1 className="hours__title">See where your hours go.</h1>
-        <p className="hours__lead">
-          Every agency loses a day or two each week to work that just repeats.
-          Put in the rough hours your team spends. The cost updates as you type.
-          No email, no catch.
-        </p>
       </Reveal>
 
       <section className="hours__calc wrap">
@@ -112,11 +108,11 @@ export default function HoursCalculator() {
             <h2 className="hours__sub">Your week, in hours</h2>
             <div className="hours__fields">
               {FIELDS.map((f) => (
-                <div className="hf" key={f.id}>
-                  <label className="hf__label" htmlFor={`hf-${f.id}`}>
-                    {f.label}
-                  </label>
-                  <div className="hf__control">
+                // The whole row is the label, so a press anywhere on it (the
+                // text, the pill, the gap) focuses the hours input.
+                <label className="hf" key={f.id} htmlFor={`hf-${f.id}`}>
+                  <span className="hf__label">{f.label}</span>
+                  <span className="hf__control">
                     <input
                       id={`hf-${f.id}`}
                       className="hf__input"
@@ -130,16 +126,16 @@ export default function HoursCalculator() {
                       }
                     />
                     <span className="hf__unit">h/wk</span>
-                  </div>
-                </div>
+                  </span>
+                </label>
               ))}
             </div>
 
-            <div className="hf hf--rate">
-              <label className="hf__label" htmlFor="hf-rate">
+            <label className="hf hf--rate" htmlFor="hf-rate">
+              <span className="hf__label">
                 What an hour of that time costs you
-              </label>
-              <div className="hf__control">
+              </span>
+              <span className="hf__control">
                 <span className="hf__prefix">$</span>
                 <input
                   id="hf-rate"
@@ -152,15 +148,12 @@ export default function HoursCalculator() {
                   onChange={(e) => setRate(e.target.value)}
                 />
                 <span className="hf__unit">/hr</span>
-              </div>
-            </div>
+              </span>
+            </label>
           </div>
 
           <aside className="hours__result">
-            <p className="hours__result-label label">
-              <span className="hours__dot" aria-hidden="true" />
-              Cost per year
-            </p>
+            <p className="hours__result-label label">Cost per year</p>
             <p
               className="hours__cost"
               aria-label={`${fmtMoney(costPerYear)} per year`}
@@ -205,16 +198,8 @@ export default function HoursCalculator() {
                 rel="noopener"
                 data-cursor="Let's talk"
               >
-                Map the real version, 15 minutes
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M5 12h14M13 6l6 6-6 6"
-                    stroke="currentColor"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                Book 15 min call
+                <ArrowRight size={16} weight="bold" />
               </a>
               <a
                 className="hours__dm"
@@ -223,7 +208,7 @@ export default function HoursCalculator() {
                 rel="noreferrer"
                 data-cursor="Connect"
               >
-                Or DM me your hours
+                or DM me
               </a>
             </div>
           </aside>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "../components/Header";
 import HoursCalculator from "../components/HoursCalculator";
+import Footer from "../components/Footer";
 
 const description =
   "Add the repetitive work your team does each week and watch what it costs you per year. A self-serve Hours Audit. No email required.";
@@ -28,6 +29,7 @@ export default function HoursPage() {
     <>
       <Header brandHref="/" />
       <HoursCalculator />
+      <Footer />
     </>
   );
 }

@@ -24,16 +24,6 @@
   letter-spacing: -0.035em;
   max-width: 14ch;
 }
-.hours__lead {
-  margin-top: clamp(1.25rem, 2.5vw, 1.75rem);
-  max-width: 52ch;
-  font-size: var(--fs-lead);
-  font-weight: 400;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  color: var(--text-dim);
-}
-
 /* ---- the working grid ---- */
 .hours__grid {
   display: grid;
@@ -53,7 +43,8 @@
   border-top: 1px solid var(--line);
 }
 
-/* one input row: label on the left, the hours field on the right */
+/* one input row: label on the left, the hours field on the right. The whole
+   row is a <label>, so a press anywhere on it focuses the input. */
 .hf {
   display: flex;
   align-items: center;
@@ -61,6 +52,7 @@
   gap: 1.25rem;
   padding-block: clamp(0.85rem, 1.6vw, 1.15rem);
   border-bottom: 1px solid var(--line);
+  cursor: pointer;
 }
 .hf__label {
   font-size: clamp(1rem, 1.2vw, 1.12rem);
@@ -100,6 +92,7 @@
   color: var(--text);
   text-align: right;
   font-variant-numeric: tabular-nums;
+  cursor: text;
 }
 .hf__input:focus {
   outline: none;
@@ -130,16 +123,6 @@
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   padding: clamp(1.75rem, 3vw, 2.75rem);
-}
-.hours__result-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-}
-.hours__dot {
-  width: 9px;
-  height: 9px;
-  background: var(--accent);
 }
 .hours__cost {
   margin-top: 0.6rem;

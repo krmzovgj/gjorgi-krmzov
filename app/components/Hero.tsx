@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "@phosphor-icons/react";
 import { DoodleArrow } from "./Doodles";
-import { AUDIT_URL, BOOKING_URL, withUtm } from "../config";
+import { AUDIT_URL, withUtm } from "../config";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -78,16 +78,6 @@ export default function Hero() {
         </h1>
 
         <motion.div className="hero__foot" {...fadeUp(0.7)}>
-          <a
-            className="btn"
-            target="_blank"
-            rel="noopener"
-            href={withUtm(BOOKING_URL, "hero")}
-            data-cursor="Let's talk"
-          >
-            Book a 30 minute call
-            <ArrowRight size={16} weight="bold" />
-          </a>
           <Link className="btn" href="/hours" data-cursor="See the math">
             See where your hours go
             <ArrowRight size={16} weight="bold" />

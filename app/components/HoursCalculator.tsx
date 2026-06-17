@@ -198,7 +198,7 @@ export default function HoursCalculator() {
                 rel="noopener"
                 data-cursor="Let's talk"
               >
-                Map the real version, 15 minutes
+                Book 15 min call
                 <ArrowRight size={16} weight="bold" />
               </a>
               <a
@@ -208,7 +208,7 @@ export default function HoursCalculator() {
                 rel="noreferrer"
                 data-cursor="Connect"
               >
-                Or DM me your hours
+                or DM me
               </a>
             </div>
           </aside>

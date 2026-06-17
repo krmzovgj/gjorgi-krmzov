@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "@phosphor-icons/react";
 import { DoodleArrow } from "./Doodles";
@@ -87,6 +88,10 @@ export default function Hero() {
             Book a 30 minute call
             <ArrowRight size={16} weight="bold" />
           </a>
+          <Link className="btn" href="/hours" data-cursor="See the math">
+            See where your hours go
+            <ArrowRight size={16} weight="bold" />
+          </Link>
           <a className="hero__link" href="#work" data-cursor="Work">
             My work
           </a>

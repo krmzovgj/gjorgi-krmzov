@@ -364,10 +364,11 @@ video {
   }
 }
 
-/* Phones: drop the portrait lower so the Hours Audit line clears it. */
+/* Phones: the portrait sat so low only the head cleared the fold. Pull it up so
+   the body shows too; the faded bottom still bleeds just off the edge. */
 @media (max-width: 600px) {
   .hero__portrait {
-    bottom: clamp(-13rem, -20vh, -8rem);
+    bottom: clamp(-3rem, -4vh, -1rem);
   }
 }
 

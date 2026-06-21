@@ -364,11 +364,29 @@ video {
   }
 }
 
-/* Phones: the portrait sat so low only the head cleared the fold. Pull it up so
-   the body shows too; the faded bottom still bleeds just off the edge. */
+/* Phones: stack the portrait in the flow, directly under the Hours Audit line,
+   instead of bleeding it up behind the text. Anchored to the viewport bottom the
+   head crossed that line and the gap shifted with every reflow; in the flow the
+   gap above (margin-top) and below (statement padding) stay fixed and even. */
 @media (max-width: 600px) {
+  .hero {
+    min-height: auto;
+    padding-bottom: clamp(1rem, 2.5vh, 1.75rem);
+  }
+  .hero__content {
+    order: 1;
+  }
   .hero__portrait {
-    bottom: clamp(-3rem, -4vh, -1rem);
+    position: static;
+    order: 2;
+    right: auto;
+    bottom: auto;
+    width: clamp(300px, 86vw, 460px);
+    height: auto;
+    margin-top: clamp(1.25rem, 4vh, 2.25rem);
+    /* right-anchored with a small bleed past the gutter, like the wider layout */
+    margin-left: auto;
+    margin-right: clamp(-1.5rem, -4vw, 0rem);
   }
 }
 
@@ -625,6 +643,15 @@ video {
   .statement-sec {
     padding-top: clamp(10rem, 22vh, 13rem);
     padding-bottom: clamp(2rem, 5vh, 3.5rem);
+  }
+}
+
+/* Phones: the portrait is now stacked inside the hero (it no longer bleeds down),
+   so drop the big top inset to a normal gap that matches the space above the
+   image under the audit line. */
+@media (max-width: 600px) {
+  .statement-sec {
+    padding-top: clamp(1.5rem, 4vh, 2.5rem);
   }
 }
 

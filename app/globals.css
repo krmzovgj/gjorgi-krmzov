@@ -460,25 +460,21 @@ video {
    accent badge keeps its true colour. "remove" sits left of the portrait on the
    canvas (dark ink reads fine); the pill is opaque, so it reads over anything. */
 .hero__line--solid {
-  overflow: visible;
   mix-blend-mode: normal;
   color: var(--text);
 }
 
+/* An inline highlight, not a box: vertical padding paints the accent behind the
+   word without changing the line-height, so the headline keeps its exact rhythm.
+   Text is a hair smaller so it sits inside the rounded background. */
 .hero__pill {
-  display: inline-block;
   background: var(--accent);
   color: #fff;
-  /* a hair smaller than the headline and centered (more top than bottom padding,
-     since the word has no descenders and otherwise sits high), so tall letters
-     like the "k" don't touch the pill's cap */
-  font-size: 0.94em;
-  line-height: 1;
-  padding: 0.18em 0.44em 0.1em;
-  /* Figma badge is 276x60 with radius 25 (~0.42 of the height): generously
-     rounded, but not a full capsule. Height here is ~1.28em, so 0.53em ~= 0.42. */
-  border-radius: 0.53em;
-  transform: rotate(-1.6deg);
+  font-size: 0.72em;
+  padding: 0.06em 0.34em;
+  border-radius: 0.34em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .hero__line > span {

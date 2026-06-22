@@ -65,13 +65,14 @@ export default function Hero() {
               I build the systems that
             </motion.span>
           </span>
-          {/* line 2 opts out of the mask + blend so "manual work" can be a solid
-              accent pill, like the banner */}
+          {/* same masked rise as the other lines; this line just opts out of the
+              blend (.hero__line--solid) so the pill behind "manual work" stays
+              solid accent. */}
           <span className="hero__line hero__line--solid" aria-hidden="true">
             <motion.span
-              initial={{ opacity: 0, y: reduce ? 0 : 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.58 }}
+              initial={{ y: yHidden }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.85, ease: EASE, delay: 0.58 }}
             >
               remove <span className="hero__pill">manual work</span>
             </motion.span>

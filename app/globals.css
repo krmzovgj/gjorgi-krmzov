@@ -6,8 +6,8 @@
    ================================================================= */
 
 :root {
-  --bg: #f6f6f7;
-  --bg-2: #ffffff;
+  --bg: #ffffff;
+  --bg-2: #f6f6f7;
   --frame: #ebebee;
   --text: #0e0e0f;
   --text-dim: #56565a;
@@ -15,7 +15,7 @@
   --line: rgba(14, 14, 16, 0.13);
   --line-strong: rgba(14, 14, 16, 0.30);
 
-  --accent: #ff5a1e;
+  --accent: #ba2c13;
   --accent-ink: #ffffff;
 
   /* One typeface everywhere: body/UI share the Bricolage display family. */
@@ -228,6 +228,24 @@ video {
 .btn--sm {
   padding: 0.6rem 1.05rem;
   font-size: 0.82rem;
+}
+
+/* Brand stamp: the accent-filled pill from the banner (orange bg, light text,
+   a slight hand-drawn tilt). One controlled accent fill, used as a mark. */
+.brandmark {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.32em 0.85em;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: var(--r-pill);
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-transform: none;
+  transform: rotate(-2deg);
 }
 
 /* =================================================================
@@ -491,7 +509,7 @@ video {
   left: clamp(28rem, 53vw, 64rem);
   bottom: clamp(4.5rem, 11vh, 8rem);
   width: clamp(70px, 7vw, 120px);
-  color: var(--text);
+  color: var(--accent);
   pointer-events: none;
 }
 .hero__doodle svg {
@@ -976,7 +994,6 @@ video {
 
 .stat {
   background: var(--bg-2);
-  border: 1px solid var(--line);
   border-radius: var(--r-md);
   padding: clamp(1.5rem, 3vw, 2.5rem);
 }
@@ -1476,7 +1493,6 @@ video {
 .bcard {
   position: relative;
   background: var(--bg-2);
-  border: 1px solid var(--line);
   border-radius: var(--r-lg);
   padding: clamp(1.5rem, 2.2vw, 2rem);
   min-height: clamp(200px, 20vw, 260px);
@@ -1697,7 +1713,7 @@ video {
   right: -1.5em;
   width: clamp(22px, 2.2vw, 32px);
   height: auto;
-  color: var(--text);
+  color: var(--accent);
   pointer-events: none;
 }
 
@@ -1773,7 +1789,6 @@ video {
   aspect-ratio: 1 / 1;
   padding: clamp(1.2rem, 1.5vw, 1.7rem);
   background: var(--bg-2);
-  border: 1px solid var(--line);
   border-radius: 16px;
   overflow: hidden;
   will-change: transform;

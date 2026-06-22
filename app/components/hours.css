@@ -68,7 +68,9 @@
   flex: 0 0 auto;
   padding: 0.45rem 0.85rem;
   background: var(--bg-2);
-  border: 1px solid var(--line-strong);
+  /* borderless at rest (transparent keeps the box so focus doesn't shift it);
+     the border shows only on focus as the input indicator */
+  border: 1px solid transparent;
   border-radius: var(--r-pill);
   transition: border-color var(--dur) var(--ease);
 }
@@ -120,7 +122,6 @@
 /* ---- right: the result panel (the value) ---- */
 .hours__result {
   background: var(--bg-2);
-  border: 1px solid var(--line);
   border-radius: var(--r-lg);
   padding: clamp(1.75rem, 3vw, 2.75rem);
 }

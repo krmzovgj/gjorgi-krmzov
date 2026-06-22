@@ -230,6 +230,24 @@ video {
   font-size: 0.82rem;
 }
 
+/* Brand stamp: the accent-filled pill from the banner (orange bg, light text,
+   a slight hand-drawn tilt). One controlled accent fill, used as a mark. */
+.brandmark {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.32em 0.85em;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: var(--r-pill);
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-transform: none;
+  transform: rotate(-2deg);
+}
+
 /* =================================================================
    Nav
    ================================================================= */
@@ -491,7 +509,7 @@ video {
   left: clamp(28rem, 53vw, 64rem);
   bottom: clamp(4.5rem, 11vh, 8rem);
   width: clamp(70px, 7vw, 120px);
-  color: var(--text);
+  color: var(--accent);
   pointer-events: none;
 }
 .hero__doodle svg {
@@ -1697,7 +1715,7 @@ video {
   right: -1.5em;
   width: clamp(22px, 2.2vw, 32px);
   height: auto;
-  color: var(--text);
+  color: var(--accent);
   pointer-events: none;
 }
 

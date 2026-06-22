@@ -29,6 +29,7 @@ export default function Footer() {
         >
           <LinkedinLogo size={28} weight="duotone" />
         </a>
+        <span className="brandmark">krmzov.com</span>
         <span className="footer__copy">&copy; 2026</span>
       </div>
 

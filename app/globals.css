@@ -440,10 +440,6 @@ video {
   font-weight: 350;
   line-height: 0.5;
   letter-spacing: -0.03em;
-  /* White type blended against everything behind it: reads near-black on the
-     light canvas, inverts to light where it crosses the dark portrait. */
-  color: #fff;
-  mix-blend-mode: difference;
 }
 
 .hero__line {
@@ -453,6 +449,36 @@ video {
      line-heights; the matching negative margin keeps the visual spacing tight. */
   padding-block: 0.34em;
   margin-block: -0.34em;
+  /* White type blended per line: reads near-black on the canvas, inverts to
+     light where it crosses the dark portrait. (Moved off .hero__title so a
+     single line can opt out for the solid pill.) */
+  color: #fff;
+  mix-blend-mode: difference;
+}
+
+/* The line carrying the "manual work" pill opts out of the blend so the solid
+   accent badge keeps its true colour. "remove" sits left of the portrait on the
+   canvas (dark ink reads fine); the pill is opaque, so it reads over anything. */
+.hero__line--solid {
+  overflow: visible;
+  mix-blend-mode: normal;
+  color: var(--text);
+}
+
+.hero__pill {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  /* a hair smaller than the headline and centered (more top than bottom padding,
+     since the word has no descenders and otherwise sits high), so tall letters
+     like the "k" don't touch the pill's cap */
+  font-size: 0.94em;
+  line-height: 1;
+  padding: 0.18em 0.44em 0.1em;
+  /* Figma badge is 276x60 with radius 25 (~0.42 of the height): generously
+     rounded, but not a full capsule. Height here is ~1.28em, so 0.53em ~= 0.42. */
+  border-radius: 0.53em;
+  transform: rotate(-1.6deg);
 }
 
 .hero__line > span {
@@ -994,7 +1020,6 @@ video {
 
 .stat {
   background: var(--bg-2);
-  border: 1px solid var(--line);
   border-radius: var(--r-md);
   padding: clamp(1.5rem, 3vw, 2.5rem);
 }
@@ -1494,7 +1519,6 @@ video {
 .bcard {
   position: relative;
   background: var(--bg-2);
-  border: 1px solid var(--line);
   border-radius: var(--r-lg);
   padding: clamp(1.5rem, 2.2vw, 2rem);
   min-height: clamp(200px, 20vw, 260px);
@@ -1791,7 +1815,6 @@ video {
   aspect-ratio: 1 / 1;
   padding: clamp(1.2rem, 1.5vw, 1.7rem);
   background: var(--bg-2);
-  border: 1px solid var(--line);
   border-radius: 16px;
   overflow: hidden;
   will-change: transform;

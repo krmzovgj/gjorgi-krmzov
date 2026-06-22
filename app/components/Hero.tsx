@@ -8,14 +8,6 @@ import { AUDIT_URL, withUtm } from "../config";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-// Controlled line breaks. On wide screens each line is masked and rises in;
-// on small screens it simply wraps.
-const LINES = [
-  "I build the systems that",
-  "remove manual work",
-  "inside agencies.",
-];
-
 export default function Hero() {
   const reduce = useReducedMotion();
   // line-height is 0.6, so the glyphs are ~1.2em tall and overflow their line
@@ -64,17 +56,35 @@ export default function Hero() {
           className="hero__title"
           aria-label="I build the systems that remove manual work inside agencies."
         >
-          {LINES.map((line, i) => (
-            <span className="hero__line" key={i} aria-hidden="true">
-              <motion.span
-                initial={{ y: yHidden }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.85, ease: EASE, delay: 0.5 + i * 0.08 }}
-              >
-                {line}
-              </motion.span>
-            </span>
-          ))}
+          <span className="hero__line" aria-hidden="true">
+            <motion.span
+              initial={{ y: yHidden }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.85, ease: EASE, delay: 0.5 }}
+            >
+              I build the systems that
+            </motion.span>
+          </span>
+          {/* line 2 opts out of the mask + blend so "manual work" can be a solid
+              accent pill, like the banner */}
+          <span className="hero__line hero__line--solid" aria-hidden="true">
+            <motion.span
+              initial={{ opacity: 0, y: reduce ? 0 : 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: EASE, delay: 0.58 }}
+            >
+              remove <span className="hero__pill">manual work</span>
+            </motion.span>
+          </span>
+          <span className="hero__line" aria-hidden="true">
+            <motion.span
+              initial={{ y: yHidden }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.85, ease: EASE, delay: 0.66 }}
+            >
+              inside agencies.
+            </motion.span>
+          </span>
         </h1>
 
         <motion.div className="hero__foot" {...fadeUp(0.7)}>

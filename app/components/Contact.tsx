@@ -43,10 +43,10 @@ export default function Contact() {
           </p>
           <a
             className="contact__email"
-            href="mailto:krmzovgj@gmail.com"
+            href="mailto:gjorgi@krmzov.com"
             data-cursor="Say hi"
           >
-            krmzovgj@gmail.com
+            gjorgi@krmzov.com
           </a>
         </div>
       </Reveal>

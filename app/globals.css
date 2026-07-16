@@ -358,10 +358,9 @@ video {
   /* Pushed below the hero so the bottom (and its fade) bleed off-screen -
      you never see where the image ends. */
   bottom: clamp(-22rem, -26vh, -8rem);
-  /* Shorter than before on purpose: the top of the crop needs to land low
-     enough that line 1 only crosses hair, not eyes. Full height put the face
-     right at line 1's baseline. */
-  height: clamp(540px, 96vh, 1180px);
+  /* Tuned as large as line 2 ("boring work agencies") allows before it
+     starts crossing the eyes/nose/mouth instead of just grazing hair/cheek. */
+  height: clamp(600px, 106vh, 1280px);
   width: auto;
   pointer-events: none;
   user-select: none;
@@ -373,7 +372,7 @@ video {
    harder in just this band. */
 @media (min-width: 961px) and (max-width: 1300px) {
   .hero__portrait {
-    height: clamp(440px, 78vh, 820px);
+    height: clamp(500px, 84vh, 900px);
   }
 }
 

@@ -71,7 +71,16 @@ export default function Hero() {
               animate={{ y: 0 }}
               transition={{ duration: 0.85, ease: EASE, delay: 0.58 }}
             >
-              agencies still do by hand.
+              agencies still
+            </motion.span>
+          </span>
+          <span className="hero__line" aria-hidden="true">
+            <motion.span
+              initial={{ y: yHidden }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.85, ease: EASE, delay: 0.66 }}
+            >
+              do by hand.
             </motion.span>
           </span>
         </h1>

@@ -360,7 +360,7 @@ video {
   bottom: clamp(-22rem, -26vh, -8rem);
   /* Tuned as large as line 2 ("boring work agencies") allows before it
      starts crossing the eyes/nose/mouth instead of just grazing hair/cheek. */
-  height: clamp(600px, 106vh, 1280px);
+  height: clamp(680px, 118vh, 1440px);
   width: auto;
   pointer-events: none;
   user-select: none;
@@ -372,7 +372,7 @@ video {
    harder in just this band. */
 @media (min-width: 961px) and (max-width: 1300px) {
   .hero__portrait {
-    height: clamp(500px, 84vh, 900px);
+    height: clamp(560px, 92vh, 1000px);
   }
 }
 
@@ -557,18 +557,10 @@ video {
   /* Keep nowrap + the mask (overflow: hidden from the base rule) so the line
      rise still works on mobile; only the size steps down. The vw size keeps each
      line on one visual line, so the tight line-height never overlaps wraps.
-     Nudged up ~8% from 8.2vw; the longest line ("I build the systems that")
-     still clears the gutters at 320px (verified at 320-430px). */
+     Sized up from 8.85vw; the longest line ("boring work agencies") still
+     clears the gutters at 320px (verified at 320-430px). */
   .hero__title {
-    font-size: clamp(1.7rem, 8.85vw, 2.8rem);
-  }
-}
-
-/* Laptops: at full 8vw the headline crosses the portrait too hard, so ease it
-   down from ~1000px up. Large screens still top out at the 8.5rem cap. */
-@media (min-width: 1000px) {
-  .hero__title {
-    font-size: clamp(2.6rem, 8.2vw, 8.5rem);
+    font-size: clamp(1.85rem, 9.6vw, 3.1rem);
   }
 }
 

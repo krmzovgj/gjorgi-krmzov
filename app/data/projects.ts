@@ -114,7 +114,7 @@ export const PROJECTS: Project[] = [
     cat: "Reporting",
     name: "Keyword Ranking Reports",
     headline: "Ranking reports, no longer a manual job",
-    metric: "5 to 10 hours a month, back",
+    metric: "5 to 10 hours a month back",
     stack: "n8n / Airtable / Sheets / Slack",
     deliverables: ["Ranking automation", "Client reports"],
     before:

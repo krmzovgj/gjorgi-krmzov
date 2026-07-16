@@ -2,10 +2,8 @@ import Reveal from "./Reveal";
 import Words from "./Words";
 
 const LINES = [
-  "Every new client adds 15 to 20 hours of work nobody bills.",
-  "Do enough of it and you either hire or the team burns out.",
-  "I build the system that does that work instead.",
-  "So the same team takes on more clients without hiring.",
+  "Someone on your team spends their week pulling reports, chasing follow ups, and moving data between tools. Every new client adds 15 to 20 hours of that every month, and none of it lands on an invoice.",
+  "I build systems that do the work instead, so the next client doesn't force the next hire.",
 ];
 
 export default function Statement() {

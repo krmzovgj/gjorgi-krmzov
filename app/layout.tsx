@@ -4,7 +4,6 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
 import CursorDot from "./components/CursorDot";
-import { PROJECTS } from "./data/projects";
 
 // One typeface across the whole site: Bricolage Grotesque (variable). It runs
 // light in the hero; globals.css aliases --font-body to it so body and UI match.
@@ -17,10 +16,10 @@ const display = Bricolage_Grotesque({
 
 const SITE = "https://www.krmzov.com";
 
-// Outcome-led, niche-named, no job title (DESIGN.md voice rule). The build
-// count stays honest by deriving from the data file.
+// Outcome-led, niche-named, no job title (DESIGN.md voice rule).
 const TITLE = "Gjorgi Krmzov. AI automation systems for agencies";
-const DESCRIPTION = `I build the systems that remove manual work inside agencies. ${PROJECTS.length} live builds with real numbers. You pay when it saves you the hours we agreed on.`;
+const DESCRIPTION =
+  "I automate the boring work agencies still do by hand. 15 systems, 50+ hours a week back. n8n + Claude.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),

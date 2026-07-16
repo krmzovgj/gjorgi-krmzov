@@ -8,14 +8,6 @@ import { AUDIT_URL, withUtm } from "../config";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-// Controlled line breaks. On wide screens each line is masked and rises in;
-// on small screens it simply wraps.
-const LINES = [
-  "I build the systems that",
-  "remove manual work",
-  "inside agencies.",
-];
-
 export default function Hero() {
   const reduce = useReducedMotion();
   // line-height is 0.6, so the glyphs are ~1.2em tall and overflow their line
@@ -53,7 +45,7 @@ export default function Hero() {
       <div className="hero__content">
         <motion.p className="hero__greeting" {...fadeUp(0.4)}>
           <span>
-            Hey there
+            Hey,
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/wave.svg" alt="" aria-hidden="true" className="hero__wave" />
           </span>
@@ -62,24 +54,31 @@ export default function Hero() {
 
         <h1
           className="hero__title"
-          aria-label="I build the systems that remove manual work inside agencies."
+          aria-label="I automate the boring work agencies still do by hand."
         >
-          {LINES.map((line, i) => (
-            <span className="hero__line" key={i} aria-hidden="true">
-              <motion.span
-                initial={{ y: yHidden }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.85, ease: EASE, delay: 0.5 + i * 0.08 }}
-              >
-                {line}
-              </motion.span>
-            </span>
-          ))}
+          <span className="hero__line" aria-hidden="true">
+            <motion.span
+              initial={{ y: yHidden }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.85, ease: EASE, delay: 0.5 }}
+            >
+              I automate the <span className="hero__highlight">boring work</span>
+            </motion.span>
+          </span>
+          <span className="hero__line" aria-hidden="true">
+            <motion.span
+              initial={{ y: yHidden }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.85, ease: EASE, delay: 0.58 }}
+            >
+              agencies still do by hand.
+            </motion.span>
+          </span>
         </h1>
 
         <motion.div className="hero__foot" {...fadeUp(0.7)}>
           <Link className="btn" href="/hours" data-cursor="See the math">
-            See where your hours go
+            See what it costs
             <ArrowRight size={16} weight="bold" />
           </Link>
           <a className="hero__link" href="#work" data-cursor="Work">
@@ -94,7 +93,7 @@ export default function Hero() {
             rel="noopener"
             data-cursor="Let's talk"
           >
-            Or start with a free 15 minute Hours Audit
+            Or book the free 15 min mapping call
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M7 17 17 7M9 7h8v8"

@@ -10,18 +10,18 @@ const STEPS = [
   {
     n: "01",
     l: "Call",
-    d: "A 30 minute call. You show me the manual work. I tell you what is automatable.",
+    d: "30 minutes. You show me the manual work, I tell you what's automatable.",
   },
   {
     n: "02",
     l: "Scope",
-    d: "We agree what the system does and when it is accepted. Written down before I build.",
+    d: "We agree what the system does and what counts as done, written down before I build.",
   },
   { n: "03", l: "Build", d: "First working version in 7 days. Live in 14." },
   {
     n: "04",
     l: "Live",
-    d: "It runs unattended. You pay when it saves you the hours we agreed on.",
+    d: "It runs on its own. First 30 days, anything that breaks is mine to fix.",
   },
 ];
 

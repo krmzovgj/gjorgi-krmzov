@@ -48,7 +48,7 @@ export default function SelectedWork() {
           </Reveal>
           <Reveal delay={0.08}>
             <p className="work-aside__line">
-              Twelve systems that agencies run every day.
+              {"I've built fifteen, these are the twelve with the best numbers."}
             </p>
           </Reveal>
           <Reveal className="work-aside__tags" delay={0.12}>

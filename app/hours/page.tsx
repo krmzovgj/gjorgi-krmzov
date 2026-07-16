@@ -4,22 +4,24 @@ import HoursCalculator from "../components/HoursCalculator";
 import Footer from "../components/Footer";
 
 const description =
-  "Add the repetitive work your team does each week and watch what it costs you per year. A self-serve Hours Audit. No email required.";
+  "Add up the work your team still does by hand and see what it costs you a year. Self serve, no email required.";
 
 export const metadata: Metadata = {
-  title: "See where your hours go",
+  // No trailing period: the root layout's title.template appends ", Gjorgi
+  // Krmzov" after this, and a period there reads as a typo ("costs., Gjorgi").
+  title: "What doing it by hand costs",
   description,
   alternates: { canonical: "/hours" },
   openGraph: {
     type: "website",
     url: "/hours",
     siteName: "Gjorgi Krmzov",
-    title: "See where your hours go",
+    title: "What doing it by hand costs.",
     description,
   },
   twitter: {
     card: "summary_large_image",
-    title: "See where your hours go",
+    title: "What doing it by hand costs.",
     description,
   },
 };

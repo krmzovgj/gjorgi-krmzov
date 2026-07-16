@@ -5,7 +5,6 @@ const STATS = [
   { n: "15", s: "Systems shipped in 4 months" },
   { n: "10+", s: "Hours a week gone on one system alone" },
   { n: "$24k+", s: "A year in link budget saved" },
-  { n: "$0", s: "Upfront. You pay when it saves you hours" },
 ];
 
 export default function Background() {

@@ -99,7 +99,7 @@ export default function HoursCalculator() {
   return (
     <main className="hours">
       <Reveal className="hours__head wrap">
-        <h1 className="hours__title">See where your hours go.</h1>
+        <h1 className="hours__title">What doing it by hand costs.</h1>
       </Reveal>
 
       <section className="hours__calc wrap">
@@ -181,8 +181,11 @@ export default function HoursCalculator() {
 
             {hasHours ? (
               <p className="hours__leak">
-                Start with <strong>{leak.label}</strong>. On its own that is
-                about <strong>{fmtMoney(leakCost)}</strong> a year.
+                {"Start with "}
+                <strong>{leak.label}</strong>
+                {". On its own that's about "}
+                <strong>{fmtMoney(leakCost)}</strong>
+                {" a year."}
               </p>
             ) : (
               <p className="hours__leak">
@@ -198,7 +201,7 @@ export default function HoursCalculator() {
                 rel="noopener"
                 data-cursor="Let's talk"
               >
-                Book 15 min call
+                Book the 15 min mapping call
                 <ArrowRight size={16} weight="bold" />
               </a>
               <a

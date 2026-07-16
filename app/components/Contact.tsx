@@ -7,7 +7,7 @@ export default function Contact() {
     <section className="contact wrap" id="contact">
       <Reveal>
         <h2 className="contact__cta">
-          <Words text="Let's remove the manual work" />
+          <Words text="Let's automate the boring work" />
         </h2>
         <div className="contact__actions">
           <a
@@ -29,8 +29,7 @@ export default function Contact() {
             </svg>
           </a>
           <p className="contact__alt">
-            Or start smaller. The free Hours Audit takes 15 minutes and you
-            leave knowing where your hours go.{" "}
+            Or start smaller. The{" "}
             <a
               className="contact__alt-link"
               href={withUtm(AUDIT_URL, "contact-audit")}
@@ -38,8 +37,10 @@ export default function Contact() {
               rel="noopener"
               data-cursor="Let's talk"
             >
-              Get yours
-            </a>
+              mapping call
+            </a>{" "}
+            is 15 minutes, free, and by the end you know what doing it by
+            hand costs.
           </p>
           <a
             className="contact__email"

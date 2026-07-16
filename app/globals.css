@@ -358,10 +358,22 @@ video {
   /* Pushed below the hero so the bottom (and its fade) bleed off-screen -
      you never see where the image ends. */
   bottom: clamp(-22rem, -26vh, -8rem);
-  height: clamp(640px, 116vh, 1400px);
+  /* Tuned as large as line 2 ("boring work agencies") allows before it
+     starts crossing the eyes/nose/mouth instead of just grazing hair/cheek. */
+  height: clamp(600px, 106vh, 1280px);
   width: auto;
   pointer-events: none;
   user-select: none;
+}
+
+/* Narrow-but-not-mobile laptops (e.g. 1024x768): the height-based clamp
+   doesn't know the viewport is also narrow, so at a short viewport height it
+   reaches too far up and right, crossing into the eyes on line 2. Cap it
+   harder in just this band. */
+@media (min-width: 961px) and (max-width: 1300px) {
+  .hero__portrait {
+    height: clamp(500px, 84vh, 900px);
+  }
 }
 
 @media (max-width: 960px) {
@@ -382,7 +394,7 @@ video {
   }
 }
 
-/* Phones: stack the portrait in the flow, directly under the Hours Audit line,
+/* Phones: stack the portrait in the flow, directly under the mapping-call line,
    instead of bleeding it up behind the text. Anchored to the viewport bottom the
    head crossed that line and the gap shifted with every reflow; in the flow the
    gap above (margin-top) and below (statement padding) stay fixed and even. */
@@ -459,6 +471,13 @@ video {
   display: inline-block;
   white-space: nowrap;
   will-change: transform;
+}
+
+/* Weight-only emphasis, within the "never heavy or black" range (DESIGN.md).
+   No accent fill/color and no pill: accent stays a tiny mark, never on big
+   type, and a solid badge here was already tried and reverted. */
+.hero__highlight {
+  font-weight: 400;
 }
 
 .hero__foot {

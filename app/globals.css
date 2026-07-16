@@ -367,6 +367,16 @@ video {
   user-select: none;
 }
 
+/* Narrow-but-not-mobile laptops (e.g. 1024x768): the height-based clamp
+   doesn't know the viewport is also narrow, so at a short viewport height it
+   reaches too far up and right, crossing into the eyes on line 2. Cap it
+   harder in just this band. */
+@media (min-width: 961px) and (max-width: 1300px) {
+  .hero__portrait {
+    height: clamp(440px, 78vh, 820px);
+  }
+}
+
 @media (max-width: 960px) {
   /* Portrait stays OUT of the flow and emerges from the bottom-right corner
      (the desktop treatment, scaled for a narrow canvas). Content sits centred so

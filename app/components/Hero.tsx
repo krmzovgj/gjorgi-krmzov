@@ -62,7 +62,7 @@ export default function Hero() {
               animate={{ y: 0 }}
               transition={{ duration: 0.85, ease: EASE, delay: 0.5 }}
             >
-              I automate the <span className="hero__highlight">boring work</span>
+              I automate the
             </motion.span>
           </span>
           <span className="hero__line" aria-hidden="true">
@@ -71,7 +71,7 @@ export default function Hero() {
               animate={{ y: 0 }}
               transition={{ duration: 0.85, ease: EASE, delay: 0.58 }}
             >
-              agencies still
+              <span className="hero__highlight">boring work</span> agencies
             </motion.span>
           </span>
           <span className="hero__line" aria-hidden="true">
@@ -80,7 +80,7 @@ export default function Hero() {
               animate={{ y: 0 }}
               transition={{ duration: 0.85, ease: EASE, delay: 0.66 }}
             >
-              do by hand.
+              still do by hand.
             </motion.span>
           </span>
         </h1>

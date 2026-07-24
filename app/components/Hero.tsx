@@ -90,9 +90,6 @@ export default function Hero() {
             See what it costs
             <ArrowRight size={16} weight="bold" />
           </Link>
-          <a className="hero__link" href="#work" data-cursor="Work">
-            My work
-          </a>
         </motion.div>
 
         <motion.p className="hero__audit" {...fadeUp(0.82)}>

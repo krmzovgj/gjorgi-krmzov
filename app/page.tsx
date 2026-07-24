@@ -1,8 +1,8 @@
-// Section order: hero, statement, work, process, contact, footer.
+// Section order: hero, statement, process, contact, footer. (Work section
+// hidden - SelectedWork.tsx still exists, just not rendered here.)
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Statement from "./components/Statement";
-import SelectedWork from "./components/SelectedWork";
 import Process from "./components/Process";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -14,7 +14,6 @@ export default function Home() {
       <main>
         <Hero />
         <Statement />
-        <SelectedWork />
         <Process />
         <Contact />
       </main>

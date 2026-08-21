@@ -446,10 +446,10 @@ video {
   /* Keep glyph proportions constant across sizes so line width is predictable
      (Bricolage's auto optical sizing widens small text and breaks the wrap). */
   font-optical-sizing: none;
-  /* Longest line ("systems for agencies") is ~20ch. Slightly under the old
-     8vw because the headline runs 4 lines now, so it has to earn its extra
-     height back somewhere. */
-  font-size: clamp(2.2rem, 7vw, 7.4rem);
+  /* Longest line ("I build automated systems") is ~25ch, wide enough that
+     its tail crosses the portrait on purpose. Stepped down from 8vw when the
+     headline grew from 20ch to 25ch lines. */
+  font-size: clamp(2.1rem, 6.4vw, 6.8rem);
   font-weight: 350;
   line-height: 0.5;
   letter-spacing: -0.03em;
@@ -558,10 +558,10 @@ video {
   /* Keep nowrap + the mask (overflow: hidden from the base rule) so the line
      rise still works on mobile; only the size steps down. The vw size keeps each
      line on one visual line, so the tight line-height never overlaps wraps.
-     The longest line ("systems for agencies") still clears the gutters at
-     320px (verified at 320-430px). */
+     The longest line ("I build automated systems") still clears the gutters
+     at 320px (verified at 320-430px). */
   .hero__title {
-    font-size: clamp(1.75rem, 9vw, 2.9rem);
+    font-size: clamp(1.5rem, 7.7vw, 2.5rem);
   }
 }
 

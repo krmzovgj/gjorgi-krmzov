@@ -55,13 +55,17 @@ export default function Hero() {
           className="hero__title"
           aria-label="I build automated systems for agencies losing money to manual work."
         >
+          {/* Three lines, deliberately wide enough that the tail of lines 1
+              and 2 crosses the portrait. mix-blend-mode on .hero__title
+              inverts the type over the photo, so the overlap stays legible
+              and reads as the intended composition. */}
           <span className="hero__line" aria-hidden="true">
             <motion.span
               initial={{ y: yHidden }}
               animate={{ y: 0 }}
               transition={{ duration: 0.85, ease: EASE, delay: 0.5 }}
             >
-              I build automated
+              I build automated systems
             </motion.span>
           </span>
           <span className="hero__line" aria-hidden="true">
@@ -70,7 +74,7 @@ export default function Hero() {
               animate={{ y: 0 }}
               transition={{ duration: 0.85, ease: EASE, delay: 0.58 }}
             >
-              systems for agencies
+              for agencies losing money
             </motion.span>
           </span>
           <span className="hero__line" aria-hidden="true">
@@ -79,16 +83,7 @@ export default function Hero() {
               animate={{ y: 0 }}
               transition={{ duration: 0.85, ease: EASE, delay: 0.66 }}
             >
-              losing money to
-            </motion.span>
-          </span>
-          <span className="hero__line" aria-hidden="true">
-            <motion.span
-              initial={{ y: yHidden }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.85, ease: EASE, delay: 0.74 }}
-            >
-              <span className="hero__highlight">manual work.</span>
+              to <span className="hero__highlight">manual work.</span>
             </motion.span>
           </span>
         </h1>

@@ -29,7 +29,7 @@ export default function Contact() {
             </svg>
           </a>
           <p className="contact__alt">
-            Or start smaller. The{" "}
+            The{" "}
             <a
               className="contact__alt-link"
               href={withUtm(AUDIT_URL, "contact-audit")}
@@ -39,7 +39,7 @@ export default function Contact() {
             >
               mapping call
             </a>{" "}
-            is 15 minutes, free, and by the end you know what doing it by
+            is 30 minutes, free, and by the end you know what doing it by
             hand costs.
           </p>
           <a

@@ -102,7 +102,7 @@ export default function Hero() {
             rel="noopener"
             data-cursor="Let's talk"
           >
-            Or book the free 15 min mapping call
+            Or book the free 30 min mapping call
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M7 17 17 7M9 7h8v8"

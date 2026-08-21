@@ -203,7 +203,7 @@ export default function HoursCalculator() {
                 rel="noopener"
                 data-cursor="Let's talk"
               >
-                Book the 15 min mapping call
+                Book the 30 min mapping call
                 <ArrowRight size={16} weight="bold" />
               </a>
               <a

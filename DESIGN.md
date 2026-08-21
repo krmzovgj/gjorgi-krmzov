@@ -73,8 +73,9 @@ match the hero (`app/components/Hero.tsx` + the `.hero` block in `app/globals.cs
 ## Content
 - Single source of truth: `app/data/projects.ts` (+ layout metadata). Real metrics
   only.
-- Open item: `BOOKING_URL` in `app/config.ts` is still `#contact` until a real
-  Cal.com / Calendly link is provided.
+- Every "book a call" CTA points at one Cal.com event via `BOOKING_URL` /
+  `AUDIT_URL` in `app/config.ts`. Change the event in one place, not per CTA,
+  and keep the duration in the copy in step with the event.
 
 ## Voice and positioning
 - Lead with the client's OUTCOME, never a job title. Do NOT label him an "AI and

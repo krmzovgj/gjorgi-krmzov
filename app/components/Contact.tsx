@@ -17,7 +17,7 @@ export default function Contact() {
             rel="noopener"
             data-cursor="Let's talk"
           >
-            Book a 30 minute call
+            Tell me the job you want automated
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M5 12h14M13 6l6 6-6 6"

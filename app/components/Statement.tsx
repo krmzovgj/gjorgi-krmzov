@@ -9,7 +9,7 @@ import Words from "./Words";
 // read as uneven even if none of them wrap badly.
 const LINES = [
   "Pulling reports, chasing follow ups, moving data",
-  "between tools. That work costs you payroll and clients.",
+  "between tools. That work costs you margin and clients.",
   "Before anything gets built, you see the math, what the",
   "system replaces, what it returns, and when it",
   "covers its cost. If it doesn't add up, I tell you.",

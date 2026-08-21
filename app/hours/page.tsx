@@ -11,21 +11,22 @@ const description =
   "Add up the work your team still does by hand and see what it costs you a year. Self serve, no email required.";
 
 export const metadata: Metadata = {
-  // No trailing period: the root layout's title.template appends ", Gjorgi
-  // Krmzov" after this, and a period there reads as a typo ("costs., Gjorgi").
-  title: "What doing it by hand costs",
+  // Matches the page's h1. No trailing period: the root layout's
+  // title.template appends ", Gjorgi Krmzov" after this, and a period there
+  // would read as a typo ("you., Gjorgi").
+  title: "What manual work costs you",
   description,
   alternates: { canonical: "/hours" },
   openGraph: {
     type: "website",
     url: "/hours",
     siteName: "Gjorgi Krmzov",
-    title: "What doing it by hand costs.",
+    title: "What manual work costs you",
     description,
   },
   twitter: {
     card: "summary_large_image",
-    title: "What doing it by hand costs.",
+    title: "What manual work costs you",
     description,
   },
 };

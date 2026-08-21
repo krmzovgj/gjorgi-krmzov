@@ -112,7 +112,7 @@ export default function HoursCalculator({
     // #calculator is the homepage hero CTA's scroll target.
     <section className="hours" id="calculator">
       <Reveal className="hours__head wrap">
-        <Title className="hours__title">What doing it by hand costs.</Title>
+        <Title className="hours__title">What manual work costs you</Title>
       </Reveal>
 
       <div className="hours__calc wrap">

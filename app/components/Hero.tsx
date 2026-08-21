@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "@phosphor-icons/react";
 import { DoodleArrow } from "./Doodles";
@@ -54,7 +53,7 @@ export default function Hero() {
 
         <h1
           className="hero__title"
-          aria-label="I automate the boring work agencies still do by hand."
+          aria-label="I build automated systems for agencies losing money to manual work. You see the math before you pay."
         >
           <span className="hero__line" aria-hidden="true">
             <motion.span
@@ -62,7 +61,7 @@ export default function Hero() {
               animate={{ y: 0 }}
               transition={{ duration: 0.85, ease: EASE, delay: 0.5 }}
             >
-              I automate the
+              I build automated
             </motion.span>
           </span>
           <span className="hero__line" aria-hidden="true">
@@ -71,7 +70,7 @@ export default function Hero() {
               animate={{ y: 0 }}
               transition={{ duration: 0.85, ease: EASE, delay: 0.58 }}
             >
-              <span className="hero__highlight">boring work</span> agencies
+              systems for agencies
             </motion.span>
           </span>
           <span className="hero__line" aria-hidden="true">
@@ -80,16 +79,36 @@ export default function Hero() {
               animate={{ y: 0 }}
               transition={{ duration: 0.85, ease: EASE, delay: 0.66 }}
             >
-              still do by hand.
+              losing money to
+            </motion.span>
+          </span>
+          <span className="hero__line" aria-hidden="true">
+            <motion.span
+              initial={{ y: yHidden }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.85, ease: EASE, delay: 0.74 }}
+            >
+              <span className="hero__highlight">manual work.</span>
+            </motion.span>
+          </span>
+          {/* Second sentence, stepped down so the claim stays the loudest
+              thing on the page and this reads as the promise under it. */}
+          <span className="hero__line hero__line--kicker" aria-hidden="true">
+            <motion.span
+              initial={{ y: yHidden }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.85, ease: EASE, delay: 0.82 }}
+            >
+              You see the math before you pay.
             </motion.span>
           </span>
         </h1>
 
         <motion.div className="hero__foot" {...fadeUp(0.7)}>
-          <Link className="btn" href="/hours" data-cursor="See the math">
+          <a className="btn" href="#calculator" data-cursor="See the math">
             See what it costs
             <ArrowRight size={16} weight="bold" />
-          </Link>
+          </a>
         </motion.div>
 
         <motion.p className="hero__audit" {...fadeUp(0.82)}>

@@ -8,17 +8,16 @@ import Words from "./Words";
 // maximize width - a few very long lines next to a couple of short ones
 // read as uneven even if none of them wrap badly.
 const LINES = [
-  "Someone on your team spends their week pulling reports,",
-  "chasing follow ups, and moving data between tools.",
-  "Every new client adds 15 to 20 hours of that every",
-  "month, and none of it lands on an invoice.",
-  "I build systems that do the work instead, so the",
-  "next client doesn't force the next hire.",
+  "Pulling reports, chasing follow ups, moving data",
+  "between tools. That work costs you payroll and clients.",
+  "Before anything gets built, you see the math, what the",
+  "system replaces, what it returns, and when it",
+  "covers its cost. If it doesn't add up, I tell you.",
 ];
 
-// The problem (first four lines) stays dimmed; the payoff (last two) reads
+// The problem (first two lines) stays dimmed; the promise (last three) reads
 // at full strength.
-const DIM_COUNT = 4;
+const DIM_COUNT = 2;
 
 export default function Statement() {
   return (

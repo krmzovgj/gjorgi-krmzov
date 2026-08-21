@@ -7,7 +7,7 @@ export default function Contact() {
     <section className="contact wrap" id="contact">
       <Reveal>
         <h2 className="contact__cta">
-          <Words text="Let's automate the boring work" />
+          <Words text="Tell me the job you want automated" />
         </h2>
         <div className="contact__actions">
           <a
@@ -17,7 +17,7 @@ export default function Contact() {
             rel="noopener"
             data-cursor="Let's talk"
           >
-            Tell me the job you want automated
+            Book a 30 minute call
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M5 12h14M13 6l6 6-6 6"

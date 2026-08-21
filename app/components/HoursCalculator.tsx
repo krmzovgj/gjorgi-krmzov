@@ -77,7 +77,18 @@ const num = (v: string) => {
   return Number.isFinite(n) && n > 0 ? n : 0;
 };
 
-export default function HoursCalculator() {
+// Rendered in two places: inline on the homepage (a section under the
+// statement) and as the whole of /hours, which is linked from LinkedIn. The
+// only difference is heading level - standalone it owns the page's h1, inline
+// the page's h1 is the hero and this steps down to h2.
+export default function HoursCalculator({
+  standalone = false,
+}: {
+  standalone?: boolean;
+}) {
+  const Title = standalone ? "h1" : "h2";
+  const Sub = standalone ? "h2" : "h3";
+
   const [hours, setHours] = useState<Record<string, string>>(() =>
     Object.fromEntries(FIELDS.map((f) => [f.id, String(f.value)]))
   );
@@ -97,17 +108,17 @@ export default function HoursCalculator() {
   const hasHours = weekly > 0;
 
   return (
-    // A section, not a page: this lives inline on the homepage, so the h1 and
-    // <main> belong to the page around it. #calculator is the hero CTA's target.
+    // Always a section, never a <main>: the page around it owns that.
+    // #calculator is the homepage hero CTA's scroll target.
     <section className="hours" id="calculator">
       <Reveal className="hours__head wrap">
-        <h2 className="hours__title">What doing it by hand costs.</h2>
+        <Title className="hours__title">What doing it by hand costs.</Title>
       </Reveal>
 
       <div className="hours__calc wrap">
         <div className="hours__grid">
           <div className="hours__inputs">
-            <h3 className="hours__sub">Your week, in hours</h3>
+            <Sub className="hours__sub">Your week, in hours</Sub>
             <div className="hours__fields">
               {FIELDS.map((f) => (
                 // The whole row is the label, so a press anywhere on it (the

@@ -53,7 +53,7 @@ export default function Hero() {
 
         <h1
           className="hero__title"
-          aria-label="I build automated systems for agencies losing money to manual work. You see the math before you pay."
+          aria-label="I build automated systems for agencies losing money to manual work."
         >
           <span className="hero__line" aria-hidden="true">
             <motion.span
@@ -89,17 +89,6 @@ export default function Hero() {
               transition={{ duration: 0.85, ease: EASE, delay: 0.74 }}
             >
               <span className="hero__highlight">manual work.</span>
-            </motion.span>
-          </span>
-          {/* Second sentence, stepped down so the claim stays the loudest
-              thing on the page and this reads as the promise under it. */}
-          <span className="hero__line hero__line--kicker" aria-hidden="true">
-            <motion.span
-              initial={{ y: yHidden }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.85, ease: EASE, delay: 0.82 }}
-            >
-              You see the math before you pay.
             </motion.span>
           </span>
         </h1>

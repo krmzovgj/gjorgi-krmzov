@@ -446,9 +446,10 @@ video {
   /* Keep glyph proportions constant across sizes so line width is predictable
      (Bricolage's auto optical sizing widens small text and breaks the wrap). */
   font-optical-sizing: none;
-  /* Long line is ~10.3em wide; 8vw keeps it on one line at every width and
-     tops out near the reference's ~133px on large screens. */
-  font-size: clamp(2.6rem, 8vw, 8.5rem);
+  /* Longest line ("systems for agencies") is ~20ch. Slightly under the old
+     8vw because the headline is now 4 lines plus a kicker, so it has to earn
+     its extra height back somewhere. */
+  font-size: clamp(2.2rem, 7vw, 7.4rem);
   font-weight: 350;
   line-height: 0.5;
   letter-spacing: -0.03em;
@@ -478,6 +479,16 @@ video {
    type, and a solid badge here was already tried and reverted. */
 .hero__highlight {
   font-weight: 400;
+}
+
+/* The headline's second sentence. Stepped well down from the claim above it
+   so the hierarchy still reads as one loud statement plus its promise,
+   rather than two competing headlines. Size alone carries the hierarchy -
+   no colour change, since the parent's difference blend would make any
+   dimmed ink read unpredictably over the portrait. */
+.hero__line--kicker {
+  font-size: 0.44em;
+  margin-top: 0.55em;
 }
 
 .hero__foot {
@@ -557,10 +568,15 @@ video {
   /* Keep nowrap + the mask (overflow: hidden from the base rule) so the line
      rise still works on mobile; only the size steps down. The vw size keeps each
      line on one visual line, so the tight line-height never overlaps wraps.
-     Sized up from 8.85vw; the longest line ("boring work agencies") still
-     clears the gutters at 320px (verified at 320-430px). */
+     The longest line ("systems for agencies") still clears the gutters at
+     320px (verified at 320-430px). */
   .hero__title {
-    font-size: clamp(1.85rem, 9.6vw, 3.1rem);
+    font-size: clamp(1.75rem, 9vw, 2.9rem);
+  }
+  /* 0.44em of an already-small headline lands under body size on a phone,
+     so give the kicker back some of its ratio here. */
+  .hero__line--kicker {
+    font-size: 0.62em;
   }
 }
 

@@ -97,15 +97,17 @@ export default function HoursCalculator() {
   const hasHours = weekly > 0;
 
   return (
-    <main className="hours">
+    // A section, not a page: this lives inline on the homepage, so the h1 and
+    // <main> belong to the page around it. #calculator is the hero CTA's target.
+    <section className="hours" id="calculator">
       <Reveal className="hours__head wrap">
-        <h1 className="hours__title">What doing it by hand costs.</h1>
+        <h2 className="hours__title">What doing it by hand costs.</h2>
       </Reveal>
 
-      <section className="hours__calc wrap">
+      <div className="hours__calc wrap">
         <div className="hours__grid">
           <div className="hours__inputs">
-            <h2 className="hours__sub">Your week, in hours</h2>
+            <h3 className="hours__sub">Your week, in hours</h3>
             <div className="hours__fields">
               {FIELDS.map((f) => (
                 // The whole row is the label, so a press anywhere on it (the
@@ -216,7 +218,7 @@ export default function HoursCalculator() {
             </div>
           </aside>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
   );
 }

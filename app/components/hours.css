@@ -1,5 +1,5 @@
 /* =================================================================
-   Hours calculator (/hours).
+   Hours calculator (#calculator, inline on the homepage).
    A self-serve cost calculator: list the repetitive work, watch the
    yearly cost add up live. Same editorial system as the rest of the
    site. Inputs on the left, a sticky result panel on the right with
@@ -7,8 +7,11 @@
    ================================================================= */
 .hours {
   background: var(--bg);
-  padding-top: clamp(6.5rem, 14vh, 10rem);
-  padding-bottom: clamp(5rem, 12vh, 9rem);
+  /* Section rhythm, matching .section - this is one section among several
+     now, not a standalone page clearing the fixed nav. */
+  padding-block: var(--section-y);
+  /* The hero CTA jumps here, so keep the heading clear of the fixed nav. */
+  scroll-margin-top: clamp(4.5rem, 9vh, 6rem);
 }
 
 /* ---- head: big statement + one line of real copy ---- */
@@ -18,7 +21,9 @@
 .hours__title {
   font-family: var(--font-display), system-ui, sans-serif;
   font-optical-sizing: none;
-  font-size: clamp(2.4rem, 7vw, 6rem);
+  /* Section scale, matching .section__title - this is a section heading among
+     several now, not the h1 of its own page. */
+  font-size: var(--fs-h2);
   font-weight: 350;
   line-height: 0.95;
   letter-spacing: -0.035em;

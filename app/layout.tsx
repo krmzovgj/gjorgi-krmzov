@@ -17,7 +17,8 @@ const display = Bricolage_Grotesque({
 const SITE = "https://www.krmzov.com";
 
 // Outcome-led, niche-named, no job title (DESIGN.md voice rule).
-const TITLE = "Gjorgi Krmzov. AI automation systems for agencies";
+const TITLE =
+  "Gjorgi Krmzov - Automated systems for agencies losing money to manual work";
 const DESCRIPTION =
   "I automate the boring work agencies still do by hand. 15 systems, 50+ hours a week back. n8n + Claude.";
 

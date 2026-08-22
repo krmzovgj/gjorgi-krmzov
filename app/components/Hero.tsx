@@ -7,6 +7,51 @@ import { AUDIT_URL, withUtm } from "../config";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
+const HEADLINE = "I build automated systems for agencies losing money to manual work.";
+
+// Two sets of controlled line breaks for the same sentence, one shown at a
+// time (globals.css). Wide lines run ~25ch and deliberately cross the
+// portrait. Narrow lines run ~20ch, which is what lets the phone size step
+// up: at the wide breaks the longest line already nearly fills a 390px
+// screen, so the type could not grow without clipping.
+type Segment = { text: string; emph?: boolean };
+
+const WIDE: Segment[][] = [
+  [{ text: "I build automated systems" }],
+  [{ text: "for agencies losing money" }],
+  [{ text: "to " }, { text: "manual work.", emph: true }],
+];
+
+const NARROW: Segment[][] = [
+  [{ text: "I build automated" }],
+  [{ text: "systems for agencies" }],
+  [{ text: "losing money to" }],
+  [{ text: "manual work.", emph: true }],
+];
+
+// Each line is masked (overflow: hidden) and rises into place, staggered.
+function renderLines(lines: Segment[][], yHidden: number | string) {
+  return lines.map((segments, i) => (
+    <span className="hero__line" key={i} aria-hidden="true">
+      <motion.span
+        initial={{ y: yHidden }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.85, ease: EASE, delay: 0.5 + i * 0.08 }}
+      >
+        {segments.map((s, j) =>
+          s.emph ? (
+            <span className="hero__highlight" key={j}>
+              {s.text}
+            </span>
+          ) : (
+            s.text
+          )
+        )}
+      </motion.span>
+    </span>
+  ));
+}
+
 export default function Hero() {
   const reduce = useReducedMotion();
   // line-height is 0.6, so the glyphs are ~1.2em tall and overflow their line
@@ -51,40 +96,17 @@ export default function Hero() {
           <span>{"I'm Gjorgi Krmzov"}</span>
         </motion.p>
 
-        <h1
-          className="hero__title"
-          aria-label="I build automated systems for agencies losing money to manual work."
-        >
-          {/* Three lines, deliberately wide enough that the tail of lines 1
-              and 2 crosses the portrait. mix-blend-mode on .hero__title
-              inverts the type over the photo, so the overlap stays legible
-              and reads as the intended composition. */}
-          <span className="hero__line" aria-hidden="true">
-            <motion.span
-              initial={{ y: yHidden }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.85, ease: EASE, delay: 0.5 }}
-            >
-              I build automated systems
-            </motion.span>
+        {/* The h1 carries the whole sentence for screen readers; both visual
+            line sets are aria-hidden, so rendering two of them costs nothing
+            in the accessibility tree. On wide screens the lines deliberately
+            cross the portrait - mix-blend-mode on .hero__title inverts the
+            type over the photo, so the overlap stays legible. */}
+        <h1 className="hero__title" aria-label={HEADLINE}>
+          <span className="hero__lines hero__lines--wide">
+            {renderLines(WIDE, yHidden)}
           </span>
-          <span className="hero__line" aria-hidden="true">
-            <motion.span
-              initial={{ y: yHidden }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.85, ease: EASE, delay: 0.58 }}
-            >
-              for agencies losing money
-            </motion.span>
-          </span>
-          <span className="hero__line" aria-hidden="true">
-            <motion.span
-              initial={{ y: yHidden }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.85, ease: EASE, delay: 0.66 }}
-            >
-              to <span className="hero__highlight">manual work.</span>
-            </motion.span>
+          <span className="hero__lines hero__lines--narrow">
+            {renderLines(NARROW, yHidden)}
           </span>
         </h1>
 

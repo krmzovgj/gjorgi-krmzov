@@ -29,7 +29,11 @@
   --fs-hero: clamp(2.4rem, 8vw, 8.5rem);
   --fs-wordmark: clamp(3rem, 15.5vw, 14rem);
   --fs-statement: clamp(1.9rem, 6vw, 5.5rem);
-  --fs-h2: clamp(1.7rem, 5vw, 4.5rem);
+  /* The floor drives every section heading on phones (5vw is far below it
+     there). At 1.7rem a heading sat only ~1.3x its own sub-heading and stopped
+     reading as a heading at all, so the floor is raised; wide screens are
+     unaffected, they ride the 5vw / 4.5rem end. */
+  --fs-h2: clamp(2.35rem, 5vw, 4.5rem);
   --fs-work: clamp(1.9rem, 5.6vw, 5rem);
   --fs-stat: clamp(4.5rem, 13vw, 12rem);
   --fs-index: clamp(1rem, 2.2vw, 1.7rem);
@@ -459,6 +463,25 @@ video {
   mix-blend-mode: difference;
 }
 
+/* Two line sets, one shown per breakpoint (see Hero.tsx). The narrow set's
+   shorter lines are what let the phone font size step up. */
+.hero__lines {
+  display: block;
+}
+
+.hero__lines--narrow {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .hero__lines--wide {
+    display: none;
+  }
+  .hero__lines--narrow {
+    display: block;
+  }
+}
+
 .hero__line {
   display: block;
   overflow: hidden;
@@ -558,10 +581,11 @@ video {
   /* Keep nowrap + the mask (overflow: hidden from the base rule) so the line
      rise still works on mobile; only the size steps down. The vw size keeps each
      line on one visual line, so the tight line-height never overlaps wraps.
-     The longest line ("I build automated systems") still clears the gutters
-     at 320px (verified at 320-430px). */
+     The narrow line set tops out at ~20ch ("systems for agencies") instead of
+     25ch, which buys roughly a third more type size at the same gutters.
+     Verified 320-430px: longest line still clears the gutters. */
   .hero__title {
-    font-size: clamp(1.5rem, 7.7vw, 2.5rem);
+    font-size: clamp(1.95rem, 9.9vw, 3.2rem);
   }
 }
 
@@ -656,6 +680,29 @@ video {
 
 .statement p {
   margin-block: 0.08em;
+}
+
+/* Authored line breaks (Statement.tsx). They only make sense while each one
+   fits on a single visual line. */
+.statement__line {
+  display: block;
+}
+
+/* Phones: a 50-char authored line wraps anyway and leaves one or two words
+   stranded on their own line, so drop the breaks and let the prose reflow.
+   The paragraph split between problem and promise still stands. */
+@media (max-width: 760px) {
+  .statement__line {
+    display: inline;
+  }
+  .statement__block + .statement__block {
+    margin-top: 0.6em;
+  }
+  /* Keeps the reflowed prose from ending a paragraph on a single short word.
+     Ignored by browsers that don't support it, which just get the plain wrap. */
+  .statement p {
+    text-wrap: pretty;
+  }
 }
 
 /* The statement sits right under the hero; on desktop the portrait bleeds down

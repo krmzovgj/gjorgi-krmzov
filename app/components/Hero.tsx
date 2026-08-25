@@ -7,26 +7,26 @@ import { AUDIT_URL, withUtm } from "../config";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const HEADLINE = "I build automated systems for agencies losing money to manual work.";
+const HEADLINE = "I build automated account management systems for agencies.";
 
 // Two sets of controlled line breaks for the same sentence, one shown at a
-// time (globals.css). Wide lines run ~25ch and deliberately cross the
-// portrait. Narrow lines run ~20ch, which is what lets the phone size step
-// up: at the wide breaks the longest line already nearly fills a 390px
-// screen, so the type could not grow without clipping.
+// time (globals.css). Wide lines run long enough to cross the portrait on
+// purpose. Narrow lines are shorter, which is what lets the phone size step
+// up: at the wide breaks the longest line nearly fills a 390px screen, so the
+// type could not grow there without clipping.
 type Segment = { text: string; emph?: boolean };
 
 const WIDE: Segment[][] = [
-  [{ text: "I build automated systems" }],
-  [{ text: "for agencies losing money" }],
-  [{ text: "to " }, { text: "manual work.", emph: true }],
+  [{ text: "I build automated" }],
+  [{ text: "account management" }],
+  [{ text: "systems for " }, { text: "agencies.", emph: true }],
 ];
 
 const NARROW: Segment[][] = [
-  [{ text: "I build automated" }],
-  [{ text: "systems for agencies" }],
-  [{ text: "losing money to" }],
-  [{ text: "manual work.", emph: true }],
+  [{ text: "I build" }],
+  [{ text: "automated account" }],
+  [{ text: "management systems" }],
+  [{ text: "for " }, { text: "agencies.", emph: true }],
 ];
 
 // Each line is masked (overflow: hidden) and rises into place, staggered.
@@ -111,8 +111,8 @@ export default function Hero() {
         </h1>
 
         <motion.div className="hero__foot" {...fadeUp(0.7)}>
-          <a className="btn" href="#calculator" data-cursor="See the math">
-            See what it costs
+          <a className="btn" href="#what-first" data-cursor="Start here">
+            See what to automate first
             <ArrowRight size={16} weight="bold" />
           </a>
         </motion.div>

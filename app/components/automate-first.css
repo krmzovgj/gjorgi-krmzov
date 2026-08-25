@@ -125,7 +125,8 @@
   gap: 1.25rem;
   margin-top: clamp(1.5rem, 3vw, 2.25rem);
   padding-block: clamp(0.85rem, 1.6vw, 1.15rem);
-  border-top: 1px solid var(--line);
+  /* No top rule: the last option row already closes with one, and a second
+     line a short gap below it read as a doubled separator. */
   border-bottom: 1px solid var(--line);
   cursor: pointer;
 }

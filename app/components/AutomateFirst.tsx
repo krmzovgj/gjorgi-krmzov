@@ -188,7 +188,7 @@ export default function AutomateFirst({
                 rel="noopener"
                 data-cursor="Let's talk"
               >
-                Book 20 minutes
+                Book 30 minutes
                 <ArrowRight size={16} weight="bold" />
               </a>
               <p className="af__carry">

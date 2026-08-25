@@ -188,6 +188,12 @@
 }
 
 /* ---- the figure block: the number and what it is in days ---- */
+/* Less tracked than the shared .label: at this size, sitting directly above
+   the big figure, the wide default read as gappy rather than quiet. */
+.af__out-label {
+  letter-spacing: 0.08em;
+}
+
 .af__total {
   margin-top: 0.6rem;
   display: flex;

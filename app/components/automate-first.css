@@ -1,0 +1,264 @@
+/* =================================================================
+   "What should you automate first?" (#what-first, inline on the
+   homepage and the whole of /hours).
+
+   Replaces the hours calculator. That one asked for nine hour
+   estimates plus an hourly rate before it said anything, which is
+   homework, and it answered with a cost figure the reader can argue
+   with. This asks three yes/no questions a founder can answer from
+   memory and answers with a recommendation instead of a number.
+   Same editorial system: hairline rows, pill controls, one panel.
+   ================================================================= */
+.af {
+  background: var(--bg);
+  padding-block: var(--section-y);
+  /* The hero CTA jumps here, so keep the heading clear of the fixed nav. */
+  scroll-margin-top: clamp(4.5rem, 9vh, 6rem);
+}
+
+.af__head {
+  margin-bottom: clamp(2.75rem, 6vw, 5rem);
+}
+
+.af__title {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-optical-sizing: none;
+  /* Section scale, matching .section__title. */
+  font-size: var(--fs-h2);
+  font-weight: 350;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  max-width: 16ch;
+}
+
+.af__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 5vw, 4rem);
+}
+
+/* ---- left: the three questions ---- */
+.af__q {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+}
+
+.af__opts {
+  border-top: 1px solid var(--line);
+}
+
+/* One option row. The whole row is the <label>, so a press anywhere on it
+   toggles - the tick box is a target, not the only target. */
+.af-opt {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 2vw, 1.15rem);
+  padding-block: clamp(1rem, 1.9vw, 1.35rem);
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+
+/* Kept in the accessibility tree and focusable, just not painted. */
+.af-opt__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.af-opt__box {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--bg-2);
+  color: transparent;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+}
+
+.af-opt:hover .af-opt__box {
+  border-color: var(--text);
+}
+
+.af-opt__input:checked + .af-opt__box {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+
+.af-opt__input:focus-visible + .af-opt__box {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.af-opt__label {
+  font-size: clamp(1rem, 1.2vw, 1.12rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color var(--dur) var(--ease);
+}
+
+.af-opt__input:checked ~ .af-opt__label {
+  color: var(--text);
+}
+
+/* ---- the client count, revealed once something is ticked ---- */
+.af-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  padding-block: clamp(0.85rem, 1.6vw, 1.15rem);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+
+.af-count__label {
+  font-size: clamp(1rem, 1.2vw, 1.12rem);
+  letter-spacing: -0.01em;
+  cursor: pointer;
+}
+
+.af-count__control {
+  display: inline-flex;
+  align-items: baseline;
+  flex: 0 0 auto;
+  padding: 0.45rem 0.85rem;
+  background: var(--bg-2);
+  /* Borderless at rest; the border is the focus indicator, and keeping the
+     box transparent means focus never shifts the layout. */
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  transition: border-color var(--dur) var(--ease);
+}
+
+.af-count__control:focus-within {
+  border-color: var(--text);
+}
+
+.af-count__input {
+  width: 3.5ch;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  cursor: text;
+  /* Native spinners off; the field is type-and-go. */
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.af-count__input:focus {
+  outline: none;
+}
+
+.af-count__input::-webkit-outer-spin-button,
+.af-count__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ---- right: the verdict panel ---- */
+.af__out {
+  background: var(--bg-2);
+  border-radius: var(--r-lg);
+  padding: clamp(1.75rem, 3vw, 2.75rem);
+}
+
+.af__empty {
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--text-dim);
+  max-width: 32ch;
+}
+
+.af__out-label {
+  margin-bottom: 0.75rem;
+}
+
+.af__lead {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-optical-sizing: none;
+  font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--text);
+}
+
+.af__why {
+  margin-top: clamp(0.9rem, 1.8vw, 1.25rem);
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--text-dim);
+}
+
+/* ---- the ask, pinned under the verdict ---- */
+.af__cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+  padding-top: clamp(1.5rem, 2.5vw, 2rem);
+  border-top: 1px solid var(--line);
+}
+
+/* Tells the reader the ticks are not going into a void. */
+.af__carry {
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--text-dim);
+  max-width: 34ch;
+  margin-top: -0.25rem;
+}
+
+.af__dm {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color var(--dur) var(--ease);
+}
+
+.af__dm:hover {
+  color: var(--text);
+}
+
+/* ---- desktop: two columns, verdict sticky so it stays in view ---- */
+@media (min-width: 1000px) {
+  .af__grid {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(3rem, 5vw, 5rem);
+    align-items: start;
+  }
+  .af__out {
+    position: sticky;
+    top: clamp(5.5rem, 12vh, 8rem);
+  }
+}

@@ -9,39 +9,60 @@ import "./automate-first.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-// Array order IS the recommendation precedence: the first ticked job wins, so
-// onboarding beats chasing beats reporting. That covers all seven
-// combinations without a lookup table.
+// How long each job takes by hand. These rates ARE the tool: everything on
+// screen is derived from them, so they are the one thing worth arguing about.
+// Deliberately conservative, so the total reads as a floor rather than a
+// stretch.
+const HOURS = {
+  // Kickoff, access, folders, tools. Once per client, not monthly.
+  onboardingEach: 4,
+  // Twenty minutes a client a month, spread over the chasing nobody logs.
+  chasingPerClientMonth: 1 / 3,
+  // The pull is quick. Assembly, checking and the summary are the rest.
+  reportPerClientMonth: 1.5,
+};
+
+const WORKING_DAY = 8;
+const MONTHS = 12;
+
+// One label per job, used by the tick row AND the breakdown row, so the two
+// never drift apart. `name` is the short form for the sentence.
 const JOBS = [
   {
     id: "onboarding",
-    short: "onboarding",
-    label: "Setting up a new client",
-    lead: "Start with onboarding.",
-    verdict: () =>
-      "Fastest to build, and it pays back on every client you sign from here.",
+    label: "Onboarding a new client",
+    name: "onboarding",
+    // One time per new client, so it has no monthly figure to show.
+    oneOff: true,
+    yearly: (clients: number, newClients: number) =>
+      newClients * HOURS.onboardingEach,
+    monthly: () => 0,
   },
   {
     id: "chasing",
-    short: "chasing access and approvals",
     label: "Chasing clients for access, files and approvals",
-    lead: "Start with chasing.",
-    verdict: (clients: number) =>
-      `Cheapest of the three, and it stops someone holding ${clients} ${
-        clients === 1 ? "client" : "clients"
-      } in their head.`,
+    name: "chasing",
+    oneOff: false,
+    yearly: (clients: number) =>
+      clients * HOURS.chasingPerClientMonth * MONTHS,
+    monthly: (clients: number) => clients * HOURS.chasingPerClientMonth,
   },
   {
     id: "reporting",
-    short: "the monthly report",
     label: "The monthly client report",
-    lead: "Start with reporting.",
-    verdict: () =>
-      "The data pull is the easy half. The assembly, the checking and the summary are where the time goes.",
+    name: "the monthly report",
+    oneOff: false,
+    yearly: (clients: number) => clients * HOURS.reportPerClientMonth * MONTHS,
+    monthly: (clients: number) => clients * HOURS.reportPerClientMonth,
   },
 ] as const;
 
-const DEFAULT_CLIENTS = "12";
+const round = (n: number) => Math.round(n);
+const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
+
+// Everything starts ticked. An empty tool says nothing, and unticking what
+// you already automated is less work than ticking what you have not.
+const ALL_ON = Object.fromEntries(JOBS.map((j) => [j.id, true]));
 
 // Rendered inline on the homepage and as the whole of /hours. Standalone it
 // owns the page's h1; inline the hero owns it and this steps down to h2.
@@ -54,32 +75,57 @@ export default function AutomateFirst({
   const Sub = standalone ? "h2" : "h3";
 
   const reduce = useReducedMotion();
-  const [picked, setPicked] = useState<Record<string, boolean>>({});
-  const [clients, setClients] = useState(DEFAULT_CLIENTS);
+  const [picked, setPicked] = useState<Record<string, boolean>>(ALL_ON);
+  const [clients, setClients] = useState("12");
+  const [newClients, setNewClients] = useState("6");
 
-  const toggle = (id: string) =>
-    setPicked((p) => ({ ...p, [id]: !p[id] }));
+  const num = (v: string) => Math.max(0, Math.round(Number(v) || 0));
+  const nClients = num(clients);
+  const nNew = num(newClients);
 
-  const lead = JOBS.find((j) => picked[j.id]);
-  const count = Math.max(1, Math.round(Number(clients) || 0));
+  const rows = JOBS.filter((j) => picked[j.id]).map((j) => ({
+    ...j,
+    hrs: j.yearly(nClients, nNew),
+    perMonth: j.monthly(nClients),
+  }));
 
-  // Without this the answers would die in the browser: the reader would fill
-  // three things in and arrive at the booking as a stranger. Cal prefills its
-  // notes field from the query string, so the answers travel with the booking
-  // and the call opens on them instead of on "so what do you do?".
-  const chosen = JOBS.filter((j) => picked[j.id]);
+  const total = rows.reduce((sum, r) => sum + r.hrs, 0);
+  const days = total / WORKING_DAY;
+
+  // The biggest number wins, not a fixed running order. That arithmetic is
+  // what makes the recommendation worth printing: with three ticks and no
+  // breakdown, naming a winner was just repeating the input back.
+  const lead = rows.reduce(
+    (max, r) => (r.hrs > (max?.hrs ?? -1) ? r : max),
+    undefined as (typeof rows)[number] | undefined
+  );
+
+  const verdict =
+    !lead || total === 0
+      ? null
+      : rows.length === 1
+        ? `Start with ${lead.name}. That is ${round(lead.hrs)} hours a year.`
+        : `Start with ${lead.name}. It is ${round(lead.hrs)} of those ${round(
+            total
+          )} hours.`;
+
+  // Carries the answers to the booking, so the call opens on their numbers
+  // instead of on "so what do you do?".
   const booking = lead
     ? `${withUtm(AUDIT_URL, "what-first")}&notes=${encodeURIComponent(
-        `Still by hand: ${chosen.map((j) => j.short).join(", ")}. ` +
-          `${count} ${count === 1 ? "client" : "clients"}. ` +
-          `Fixing first: ${lead.short}.`
+        `By hand: ${rows.map((r) => `${r.name} ${round(r.hrs)}h`).join(", ")}. ` +
+          `${round(total)}h a year across ${nClients} ${plural(
+            nClients,
+            "client",
+            "clients"
+          )}, ${nNew} new last year. Starting with ${lead.name}.`
       )}`
     : withUtm(AUDIT_URL, "what-first");
 
-  const reveal = (delay: number) => ({
-    initial: { opacity: 0, y: reduce ? 0 : 12 },
+  const fade = (delay = 0) => ({
+    initial: { opacity: 0, y: reduce ? 0 : 10 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.5, ease: EASE, delay: reduce ? 0 : delay },
+    transition: { duration: 0.45, ease: EASE, delay: reduce ? 0 : delay },
   });
 
   return (
@@ -100,7 +146,9 @@ export default function AutomateFirst({
                     type="checkbox"
                     className="af-opt__input"
                     checked={!!picked[job.id]}
-                    onChange={() => toggle(job.id)}
+                    onChange={() =>
+                      setPicked((p) => ({ ...p, [job.id]: !p[job.id] }))
+                    }
                   />
                   <span className="af-opt__box" aria-hidden="true">
                     <Check size={15} weight="bold" />
@@ -110,66 +158,105 @@ export default function AutomateFirst({
               ))}
             </div>
 
-            {/* Only worth asking once something is ticked, and it only feeds
-                the chasing verdict, so it stays out of the way until then. */}
-            {lead && (
-              <motion.label className="af-count" htmlFor="af-clients" {...reveal(0.05)}>
-                <span className="af-count__label">How many clients?</span>
-                <span className="af-count__control">
-                  <input
-                    id="af-clients"
-                    className="af-count__input"
-                    type="number"
-                    inputMode="numeric"
-                    min="1"
-                    step="1"
-                    value={clients}
-                    onChange={(e) => setClients(e.target.value)}
-                  />
-                </span>
-              </motion.label>
-            )}
+            <label className="af-count" htmlFor="af-clients">
+              <span className="af-count__label">How many clients do you have?</span>
+              <span className="af-count__control">
+                <input
+                  id="af-clients"
+                  className="af-count__input"
+                  type="number"
+                  inputMode="numeric"
+                  min="0"
+                  step="1"
+                  value={clients}
+                  onChange={(e) => setClients(e.target.value)}
+                />
+              </span>
+            </label>
+
+            {/* Last year, not next year: a number they can look up beats one
+                they invent, and it is the same input either way. */}
+            <label className="af-count af-count--tight" htmlFor="af-new">
+              <span className="af-count__label">
+                How many new clients did you take on last year?
+              </span>
+              <span className="af-count__control">
+                <input
+                  id="af-new"
+                  className="af-count__input"
+                  type="number"
+                  inputMode="numeric"
+                  min="0"
+                  step="1"
+                  value={newClients}
+                  onChange={(e) => setNewClients(e.target.value)}
+                />
+              </span>
+            </label>
           </div>
 
           <aside className="af__out" aria-live="polite">
-            {lead ? (
-              <motion.div key={lead.id} {...reveal(0)}>
-                <p className="af__out-label label">Fix this first</p>
-                <p className="af__lead">{lead.lead}</p>
-                <p className="af__why">{lead.verdict(count)}</p>
+            <p className="af__out-label label">By hand, every year</p>
+            <p className="af__total" aria-label={`${round(total)} hours a year`}>
+              {round(total)}
+              <span className="af__total-unit">
+                {plural(round(total), "hour", "hours")}
+              </span>
+            </p>
+            <p className="af__days">
+              {days % 1 === 0 ? days : days.toFixed(1)}{" "}
+              {plural(days, "working day", "working days")}
+            </p>
 
-                <div className="af__cta">
-                  <a
-                    className="btn"
-                    href={booking}
-                    target="_blank"
-                    rel="noopener"
-                    data-cursor="Let's talk"
-                  >
-                    Book the 30 min mapping call
-                    <ArrowRight size={16} weight="bold" />
-                  </a>
-                  <p className="af__carry">
-                    Your answers come with the booking, so the call starts here
-                    instead of at the beginning.
-                  </p>
-                  <a
-                    className="af__dm"
-                    href={LINKEDIN_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                    data-cursor="Connect"
-                  >
-                    or DM me
-                  </a>
-                </div>
+            {rows.length > 0 ? (
+              <motion.div key={rows.map((r) => r.id).join()} {...fade()}>
+                <dl className="af-break">
+                  {rows.map((r) => (
+                    <div className="af-break__row" key={r.id}>
+                      <dt className="af-break__job">{r.label}</dt>
+                      <dd className="af-break__rate">
+                        {r.oneOff
+                          ? `one time, ${nNew} ${plural(nNew, "client", "clients")}`
+                          : `${round(r.perMonth)} h/mo`}
+                      </dd>
+                      <dd className="af-break__hrs">{round(r.hrs)} h</dd>
+                    </div>
+                  ))}
+                </dl>
+
+                {verdict && <p className="af__verdict">{verdict}</p>}
               </motion.div>
             ) : (
-              <p className="af__empty">
-                Tick whichever still happens by hand. I&apos;ll tell you which
-                one to fix first.
+              <p className="af__verdict">
+                Tick one back on to see where the year goes.
               </p>
             )}
+
+            <div className="af__cta">
+              <a
+                className="btn"
+                href={booking}
+                target="_blank"
+                rel="noopener"
+                data-cursor="Let's talk"
+              >
+                Book the 30 min mapping call
+                <ArrowRight size={16} weight="bold" />
+              </a>
+              <p className="af__carry">
+                Your answers come with the booking, so the call starts here
+                instead of at the beginning.
+              </p>
+              <a
+                className="af__dm"
+                href={LINKEDIN_URL}
+                target="_blank"
+                rel="noreferrer"
+                data-cursor="Connect"
+              >
+                or DM me
+              </a>
+            </div>
           </aside>
         </div>
       </div>

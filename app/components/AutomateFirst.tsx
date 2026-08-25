@@ -9,60 +9,41 @@ import "./automate-first.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-// How long each job takes by hand. These rates ARE the tool: everything on
-// screen is derived from them, so they are the one thing worth arguing about.
-// Deliberately conservative, so the total reads as a floor rather than a
-// stretch.
-const HOURS = {
-  // Kickoff, access, folders, tools. Once per client, not monthly.
-  onboardingEach: 4,
-  // Twenty minutes a client a month, spread over the chasing nobody logs.
-  chasingPerClientMonth: 1 / 3,
-  // The pull is quick. Assembly, checking and the summary are the rest.
-  reportPerClientMonth: 1.5,
-};
+// How long each job takes by hand, per client per month. These two numbers
+// ARE the tool: everything on screen is derived from them and the client
+// count, which is why no second input is needed.
+const HRS_PER_REPORT = 1.5;
+const HRS_CHASING_PER_CLIENT_MONTH = 0.5;
 
-const WORKING_DAY = 8;
 const MONTHS = 12;
+const WORKING_DAY = 8;
 
-// One label per job, used by the tick row AND the breakdown row, so the two
-// never drift apart. `name` is the short form for the sentence.
+// Onboarding is deliberately absent. It is one time per signed client, so
+// being honest about it needs its own input, and that input is the friction.
+// It stays in the offer, not in the tool.
+//
+// One label per job, used by the tick row AND the result row, so the two can
+// never drift apart. `name` is the short form for the recommendation.
 const JOBS = [
-  {
-    id: "onboarding",
-    label: "Onboarding a new client",
-    name: "onboarding",
-    // One time per new client, so it has no monthly figure to show.
-    oneOff: true,
-    yearly: (clients: number, newClients: number) =>
-      newClients * HOURS.onboardingEach,
-    monthly: () => 0,
-  },
   {
     id: "chasing",
     label: "Chasing clients for access, files and approvals",
     name: "chasing",
-    oneOff: false,
-    yearly: (clients: number) =>
-      clients * HOURS.chasingPerClientMonth * MONTHS,
-    monthly: (clients: number) => clients * HOURS.chasingPerClientMonth,
+    rate: HRS_CHASING_PER_CLIENT_MONTH,
   },
   {
     id: "reporting",
     label: "The monthly client report",
     name: "the monthly report",
-    oneOff: false,
-    yearly: (clients: number) => clients * HOURS.reportPerClientMonth * MONTHS,
-    monthly: (clients: number) => clients * HOURS.reportPerClientMonth,
+    rate: HRS_PER_REPORT,
   },
 ] as const;
 
-const round = (n: number) => Math.round(n);
-const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
-
-// Everything starts ticked. An empty tool says nothing, and unticking what
-// you already automated is less work than ticking what you have not.
 const ALL_ON = Object.fromEntries(JOBS.map((j) => [j.id, true]));
+
+const plural = (n: number, one: string, many: string) => (n === 1 ? one : many);
+// Whole hours read as hours; a stray .5 keeps its half.
+const num = (n: number) => (n % 1 === 0 ? String(n) : n.toFixed(1));
 
 // Rendered inline on the homepage and as the whole of /hours. Standalone it
 // owns the page's h1; inline the hero owns it and this steps down to h2.
@@ -77,56 +58,34 @@ export default function AutomateFirst({
   const reduce = useReducedMotion();
   const [picked, setPicked] = useState<Record<string, boolean>>(ALL_ON);
   const [clients, setClients] = useState("12");
-  const [newClients, setNewClients] = useState("6");
 
-  const num = (v: string) => Math.max(0, Math.round(Number(v) || 0));
-  const nClients = num(clients);
-  const nNew = num(newClients);
+  const n = Math.max(0, Math.round(Number(clients) || 0));
 
-  const rows = JOBS.filter((j) => picked[j.id]).map((j) => ({
-    ...j,
-    hrs: j.yearly(nClients, nNew),
-    perMonth: j.monthly(nClients),
-  }));
+  // Biggest first, so the rows and the recommendation agree.
+  const rows = JOBS.filter((j) => picked[j.id])
+    .map((j) => ({ ...j, hrs: n * j.rate * MONTHS }))
+    .sort((a, b) => b.hrs - a.hrs);
 
   const total = rows.reduce((sum, r) => sum + r.hrs, 0);
   const days = total / WORKING_DAY;
 
-  // The biggest number wins, not a fixed running order. That arithmetic is
-  // what makes the recommendation worth printing: with three ticks and no
-  // breakdown, naming a winner was just repeating the input back.
-  const lead = rows.reduce(
-    (max, r) => (r.hrs > (max?.hrs ?? -1) ? r : max),
-    undefined as (typeof rows)[number] | undefined
-  );
+  // With one row there is nothing to compare, so naming a winner would only
+  // restate the single row above it.
+  const lead = rows.length > 1 && total > 0 ? rows[0] : null;
 
-  const verdict =
-    !lead || total === 0
-      ? null
-      : rows.length === 1
-        ? `Start with ${lead.name}. That is ${round(lead.hrs)} hours a year.`
-        : `Start with ${lead.name}. It is ${round(lead.hrs)} of those ${round(
-            total
-          )} hours.`;
-
-  // Carries the answers to the booking, so the call opens on their numbers
-  // instead of on "so what do you do?".
-  const booking = lead
+  const booking = rows.length
     ? `${withUtm(AUDIT_URL, "what-first")}&notes=${encodeURIComponent(
-        `By hand: ${rows.map((r) => `${r.name} ${round(r.hrs)}h`).join(", ")}. ` +
-          `${round(total)}h a year across ${nClients} ${plural(
-            nClients,
-            "client",
-            "clients"
-          )}, ${nNew} new last year. Starting with ${lead.name}.`
+        `By hand: ${rows.map((r) => `${r.name} ${num(r.hrs)}h`).join(", ")}. ` +
+          `${num(total)}h a year across ${n} ${plural(n, "client", "clients")}.` +
+          (lead ? ` Starting with ${lead.name}.` : "")
       )}`
     : withUtm(AUDIT_URL, "what-first");
 
-  const fade = (delay = 0) => ({
+  const fade = {
     initial: { opacity: 0, y: reduce ? 0 : 10 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.45, ease: EASE, delay: reduce ? 0 : delay },
-  });
+    transition: { duration: 0.45, ease: EASE },
+  };
 
   return (
     <section className="af" id="what-first">
@@ -158,6 +117,8 @@ export default function AutomateFirst({
               ))}
             </div>
 
+            {/* The only thing they have to type. Everything scales off it, and
+                the result recalculates as they go - there is nothing to submit. */}
             <label className="af-count" htmlFor="af-clients">
               <span className="af-count__label">How many clients do you have?</span>
               <span className="af-count__control">
@@ -173,58 +134,45 @@ export default function AutomateFirst({
                 />
               </span>
             </label>
-
-            {/* Last year, not next year: a number they can look up beats one
-                they invent, and it is the same input either way. */}
-            <label className="af-count af-count--tight" htmlFor="af-new">
-              <span className="af-count__label">
-                How many new clients did you take on last year?
-              </span>
-              <span className="af-count__control">
-                <input
-                  id="af-new"
-                  className="af-count__input"
-                  type="number"
-                  inputMode="numeric"
-                  min="0"
-                  step="1"
-                  value={newClients}
-                  onChange={(e) => setNewClients(e.target.value)}
-                />
-              </span>
-            </label>
           </div>
 
           <aside className="af__out" aria-live="polite">
-            <p className="af__out-label label">By hand, every year</p>
-            <p className="af__total" aria-label={`${round(total)} hours a year`}>
-              {round(total)}
-              <span className="af__total-unit">
-                {plural(round(total), "hour", "hours")}
-              </span>
-            </p>
-            <p className="af__days">
-              {days % 1 === 0 ? days : days.toFixed(1)}{" "}
-              {plural(days, "working day", "working days")}
-            </p>
+            <div className="af__figure">
+              <p className="af__out-label label">By hand, every year</p>
+              <p className="af__total" aria-label={`${num(total)} hours a year`}>
+                {num(total)}
+                <span className="af__total-unit">
+                  {plural(total, "hour", "hours")}
+                </span>
+              </p>
+              <p className="af__days">
+                {num(days)} {plural(days, "working day", "working days")}
+              </p>
+            </div>
 
             {rows.length > 0 ? (
-              <motion.div key={rows.map((r) => r.id).join()} {...fade()}>
+              <motion.div key={rows.map((r) => r.id).join()} {...fade}>
                 <dl className="af-break">
                   {rows.map((r) => (
                     <div className="af-break__row" key={r.id}>
                       <dt className="af-break__job">{r.label}</dt>
-                      <dd className="af-break__rate">
-                        {r.oneOff
-                          ? `one time, ${nNew} ${plural(nNew, "client", "clients")}`
-                          : `${round(r.perMonth)} h/mo`}
+                      {/* The working, in the same period as the number beside
+                          it. Nothing to convert, and the assumption is visible
+                          without a separate note about assumptions. */}
+                      <dd className="af-break__work">
+                        {`${n} ${plural(n, "client", "clients")} × ${r.rate} hrs × ${MONTHS} months`}
                       </dd>
-                      <dd className="af-break__hrs">{round(r.hrs)} h</dd>
+                      <dd className="af-break__hrs">{num(r.hrs)} h</dd>
                     </div>
                   ))}
                 </dl>
 
-                {verdict && <p className="af__verdict">{verdict}</p>}
+                {lead && (
+                  <p className="af__verdict">
+                    <strong>Start with {lead.name}.</strong> It&apos;s{" "}
+                    {num(lead.hrs)} of those {num(total)} hours.
+                  </p>
+                )}
               </motion.div>
             ) : (
               <p className="af__verdict">
@@ -240,7 +188,7 @@ export default function AutomateFirst({
                 rel="noopener"
                 data-cursor="Let's talk"
               >
-                Book the 30 min mapping call
+                Book 20 minutes
                 <ArrowRight size={16} weight="bold" />
               </a>
               <p className="af__carry">

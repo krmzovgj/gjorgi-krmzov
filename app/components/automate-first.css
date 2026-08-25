@@ -2,10 +2,10 @@
    "What should you automate first?" (#what-first, inline on the
    homepage and the whole of /hours).
 
-   Three ticks and two numbers a founder can look up, and it returns
-   the year in hours, the breakdown behind it, and which job to fix
-   first. The recommendation is the arithmetic naming the biggest row,
-   which is what makes it worth printing at all.
+   Two ticks and one number. The default path is to type the client
+   count and read the answer, so it is one interaction; the ticks are
+   there to correct, not to fill in. Returns the year in hours, the
+   working behind each row, and which job to fix first.
    Same editorial system: hairline rows, pill controls, one panel.
    ================================================================= */
 .af {
@@ -36,7 +36,7 @@
   gap: clamp(2.5rem, 5vw, 4rem);
 }
 
-/* ---- left: the three questions ---- */
+/* ---- left: the questions ---- */
 .af__q {
   font-family: var(--font-display), system-ui, sans-serif;
   font-size: clamp(1.3rem, 2vw, 1.7rem);
@@ -116,7 +116,7 @@
   color: var(--text);
 }
 
-/* ---- the two counts ---- */
+/* ---- the client count, the only thing to type ---- */
 .af-count {
   display: flex;
   align-items: center;
@@ -128,11 +128,6 @@
      line a short gap below it read as a doubled separator. */
   border-bottom: 1px solid var(--line);
   cursor: pointer;
-}
-
-.af-count--tight {
-  margin-top: 0;
-  border-top: 0;
 }
 
 .af-count__label {
@@ -192,7 +187,7 @@
   padding: clamp(1.75rem, 3vw, 2.75rem);
 }
 
-/* ---- the number, and what it is in days ---- */
+/* ---- the figure block: the number and what it is in days ---- */
 .af__total {
   margin-top: 0.6rem;
   display: flex;
@@ -221,71 +216,86 @@
   color: var(--text-dim);
 }
 
-/* ---- the breakdown: what makes up that number ---- */
+/* ---- the breakdown: where that number came from ----
+   Held well clear of the figure above it; run together they read as one
+   dense list instead of a headline and its working. */
 .af-break {
-  margin-top: clamp(1.75rem, 3vw, 2.5rem);
-  padding-top: clamp(1.5rem, 2.5vw, 2rem);
-  border-top: 1px solid var(--line);
+  margin-top: clamp(2.75rem, 5vw, 4rem);
 }
 
 .af-break__row {
   display: grid;
+  /* Label and its working share column 1; the value owns column 2 and spans
+     both rows, so it sits centred against the pair however long the label. */
   grid-template-columns: 1fr auto;
-  column-gap: 1rem;
-  row-gap: 0.15rem;
-  padding-block: 0.7rem;
-}
-
-.af-break__row + .af-break__row {
+  column-gap: clamp(1rem, 2.5vw, 2rem);
+  row-gap: 0.3rem;
+  align-items: center;
+  padding-block: clamp(1.1rem, 2.2vw, 1.5rem);
   border-top: 1px solid var(--line);
 }
 
 .af-break__job {
-  font-size: 0.98rem;
+  font-size: clamp(1rem, 1.2vw, 1.12rem);
   letter-spacing: -0.01em;
+  line-height: 1.3;
   color: var(--text);
 }
 
-/* Sits under the job name so a long label never fights the figures. */
-.af-break__rate {
+.af-break__work {
   grid-column: 1;
   margin: 0;
   font-size: 0.85rem;
+  line-height: 1.35;
   color: var(--text-dim);
   font-variant-numeric: tabular-nums;
 }
 
+/* Same size on every row, so the rows compare at a glance. */
 .af-break__hrs {
   grid-column: 2;
   grid-row: 1 / span 2;
   align-self: center;
+  justify-self: end;
   margin: 0;
   font-family: var(--font-display), system-ui, sans-serif;
-  font-size: 1.25rem;
+  font-optical-sizing: none;
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
   font-weight: 400;
-  letter-spacing: -0.02em;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
   color: var(--text);
   font-variant-numeric: tabular-nums;
 }
 
-/* ---- the recommendation the heading promises ---- */
+/* ---- the payoff, standing on its own above the button ---- */
 .af__verdict {
-  margin-top: clamp(1.25rem, 2.4vw, 1.75rem);
+  margin-top: clamp(2.25rem, 4.5vw, 3.25rem);
   font-size: clamp(1.05rem, 1.4vw, 1.2rem);
-  line-height: 1.45;
+  line-height: 1.5;
   letter-spacing: -0.01em;
-  color: var(--text);
+  color: var(--text-dim);
 }
 
-/* ---- the ask, pinned under the verdict ---- */
+.af__verdict strong {
+  display: block;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+
+/* ---- the ask ---- */
 .af__cta {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 1rem;
-  margin-top: clamp(1.75rem, 3vw, 2.5rem);
-  padding-top: clamp(1.5rem, 2.5vw, 2rem);
-  border-top: 1px solid var(--line);
+  margin-top: clamp(2.25rem, 4vw, 3rem);
 }
 
 /* Tells the reader the ticks are not going into a void. */

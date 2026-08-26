@@ -62,3 +62,24 @@ export function DoodleSpark({ className }: { className?: string }) {
     </svg>
   );
 }
+
+// A single confident underline stroke, drawn slightly off level so it reads
+// by hand rather than by rule. Used under the price.
+export function DoodleUnderline({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 200 14"
+      fill="none"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M3 9.5C34 4.8 71 3.4 108 4.2C139 4.9 170 6.7 197 5.1"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}

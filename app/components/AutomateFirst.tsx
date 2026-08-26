@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Check } from "@phosphor-icons/react";
 import { AUDIT_URL, LINKEDIN_URL, withUtm } from "../config";
@@ -17,7 +17,6 @@ const WORKING_DAY = 8;
 const LIMITS = {
   clients: { min: 1, max: 500 },
   rate: { min: 5, max: 500 },
-  hours: { min: 0, max: 24 },
 };
 
 // Onboarding is deliberately absent. It is one time per signed client, so
@@ -31,19 +30,18 @@ const JOBS = [
     id: "chasing",
     label: "Chasing clients for access, files and approvals",
     name: "chasing",
-    hours: "0.5",
+    // Fixed: hours per client per month. Not reader editable.
+    hours: 0.5,
   },
   {
     id: "reporting",
     label: "The monthly client report",
     name: "the monthly report",
-    hours: "1.5",
+    hours: 1.5,
   },
 ] as const;
 
 const ALL_ON = Object.fromEntries(JOBS.map((j) => [j.id, true]));
-const DEFAULT_HOURS = Object.fromEntries(JOBS.map((j) => [j.id, j.hours]));
-const HOURS_KEY = "af.hours";
 
 const money = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -71,40 +69,14 @@ export default function AutomateFirst({
   const [picked, setPicked] = useState<Record<string, boolean>>(ALL_ON);
   const [clients, setClients] = useState("12");
   const [rate, setRate] = useState("35");
-  const [hours, setHours] = useState<Record<string, string>>(DEFAULT_HOURS);
-
-  // Read after mount, not during render, so the server HTML and the first
-  // client pass agree. Their edited assumptions then survive moving between
-  // / and /hours. This is the one sanctioned reason to set state from an
-  // effect: adopting a value that only exists on the client, once, so the
-  // cascade the rule guards against cannot happen.
-  useEffect(() => {
-    try {
-      const saved = sessionStorage.getItem(HOURS_KEY);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      if (saved) setHours((h) => ({ ...h, ...JSON.parse(saved) }));
-    } catch {
-      // Private mode or storage disabled. Defaults are fine.
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      sessionStorage.setItem(HOURS_KEY, JSON.stringify(hours));
-    } catch {
-      // Nothing to do; the tool works either way.
-    }
-  }, [hours]);
-
   const nClients = clamp(Number(clients) || 0, { min: 0, max: LIMITS.clients.max });
   const nRate = clamp(Number(rate) || 0, { min: 0, max: LIMITS.rate.max });
 
   // Biggest first, so the rows and the recommendation agree.
   const rows = JOBS.filter((j) => picked[j.id])
     .map((j) => {
-      const hrsEach = clamp(Number(hours[j.id]) || 0, LIMITS.hours);
-      const hrs = nClients * hrsEach * MONTHS;
-      return { ...j, hrsEach, hrs, dollars: hrs * nRate };
+      const hrs = nClients * j.hours * MONTHS;
+      return { ...j, hrs, dollars: hrs * nRate };
     })
     .sort((a, b) => b.dollars - a.dollars);
 
@@ -244,33 +216,17 @@ export default function AutomateFirst({
                     {rows.map((r) => (
                       <div className="af-break__row" key={r.id}>
                         <dt className="af-break__job">{r.label}</dt>
-                        {/* The working, in the same period as the figure beside
-                            it. The hours are editable because a number built on
-                            their own assumption is one they will believe. */}
+                        {/* The working, in the same period as the figure
+                            beside it. Static: the only inputs on this tool are
+                            the two ticks, the client count and the rate. */}
                         <dd className="af-break__work">
-                          {nClients} {plural(nClients, "client", "clients")} &times;{" "}
-                          <input
-                            className="af-hrs"
-                            type="number"
-                            inputMode="decimal"
-                            min={LIMITS.hours.min}
-                            max={LIMITS.hours.max}
-                            step="0.5"
-                            value={hours[r.id]}
-                            style={{
-                              width: `${String(hours[r.id] ?? "").length + 0.7}ch`,
-                            }}
-                            onChange={(e) =>
-                              setHours((h) => ({ ...h, [r.id]: e.target.value }))
-                            }
-                            onBlur={settle(
-                              (v) => setHours((h) => ({ ...h, [r.id]: v })),
-                              LIMITS.hours,
-                              r.hours
-                            )}
-                            aria-label={`Hours a month per client for ${r.label}`}
-                          />{" "}
-                          hrs &times; {MONTHS} months &times; {money.format(nRate)}
+                          {`${nClients} ${plural(
+                            nClients,
+                            "client",
+                            "clients"
+                          )} × ${r.hours} hrs × ${MONTHS} months × ${money.format(
+                            nRate
+                          )}`}
                         </dd>
                         <dd className="af-break__money">
                           {money.format(r.dollars)}

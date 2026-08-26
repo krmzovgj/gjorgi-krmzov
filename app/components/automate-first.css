@@ -260,47 +260,9 @@
   grid-column: 1;
   margin: 0;
   font-size: 0.85rem;
-  /* Roomier than prose: the inline field sits on this line. */
-  line-height: 1.9;
+  line-height: 1.35;
   color: var(--text-dim);
   font-variant-numeric: tabular-nums;
-}
-
-/* The hours inside the working line are editable. Marked with the site's
-   accent as a dotted rule, which is the quietest affordance available; a
-   field box here would shout. */
-.af-hrs {
-  width: 3ch;
-  padding: 0;
-  border: 0;
-  border-bottom: 1px dotted var(--accent);
-  background: transparent;
-  font: inherit;
-  color: var(--text);
-  text-align: center;
-  font-variant-numeric: tabular-nums;
-  cursor: text;
-  transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
-
-.af-hrs::-webkit-outer-spin-button,
-.af-hrs::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.af-hrs:hover {
-  color: var(--text);
-  border-bottom-color: var(--text);
-}
-
-.af-hrs:focus {
-  outline: none;
-  color: var(--text);
-  border-bottom-style: solid;
-  border-bottom-color: var(--text);
 }
 
 /* Same size on every row, so the rows compare at a glance. */

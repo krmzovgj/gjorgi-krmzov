@@ -77,8 +77,12 @@ export function DoodleUnderline({ className }: { className?: string }) {
       <path
         d="M3 9.5C34 4.8 71 3.4 108 4.2C139 4.9 170 6.7 197 5.1"
         stroke="currentColor"
-        strokeWidth="2.4"
+        strokeWidth="3"
         strokeLinecap="round"
+        // The box is stretched to the width of whatever it underlines, which
+        // would squash the stroke with it. This keeps the line an even weight
+        // at any scale.
+        vectorEffect="non-scaling-stroke"
       />
     </svg>
   );

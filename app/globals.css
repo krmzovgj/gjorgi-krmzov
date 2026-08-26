@@ -919,11 +919,11 @@ video {
 }
 
 /* =================================================================
-   Price - type on the canvas, deliberately unstyled
+   Price - one left aligned stack, the figure monumental
    No card, border, tint or shadow: the calculator above does the
    persuading, so this block only has to state the number plainly.
-   Source order is the phone order (eyebrow, figure, line, notes); the
-   desktop grid lifts the figure into a right hand column.
+   Nothing sits to the right of the figure. The empty half is the
+   design, so there is no second column at any width.
    ================================================================= */
 .price__eyebrow {
   /* Matches the result panel's "BY HAND, EVERY YEAR". */
@@ -933,35 +933,35 @@ video {
 .price__figure {
   position: relative;
   display: inline-block;
-  margin-top: clamp(1rem, 2vw, 1.5rem);
+  margin-top: clamp(0.75rem, 1.5vw, 1.25rem);
   font-family: var(--font-display), system-ui, sans-serif;
+  /* Constant glyph proportions, so the width stays predictable as it scales. */
   font-optical-sizing: none;
-  /* Same scale as the calculator's total, which is the point. */
-  font-size: clamp(2.8rem, 7.5vw, 5.5rem);
+  /* Height drives it: roughly 40vh of glyph, which puts it well past the hero
+     as the largest type on the site. The vw term is a guard so a tall narrow
+     window cannot push it through the gutters. */
+  font-size: clamp(140px, min(38vh, 28vw), 460px);
   font-weight: 400;
-  line-height: 0.9;
-  letter-spacing: -0.045em;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
   color: var(--text);
   font-variant-numeric: tabular-nums;
 }
 
-/* One mark, sitting under the figure at its full width. */
+/* One mark, stretched to the width of the figure above it. */
 .price__mark {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -0.28em;
+  bottom: 0.04em;
   width: 100%;
-  height: 0.16em;
+  height: 0.09em;
   color: var(--accent);
   pointer-events: none;
 }
 
-.price__body {
-  margin-top: clamp(1.75rem, 3.5vw, 2.5rem);
-}
-
 .price__lead {
+  margin-top: 2rem;
   font-family: var(--font-display), system-ui, sans-serif;
   font-optical-sizing: none;
   font-size: var(--fs-lead);
@@ -971,39 +971,25 @@ video {
   color: var(--text);
 }
 
+/* The air above this is deliberate. Do not tighten it. */
 .price__note {
-  max-width: 46ch;
+  max-width: 36ch;
   font-size: var(--fs-body);
   line-height: 1.5;
   color: var(--text-dim);
 }
 
-.price__note:first-of-type {
-  margin-top: clamp(1rem, 2vw, 1.5rem);
+/* Sibling selector, not :first-of-type: the eyebrow and the figure are also
+   <p>, so :first-of-type matched the eyebrow and this gap never applied. */
+.price__lead + .price__note {
+  margin-top: 3rem;
 }
 
-/* Desktop: text left, figure right and vertically centred against it, the
-   same shape as the calculator's breakdown rows. */
-@media (min-width: 1000px) {
-  .price {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    column-gap: clamp(3rem, 6vw, 6rem);
-    align-items: center;
-  }
-  .price__eyebrow {
-    grid-column: 1;
-    grid-row: 1;
-  }
-  .price__body {
-    grid-column: 1;
-    grid-row: 2;
-  }
+@media (max-width: 760px) {
+  /* Under the desktop floor the figure would run through the gutters, so
+     width drives it here instead of height. */
   .price__figure {
-    grid-column: 2;
-    grid-row: 1 / span 2;
-    justify-self: end;
-    margin-top: 0;
+    font-size: min(38vh, 26vw);
   }
 }
 

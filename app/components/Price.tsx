@@ -5,9 +5,9 @@ import { DoodleUnderline } from "./Doodles";
 // included-list, tier table or savings line: the calculator above is the
 // anchor, so this block carries no persuasion of its own on purpose.
 //
-// The figure is the display element, set at the calculator's total size and
-// right aligned, so the section rhymes with the rows above it. DOM order is
-// the mobile order; the desktop grid places the figure to the right.
+// One left aligned stack, on the hero's container and edge. The figure is the
+// largest type anywhere on the site, and the empty right hand side is the
+// point, so nothing is allowed to sit beside it.
 export default function Price() {
   return (
     <section className="section wrap" id="price">
@@ -20,15 +20,14 @@ export default function Price() {
             <DoodleUnderline className="price__mark" />
           </p>
 
-          <div className="price__body">
-            <p className="price__lead">One build, fixed.</p>
-            <p className="price__note">
-              That&apos;s one of the jobs above, scoped on the call.
-            </p>
-            <p className="price__note">
-              Anything bigger than one job gets its own price.
-            </p>
-          </div>
+          <p className="price__lead">One build, fixed.</p>
+
+          <p className="price__note">
+            That&apos;s one of the jobs above, scoped on the call.
+          </p>
+          <p className="price__note">
+            Anything bigger than one job gets its own price.
+          </p>
         </div>
       </Reveal>
     </section>

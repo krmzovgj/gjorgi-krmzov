@@ -9,7 +9,8 @@
    Same editorial system: hairline rows, pill controls, one panel.
    ================================================================= */
 .af {
-  background: var(--bg);
+  /* No background of its own: it was the same white as the canvas, and an
+     opaque section would paint over the edge dot field behind the page. */
   padding-block: var(--section-y);
   /* The hero CTA jumps here, so keep the heading clear of the fixed nav. */
   scroll-margin-top: clamp(4.5rem, 9vh, 6rem);

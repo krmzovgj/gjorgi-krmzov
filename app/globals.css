@@ -48,6 +48,16 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --dur: 0.5s;
 
+  /* Edge treatment. --edge is a LENGTH, not a percentage: the Figma mask is a
+     17% stop, but 17% of a phone is 66px and 17% of a 2560 monitor is 435px,
+     and the same texture would read as two different designs. This holds the
+     band at roughly a thumb's width on a phone and a hand's width on a
+     desktop. */
+  --edge: clamp(4.5rem, 15vw, 20rem);
+  --edge-wash: calc(var(--edge) * 0.55);
+  --dot: rgba(14, 14, 16, 0.16);
+  --dot-gap: 17px;
+
   color-scheme: light;
 }
 
@@ -72,6 +82,62 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+/* =================================================================
+   Edge treatment: a wash that takes ink out of whatever runs into the
+   margin, and a dot field painted on top of it. Both fixed, so they
+   frame the viewport and cost nothing to scroll.
+
+   Order matters and is the whole trick. The wash has to be over the
+   content to pale it, and the dots have to be over the wash or the
+   wash erases the very texture it sits behind. So: content, wash,
+   dots, and every fixed control (work reveal 40, nav 50, preview 60)
+   still sits clear above all three.
+   ================================================================= */
+
+/* The wash. Narrower than the dot field: the texture can run well inside
+   the page, but ink should only start thinning near the very margin. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    rgb(255 255 255 / 0.72) 0,
+    rgb(255 255 255 / 0) var(--edge-wash),
+    rgb(255 255 255 / 0) calc(100% - var(--edge-wash)),
+    rgb(255 255 255 / 0.72) 100%
+  );
+}
+
+/* The dot field, over the wash so it stays legible against it. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 31;
+  pointer-events: none;
+  background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+  background-size: var(--dot-gap) var(--dot-gap);
+  /* Solid at the edge, gone by --edge, so the middle stays clean canvas.
+     Same shape as the Figma mask, expressed as a length. */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    #000 0,
+    transparent var(--edge),
+    transparent calc(100% - var(--edge)),
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    #000 0,
+    transparent var(--edge),
+    transparent calc(100% - var(--edge)),
+    #000 100%
+  );
 }
 
 /* Large display text uses Bricolage Grotesque. */
@@ -236,20 +302,11 @@ video {
 
 /* Brand stamp: the accent-filled pill from the banner (orange bg, light text,
    a slight hand-drawn tilt). One controlled accent fill, used as a mark. */
-.brandmark {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.32em 0.85em;
-  background: var(--accent);
-  color: var(--accent-ink);
-  border-radius: var(--r-pill);
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
-  text-transform: none;
-  transform: rotate(-2deg);
+/* Was an accent pill, rotated. It was the one badge left on the site and
+   DESIGN.md's kill-list rules badges out, so the domain is now just type in
+   the footer bar's own tracking. */
+.footer__site {
+  color: var(--text);
 }
 
 /* =================================================================

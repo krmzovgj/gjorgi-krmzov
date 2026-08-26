@@ -919,13 +919,26 @@ video {
 }
 
 /* =================================================================
-   FAQ - hairline rows, question left, answer right
-   Everything open. Three-sentence answers behind a click would be a
-   landing-page reflex; the same grammar as the calculator breakdown
-   keeps it editorial.
+   FAQ - centred accordion on Radix
+   One centred column, hairline rows, question and a hairline plus that
+   turns into a minus. Radix owns the behaviour and the data-state
+   attributes; everything visual is here.
    ================================================================= */
+.faq__inner {
+  /* Centred rather than running the full 1920 wrap: at full width the rows
+     read as a table, and a question three words long stranded a metre of
+     empty rule beside it. */
+  max-width: min(64rem, 100%);
+  margin-inline: auto;
+}
+
 .faq__title {
-  margin-bottom: clamp(2.5rem, 6vw, 5rem);
+  text-align: center;
+  /* Four words that would otherwise break 3 + 1. */
+  text-wrap: balance;
+  max-width: 18ch;
+  margin-inline: auto;
+  margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
 }
 
 /* The list closes with a rule of its own; every row opens with one, so the
@@ -935,53 +948,149 @@ video {
 }
 
 .faq-item {
-  padding-block: clamp(1.6rem, 3vw, 2.4rem);
   border-top: 1px solid var(--line);
 }
 
+.faq-item__head {
+  margin: 0;
+}
+
+/* The whole row is the button, so the target is the row and not the words. */
 .faq-item__q {
-  /* Floor and slope both sit clear of --fs-body's 1.15rem ceiling. At the
-     earlier 1.8vw the two columns landed on the same size between 860 and
-     1250px and the question stopped reading as one. */
-  font-size: clamp(1.4rem, 2.4vw, 1.7rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  width: 100%;
+  padding-block: clamp(1.35rem, 2.6vw, 1.9rem);
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  /* Floor and slope both sit clear of --fs-body's 1.15rem ceiling; at a
+     smaller slope the question and its answer landed on the same size
+     between 860 and 1250px and it stopped reading as a question. */
+  font-size: clamp(1.25rem, 2.1vw, 1.6rem);
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.25;
   letter-spacing: -0.025em;
+  /* Full ink at rest. Dimming seven closed questions greyed out the whole
+     section; the state lives in the mark instead, which is what DESIGN.md
+     reserves the accent for. */
   color: var(--text);
+}
+
+.faq-item__q:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.faq-item__q-text {
   text-wrap: pretty;
 }
 
+/* Hairline plus. The upright bar collapses on open, so plus becomes minus on
+   a transform alone. */
+.faq-item__mark {
+  position: relative;
+  flex: 0 0 auto;
+  width: 1.05rem;
+  height: 1.05rem;
+  color: var(--text-dim);
+  transition: color var(--dur) var(--ease);
+}
+
+.faq-item__q:hover .faq-item__mark {
+  color: var(--text);
+}
+
+/* The one accent on the section, and it is a 17px mark. */
+.faq-item__q[data-state="open"] .faq-item__mark {
+  color: var(--accent);
+}
+
+.faq-item__mark::before,
+.faq-item__mark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: currentColor;
+  transition: transform var(--dur) var(--ease);
+}
+
+.faq-item__mark::before {
+  width: 100%;
+  height: 1px;
+}
+
+.faq-item__mark::after {
+  width: 1px;
+  height: 100%;
+}
+
+.faq-item__q[data-state="open"] .faq-item__mark::after {
+  transform: scaleY(0);
+}
+
+/* Radix keeps a closing panel mounted until the animation ends and publishes
+   the measured height as a custom property, which is what makes a real
+   collapse possible at all. Height is a layout property, so this is the one
+   deliberate exception to the transform/opacity rule in DESIGN.md: it is a
+   single short text node with no image or blend behind it. */
+.faq-item__panel {
+  overflow: hidden;
+}
+
+.faq-item__panel[data-state="open"] {
+  animation: faq-open 0.42s var(--ease);
+}
+
+.faq-item__panel[data-state="closed"] {
+  animation: faq-close 0.3s var(--ease);
+}
+
+@keyframes faq-open {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes faq-close {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
 .faq-item__a {
-  /* Stacked on phones, so the answer needs air under the question it belongs
-     to; on desktop the columns supply the separation and this collapses. */
-  margin-top: 0.7rem;
+  padding-bottom: clamp(1.5rem, 2.8vw, 2.1rem);
   /* ch is the width of "0", which runs wider than the average lowercase here,
-     so 46ch measures out at 64 to 70 characters: inside DESIGN.md's 45-75. */
-  max-width: 46ch;
+     so 60ch measures out at 70 to 80 characters. */
+  max-width: 60ch;
   font-size: var(--fs-body);
-  line-height: 1.55;
+  line-height: 1.6;
   letter-spacing: -0.005em;
   color: var(--text-dim);
   text-wrap: pretty;
 }
 
-@media (min-width: 860px) {
-  .faq-item {
-    display: grid;
-    /* The questions are short, the answers are paragraphs, so the split is
-       weighted toward the answer rather than even. */
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-    column-gap: clamp(2rem, 5vw, 5rem);
-    align-items: start;
+@media (prefers-reduced-motion: reduce) {
+  .faq-item__panel[data-state="open"],
+  .faq-item__panel[data-state="closed"] {
+    animation: none;
   }
-  .faq-item__q {
-    /* Optically level with the first line of the answer beside it, which sits
-       lower because its line box is taller. */
-    padding-top: 0.1rem;
-    max-width: 22ch;
-  }
-  .faq-item__a {
-    margin-top: 0;
+  .faq-item__mark,
+  .faq-item__mark::before,
+  .faq-item__mark::after {
+    transition: none;
   }
 }
 

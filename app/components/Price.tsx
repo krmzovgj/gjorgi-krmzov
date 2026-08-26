@@ -12,13 +12,13 @@ export default function Price() {
       <Reveal>
         <div className="price">
           <div className="price__copy">
-            <h2 className="section__title">One build, fixed.</h2>
+            <h2 className="section__title">The Price</h2>
 
             <p className="price__note">
-              That&apos;s one of the jobs above, scoped on the call.
+              That&apos;s one of the systems above, scoped on the call.
             </p>
             <p className="price__note">
-              Anything bigger than one job gets its own price.
+              Anything bigger than one system gets its own price.
             </p>
           </div>
 

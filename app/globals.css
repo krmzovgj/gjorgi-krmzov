@@ -919,28 +919,37 @@ video {
 }
 
 /* =================================================================
-   Price - one left aligned stack, the figure monumental
+   Price - copy left, figure right
    No card, border, tint or shadow: the calculator above does the
    persuading, so this block only has to state the number plainly.
-   Nothing sits to the right of the figure. The empty half is the
-   design, so there is no second column at any width.
    ================================================================= */
-.price__eyebrow {
-  /* Matches the result panel's "BY HAND, EVERY YEAR". */
-  letter-spacing: 0.08em;
+.price__note {
+  max-width: 40ch;
+  font-size: var(--fs-lead);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  /* Dimmed rather than smaller again: it steps back from the heading without
+     dropping to body scale. */
+  color: var(--text-dim);
+}
+
+.price__copy .section__title + .price__note {
+  margin-top: clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+/* The figure is sized against its own column, not the viewport, so it fills
+   the space it is given at every width without a stack of breakpoints. */
+.price__figure-col {
+  container-type: inline-size;
+  margin-top: clamp(2.5rem, 5vw, 0rem);
 }
 
 .price__figure {
-  position: relative;
-  display: inline-block;
-  margin-top: clamp(0.75rem, 1.5vw, 1.25rem);
   font-family: var(--font-display), system-ui, sans-serif;
   /* Constant glyph proportions, so the width stays predictable as it scales. */
   font-optical-sizing: none;
-  /* Height drives it: roughly 40vh of glyph, which puts it well past the hero
-     as the largest type on the site. The vw term is a guard so a tall narrow
-     window cannot push it through the gutters. */
-  font-size: clamp(140px, min(38vh, 28vw), 460px);
+  /* "$5,000" runs about 2.9em wide, so this lands just under the column. */
+  font-size: 33cqw;
   font-weight: 400;
   line-height: 0.95;
   letter-spacing: -0.02em;
@@ -948,48 +957,18 @@ video {
   font-variant-numeric: tabular-nums;
 }
 
-/* One mark, stretched to the width of the figure above it. */
-.price__mark {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0.04em;
-  width: 100%;
-  height: 0.09em;
-  color: var(--accent);
-  pointer-events: none;
-}
-
-.price__lead {
-  margin-top: 2rem;
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-optical-sizing: none;
-  font-size: var(--fs-lead);
-  font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  color: var(--text);
-}
-
-/* The air above this is deliberate. Do not tighten it. */
-.price__note {
-  max-width: 36ch;
-  font-size: var(--fs-body);
-  line-height: 1.5;
-  color: var(--text-dim);
-}
-
-/* Sibling selector, not :first-of-type: the eyebrow and the figure are also
-   <p>, so :first-of-type matched the eyebrow and this gap never applied. */
-.price__lead + .price__note {
-  margin-top: 3rem;
-}
-
-@media (max-width: 760px) {
-  /* Under the desktop floor the figure would run through the gutters, so
-     width drives it here instead of height. */
+@media (min-width: 900px) {
+  .price {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+  }
+  .price__figure-col {
+    margin-top: 0;
+  }
   .price__figure {
-    font-size: min(38vh, 26vw);
+    text-align: right;
   }
 }
 

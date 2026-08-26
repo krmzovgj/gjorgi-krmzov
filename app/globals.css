@@ -919,56 +919,69 @@ video {
 }
 
 /* =================================================================
-   Price - copy left, figure right
-   No card, border, tint or shadow: the calculator above does the
-   persuading, so this block only has to state the number plainly.
+   FAQ - hairline rows, question left, answer right
+   Everything open. Three-sentence answers behind a click would be a
+   landing-page reflex; the same grammar as the calculator breakdown
+   keeps it editorial.
    ================================================================= */
-.price__note {
-  max-width: 40ch;
-  /* Below --fs-lead but still clear of body scale: against a heading this big
-     the lead size read as a second headline rather than as its footnote. */
-  font-size: clamp(1.1rem, 1.5vw, 1.5rem);
-  line-height: 1.35;
-  letter-spacing: -0.015em;
-  color: var(--text-dim);
+.faq__title {
+  margin-bottom: clamp(2.5rem, 6vw, 5rem);
 }
 
-.price__copy .section__title + .price__note {
-  margin-top: clamp(1.75rem, 3.5vw, 2.75rem);
+/* The list closes with a rule of its own; every row opens with one, so the
+   last answer is not left hanging off the bottom of the section. */
+.faq__list {
+  border-bottom: 1px solid var(--line);
 }
 
-/* The figure is sized against its own column, not the viewport, so it fills
-   the space it is given at every width without a stack of breakpoints. */
-.price__figure-col {
-  container-type: inline-size;
-  margin-top: clamp(2.5rem, 5vw, 0rem);
+.faq-item {
+  padding-block: clamp(1.6rem, 3vw, 2.4rem);
+  border-top: 1px solid var(--line);
 }
 
-.price__figure {
-  font-family: var(--font-display), system-ui, sans-serif;
-  /* Constant glyph proportions, so the width stays predictable as it scales. */
-  font-optical-sizing: none;
-  /* "$5,000" runs about 2.9em wide, so this lands just under the column. */
-  font-size: 33cqw;
+.faq-item__q {
+  /* Floor and slope both sit clear of --fs-body's 1.15rem ceiling. At the
+     earlier 1.8vw the two columns landed on the same size between 860 and
+     1250px and the question stopped reading as one. */
+  font-size: clamp(1.4rem, 2.4vw, 1.7rem);
   font-weight: 400;
-  line-height: 0.95;
-  letter-spacing: -0.02em;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
   color: var(--text);
-  font-variant-numeric: tabular-nums;
+  text-wrap: pretty;
 }
 
-@media (min-width: 900px) {
-  .price {
+.faq-item__a {
+  /* Stacked on phones, so the answer needs air under the question it belongs
+     to; on desktop the columns supply the separation and this collapses. */
+  margin-top: 0.7rem;
+  /* ch is the width of "0", which runs wider than the average lowercase here,
+     so 46ch measures out at 64 to 70 characters: inside DESIGN.md's 45-75. */
+  max-width: 46ch;
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  color: var(--text-dim);
+  text-wrap: pretty;
+}
+
+@media (min-width: 860px) {
+  .faq-item {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* The questions are short, the answers are paragraphs, so the split is
+       weighted toward the answer rather than even. */
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
     column-gap: clamp(2rem, 5vw, 5rem);
-    align-items: center;
+    align-items: start;
   }
-  .price__figure-col {
+  .faq-item__q {
+    /* Optically level with the first line of the answer beside it, which sits
+       lower because its line box is taller. */
+    padding-top: 0.1rem;
+    max-width: 22ch;
+  }
+  .faq-item__a {
     margin-top: 0;
-  }
-  .price__figure {
-    text-align: right;
   }
 }
 

@@ -17,7 +17,11 @@ const STEPS = [
     l: "Scope",
     d: "We agree what the system does and what counts as done, written down before I build.",
   },
-  { n: "03", l: "Build", d: "First working version in 7 days. Live in 14." },
+  {
+    n: "03",
+    l: "Build",
+    d: "You see a working version early. We go back and forth until it fits.",
+  },
   {
     n: "04",
     l: "Live",

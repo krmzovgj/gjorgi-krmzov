@@ -149,6 +149,13 @@
   transition: border-color var(--dur) var(--ease);
 }
 
+.af-count__prefix {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-right: 0.15rem;
+}
+
 .af-count__control:focus-within {
   border-color: var(--text);
 }
@@ -196,9 +203,6 @@
 
 .af__total {
   margin-top: 0.6rem;
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
   font-family: var(--font-display), system-ui, sans-serif;
   font-optical-sizing: none;
   font-size: clamp(2.8rem, 7.5vw, 5.5rem);
@@ -209,16 +213,20 @@
   font-variant-numeric: tabular-nums;
 }
 
-.af__total-unit {
-  font-size: 0.28em;
-  letter-spacing: -0.01em;
+/* Hours and days demoted to one quiet line under the money. Data labels, not
+   sentences, so the fragment is the correct form here. */
+.af__days {
+  margin-top: 0.7rem;
+  font-size: 0.95rem;
   color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
 }
 
-/* A data label, not a sentence, so the fragment is the correct form here. */
-.af__days {
-  margin-top: 0.6rem;
-  font-size: 0.95rem;
+/* Nothing ticked, or no client count to scale by. */
+.af__prompt {
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
   color: var(--text-dim);
 }
 
@@ -252,13 +260,51 @@
   grid-column: 1;
   margin: 0;
   font-size: 0.85rem;
-  line-height: 1.35;
+  /* Roomier than prose: the inline field sits on this line. */
+  line-height: 1.9;
   color: var(--text-dim);
   font-variant-numeric: tabular-nums;
 }
 
+/* The hours inside the working line are editable. Marked with the site's
+   accent as a dotted rule, which is the quietest affordance available; a
+   field box here would shout. */
+.af-hrs {
+  width: 3ch;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px dotted var(--accent);
+  background: transparent;
+  font: inherit;
+  color: var(--text);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  cursor: text;
+  transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.af-hrs::-webkit-outer-spin-button,
+.af-hrs::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.af-hrs:hover {
+  color: var(--text);
+  border-bottom-color: var(--text);
+}
+
+.af-hrs:focus {
+  outline: none;
+  color: var(--text);
+  border-bottom-style: solid;
+  border-bottom-color: var(--text);
+}
+
 /* Same size on every row, so the rows compare at a glance. */
-.af-break__hrs {
+.af-break__money {
   grid-column: 2;
   grid-row: 1 / span 2;
   align-self: center;

@@ -919,6 +919,36 @@ video {
 }
 
 /* =================================================================
+   Price - type on the canvas, deliberately unstyled
+   No card, border, tint or shadow: the calculator above does the
+   persuading, so this block only has to state the number plainly.
+   ================================================================= */
+.price__title {
+  margin-bottom: clamp(2.5rem, 6vw, 5rem);
+}
+
+.price__lead {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-optical-sizing: none;
+  font-size: var(--fs-lead);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.price__note {
+  max-width: 46ch;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+.price__note:first-of-type {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+/* =================================================================
    Process - scattered black cards
    ================================================================= */
 .process__title {

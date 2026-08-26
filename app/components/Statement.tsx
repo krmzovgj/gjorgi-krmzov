@@ -20,9 +20,9 @@ const BLOCKS: { dim: boolean; lines: string[] }[] = [
   {
     dim: false,
     lines: [
-      "Before anything gets built, you see the math, what the",
-      "system replaces, what it returns, and when it",
-      "covers its cost. If it doesn't add up, I tell you.",
+      "Before anything gets built, you see the math, what",
+      "the system replaces and what that job is costing",
+      "you a year. If it doesn't add up, I tell you.",
     ],
   },
 ];

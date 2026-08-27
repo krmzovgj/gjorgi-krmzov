@@ -13,8 +13,8 @@ const BLOCKS: { dim: boolean; lines: string[] }[] = [
   {
     dim: true,
     lines: [
-      "Pulling reports, chasing follow ups, moving data",
-      "between tools. That work costs you margin and clients.",
+      "Onboarding new clients, chasing follow ups, the monthly",
+      "report. That work costs you margin and clients.",
     ],
   },
   {

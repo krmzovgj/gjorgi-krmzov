@@ -623,7 +623,14 @@ video {
   left: clamp(28rem, 53vw, 64rem);
   bottom: clamp(4.5rem, 11vh, 8rem);
   width: clamp(70px, 7vw, 120px);
-  color: var(--accent);
+  /* Ink, not accent. White + difference rather than a flat dark fill: the
+     arrow sits exactly where the portrait's left edge lands, and at some
+     widths a near-black stroke disappeared into the sweater entirely. Blended,
+     it reads near-black on the canvas and inverts to light over the dark
+     photo, which is the same device the nav mark and the headline use to
+     cross this image. */
+  color: #fff;
+  mix-blend-mode: difference;
   pointer-events: none;
 }
 .hero__doodle svg {

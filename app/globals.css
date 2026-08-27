@@ -621,7 +621,7 @@ video {
 .hero__doodle {
   position: absolute;
   left: clamp(28rem, 53vw, 64rem);
-  bottom: clamp(4.5rem, 11vh, 8rem);
+  bottom: clamp(2rem, 6vh, 4.5rem);
   width: clamp(70px, 7vw, 120px);
   /* Ink, not accent. White + difference rather than a flat dark fill: the
      arrow sits exactly where the portrait's left edge lands, and at some
@@ -637,7 +637,8 @@ video {
   display: block;
   width: 100%;
   height: auto;
-  transform: scaleX(-1);
+  /* Drawn head-up-left, which is already the direction of the headline from
+     here, so it runs unmirrored. The old artwork was flipped; this one is not. */
 }
 @media (max-width: 999px) {
   .hero__doodle {

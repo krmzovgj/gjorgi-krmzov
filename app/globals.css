@@ -620,8 +620,8 @@ video {
    at "work" in the headline. Mirrored: the artwork's head points up-left. */
 .hero__doodle {
   position: absolute;
-  left: clamp(21rem, 41vw, 50rem);
-  bottom: clamp(1.25rem, 4.5vh, 3.5rem);
+  left: clamp(22rem, 43vw, 52rem);
+  bottom: clamp(0.75rem, 3vh, 2.5rem);
   width: clamp(70px, 7vw, 120px);
   /* Ink, not accent. White + difference rather than a flat dark fill: the
      arrow sits exactly where the portrait's left edge lands, and at some

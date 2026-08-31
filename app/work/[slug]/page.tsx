@@ -25,6 +25,13 @@ export async function generateMetadata({
     title: project.name,
     description,
     alternates: { canonical: url },
+    // The project pages are out of the offer and out of the sitemap, but the
+    // routes still build, so they need to say so themselves. A sitemap only
+    // invites crawling; it never withdraws a URL that is already indexed.
+    // Deliberately NOT paired with a robots.txt disallow: blocking the crawl
+    // would stop Google fetching the page, which is the only way it can see
+    // this line, and anything already indexed would stay indexed.
+    robots: { index: false, follow: false },
     openGraph: {
       type: "article",
       url,

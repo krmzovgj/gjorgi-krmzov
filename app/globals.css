@@ -410,7 +410,11 @@ video {
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  /* Centred, not bottom-anchored. At flex-end all the slack in a 100svh column
+     collected above the greeting, which left a dead ~300px band between the nav
+     and the first line. Centring splits that slack so the block sits closer to
+     the header without crowding it. */
+  justify-content: center;
   padding: clamp(7rem, 16vh, 10rem) var(--pad-x) clamp(3rem, 7vh, 5rem);
   /* Clip the portrait's sideways bleed so it can never push out a horizontal
      scrollbar. clip (not hidden) keeps overflow-y visible for the bottom bleed

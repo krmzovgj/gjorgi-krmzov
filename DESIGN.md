@@ -13,7 +13,8 @@ match the hero (`app/components/Hero.tsx` + the `.hero` block in `app/globals.cs
 - Ink `--text #0e0e0f`, dim `--text-dim #56565a`, hairlines `--line` / `--line-strong`
 - Accent `--accent #ff5a1e` (sunset orange), used ONLY as a tiny mark. Never large
   fills, never on big type.
-- Imagery is black and white only.
+- Imagery is black and white, with one exception: the hero portrait runs in
+  colour (Gjorgi's call, 2026-09-01). Everything else stays mono.
 
 ## Typography
 - ONE family: Bricolage Grotesque (variable). `--font-display` and `--font-body`
@@ -47,7 +48,7 @@ match the hero (`app/components/Hero.tsx` + the `.hero` block in `app/globals.cs
 ## Signature devices
 - `mix-blend-mode: difference` for type / logo that crosses B&W imagery: it
   auto-inverts (dark on light, light on dark).
-- Transparent B&W cut-outs that dissolve off the edge (image fade + mask).
+- Transparent cut-outs that dissolve off the edge (image fade + mask).
 - Minimal fixed nav: text `gk` logo (blend) + one CTA. `.nav` is `display: contents`
   so the logo blends against the page behind it.
 

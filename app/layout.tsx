@@ -19,8 +19,11 @@ const SITE = "https://www.krmzov.com";
 // Outcome-led, niche-named, no job title (DESIGN.md voice rule).
 const TITLE =
   "Gjorgi Krmzov. Automated account management systems for agencies";
+// The headline first, then the three jobs the offer covers. Both are lines the
+// page actually says, which is what gives Google a reason to use this instead
+// of stitching its own snippet out of the hero and the statement.
 const DESCRIPTION =
-  "I automate the boring work agencies still do by hand. 15 systems, 50+ hours a week back. n8n + Claude.";
+  "I build automated account management systems for agencies. Onboarding new clients, chasing follow ups, the monthly report.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),

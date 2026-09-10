@@ -48,6 +48,11 @@ function renderLines(lines: Segment[][], yHidden: number | string) {
           )
         )}
       </motion.span>
+      {/* Lines are separate block elements, so without this the extracted text
+          fuses them: "I build automatedaccount managementsystems". That fused
+          string was what Google was quoting in the search snippet. The space is
+          collapsed visually because .hero__line is display: block. */}
+      {" "}
     </span>
   ));
 }

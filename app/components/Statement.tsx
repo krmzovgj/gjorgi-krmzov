@@ -4,7 +4,7 @@ import Words from "./Words";
 // Two blocks: the problem (dimmed) and the promise (full strength).
 //
 // Each block's lines are authored break points, not sentences - chosen to keep
-// every line's length close (44-58 chars) so the block reads even rather than
+// every line's length close (34-45 chars) so the block reads even rather than
 // ragged. Those breaks only hold at desktop widths; on a phone a 50-char line
 // wraps anyway and strands one or two words on a line of its own. So on
 // narrow screens the breaks are dropped (globals.css) and the text reflows as
@@ -13,16 +13,16 @@ const BLOCKS: { dim: boolean; lines: string[] }[] = [
   {
     dim: true,
     lines: [
-      "Onboarding new clients, chasing follow ups, the monthly",
-      "report. That work costs you margin and clients.",
+      "People fill out a demo form and usually",
+      "wait hours to hear back, and by then some",
+      "of them aren't interested anymore.",
     ],
   },
   {
     dim: false,
     lines: [
-      "Before anything gets built, you see the math, what",
-      "the system replaces and what that job is costing",
-      "you a year. If it doesn't add up, I tell you.",
+      "You already paid to get them, and I make sure",
+      "more of them end up on a call with you.",
     ],
   },
 ];

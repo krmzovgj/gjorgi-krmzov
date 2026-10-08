@@ -1,13 +1,13 @@
 import Words from "./Words";
 import Reveal from "./Reveal";
-import { AUDIT_URL, BOOKING_URL, withUtm } from "../config";
+import { BOOKING_URL, withUtm } from "../config";
 
 export default function Contact() {
   return (
     <section className="contact wrap" id="contact">
       <Reveal>
         <h2 className="contact__cta">
-          <Words text="Tell me the job you want automated" />
+          <Words text="Get more of your demo requests on a call." />
         </h2>
         <div className="contact__actions">
           <a
@@ -17,7 +17,7 @@ export default function Contact() {
             rel="noopener"
             data-cursor="Let's talk"
           >
-            Book a 30 minute call
+            Book a 15 minute call
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M5 12h14M13 6l6 6-6 6"
@@ -28,20 +28,6 @@ export default function Contact() {
               />
             </svg>
           </a>
-          <p className="contact__alt">
-            The{" "}
-            <a
-              className="contact__alt-link"
-              href={withUtm(AUDIT_URL, "contact-audit")}
-              target="_blank"
-              rel="noopener"
-              data-cursor="Let's talk"
-            >
-              mapping call
-            </a>{" "}
-            is 30 minutes, free, and by the end you know what doing it by
-            hand costs.
-          </p>
           <a
             className="contact__email"
             href="mailto:krmzovgj@gmail.com"

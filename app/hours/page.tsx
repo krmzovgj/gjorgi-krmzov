@@ -8,25 +8,25 @@ import Footer from "../components/Footer";
 // there is only ever one of it to maintain.
 
 const description =
-  "Three questions about the work your team still does by hand, and which one to automate first. Self serve, no email required.";
+  "Put in last month's demo requests and how many booked a call, and see what the ones that never booked are worth. Self serve, no email required.";
 
 export const metadata: Metadata = {
   // Stated, not asked: the root layout's title.template appends ", Gjorgi
-  // Krmzov" after this, and the h1's question mark would land as "first?,
+  // Krmzov" after this, and the h1's question mark would land as "call?,
   // Gjorgi". The og/twitter titles below stand alone, so they keep the question.
-  title: "What to automate first",
+  title: "Demo requests that never booked a call",
   description,
   alternates: { canonical: "/hours" },
   openGraph: {
     type: "website",
     url: "/hours",
     siteName: "Gjorgi Krmzov",
-    title: "What should you automate first?",
+    title: "How many of last month's demo requests never booked a call?",
     description,
   },
   twitter: {
     card: "summary_large_image",
-    title: "What should you automate first?",
+    title: "How many of last month's demo requests never booked a call?",
     description,
   },
 };

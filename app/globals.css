@@ -512,14 +512,6 @@ video {
   display: block;
 }
 
-.hero__wave {
-  display: inline-block;
-  height: 1em;
-  width: auto;
-  margin-left: 0.3em;
-  vertical-align: -0.18em;
-}
-
 .hero__title {
   font-family: var(--font-display), system-ui, sans-serif;
   /* Keep glyph proportions constant across sizes so line width is predictable
@@ -1388,7 +1380,22 @@ video {
   font-weight: 400;
   line-height: 0.92;
   letter-spacing: -0.04em;
-  max-width: 14ch;
+  /* 14ch was set for a four word heading. "Get more of your demo requests on a
+     call." is nine, and at 14ch it broke 5 / 5 / 1 and left "call." on a line
+     of its own. A wider measure with balance lands it on two even lines. */
+  max-width: 20ch;
+  text-wrap: balance;
+}
+
+/* On a phone the 2.4rem floor is wider than the column: "Get more of your demo"
+   needs ~375px at that size and a 390px screen gives it 350, so the heading fell
+   to three lines. A lower floor and a slightly steeper slope put it on two from
+   about 360px up; narrower than that it balances to three with no orphan. It
+   joins the 9vw ramp within 3px at the 760px breakpoint. */
+@media (max-width: 760px) {
+  .contact__cta {
+    font-size: clamp(2rem, 8.6vw, 4.2rem);
+  }
 }
 
 .contact__email {

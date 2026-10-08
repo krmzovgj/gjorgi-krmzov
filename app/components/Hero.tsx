@@ -7,7 +7,7 @@ import { AUDIT_URL, withUtm } from "../config";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const HEADLINE = "I build automated account management systems for agencies.";
+const HEADLINE = "I build automated speed to lead systems for B2B SaaS.";
 
 // Two sets of controlled line breaks for the same sentence, one shown at a
 // time (globals.css). Wide lines run long enough to cross the portrait on
@@ -18,15 +18,15 @@ type Segment = { text: string; emph?: boolean };
 
 const WIDE: Segment[][] = [
   [{ text: "I build automated" }],
-  [{ text: "account management" }],
-  [{ text: "systems for " }, { text: "agencies.", emph: true }],
+  [{ text: "speed to lead" }],
+  [{ text: "systems for " }, { text: "B2B SaaS.", emph: true }],
 ];
 
 const NARROW: Segment[][] = [
   [{ text: "I build" }],
-  [{ text: "automated account" }],
-  [{ text: "management systems" }],
-  [{ text: "for " }, { text: "agencies.", emph: true }],
+  [{ text: "automated speed" }],
+  [{ text: "to lead systems" }],
+  [{ text: "for " }, { text: "B2B SaaS.", emph: true }],
 ];
 
 // Each line is masked (overflow: hidden) and rises into place, staggered.
@@ -49,7 +49,7 @@ function renderLines(lines: Segment[][], yHidden: number | string) {
         )}
       </motion.span>
       {/* Lines are separate block elements, so without this the extracted text
-          fuses them: "I build automatedaccount managementsystems". That fused
+          fuses them: "I build automatedspeed to leadsystems". That fused
           string was what Google was quoting in the search snippet. The space is
           collapsed visually because .hero__line is display: block. */}
       {" "}
@@ -93,11 +93,6 @@ export default function Hero() {
 
       <div className="hero__content">
         <motion.p className="hero__greeting" {...fadeUp(0.4)}>
-          <span>
-            Hey,
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/wave.svg" alt="" aria-hidden="true" className="hero__wave" />
-          </span>
           <span>{"I'm Gjorgi Krmzov"}</span>
         </motion.p>
 
@@ -117,7 +112,7 @@ export default function Hero() {
 
         <motion.div className="hero__foot" {...fadeUp(0.7)}>
           <a className="btn" href="#what-first" data-cursor="Start here">
-            See what to automate first
+            Check last month&apos;s numbers
             <ArrowRight size={16} weight="bold" />
           </a>
         </motion.div>
@@ -129,7 +124,7 @@ export default function Hero() {
             rel="noopener"
             data-cursor="Let's talk"
           >
-            Or book the free 30 min mapping call
+            Or book a 15 minute call
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M7 17 17 7M9 7h8v8"

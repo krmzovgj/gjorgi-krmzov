@@ -7,7 +7,7 @@ import { join } from "node:path";
 // nothing about the tool. This one is type only: the question the page
 // answers, and the domain.
 
-export const alt = "What should you automate first? krmzov.com";
+export const alt = "How many of last month's demo requests never booked a call? krmzov.com";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -35,13 +35,14 @@ export default async function Image() {
           style={{
             display: "flex",
             flexDirection: "column",
-            fontSize: 92,
+            fontSize: 84,
             lineHeight: 1.04,
             letterSpacing: "-0.035em",
           }}
         >
-          <span>What should you</span>
-          <span>automate first?</span>
+          <span>How many of last</span>
+          <span>month&apos;s demo requests</span>
+          <span>never booked a call?</span>
         </div>
 
         <div

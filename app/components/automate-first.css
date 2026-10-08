@@ -1,11 +1,11 @@
 /* =================================================================
-   "What should you automate first?" (#what-first, inline on the
-   homepage and the whole of /hours).
+   "How many of last month's demo requests never booked a call?"
+   (#what-first, inline on the homepage and the whole of /hours).
 
-   Two ticks and one number. The default path is to type the client
-   count and read the answer, so it is one interaction; the ticks are
-   there to correct, not to fill in. Returns the year in hours, the
-   working behind each row, and which job to fix first.
+   Four fields, empty on load with the worked example as grey
+   placeholders, and one panel that answers in sentences: what was
+   lost last month, what a share of it would be worth, and the
+   arithmetic underneath so the number can be checked.
    Same editorial system: hairline rows, pill controls, one panel.
    ================================================================= */
 .af {
@@ -28,7 +28,10 @@
   font-weight: 350;
   line-height: 0.95;
   letter-spacing: -0.035em;
-  max-width: 16ch;
+  /* A 59 character question, so it needs a wider measure than the old
+     four word title, and balance so it never strands "call?" on its own. */
+  max-width: 22ch;
+  text-wrap: balance;
 }
 
 .af__grid {
@@ -37,102 +40,26 @@
   gap: clamp(2.5rem, 5vw, 4rem);
 }
 
-/* ---- left: the questions ---- */
-.af__q {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: clamp(1.3rem, 2vw, 1.7rem);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  margin-bottom: clamp(1rem, 2vw, 1.5rem);
-}
-
-.af__opts {
+/* ---- left: the four fields ---- */
+.af__fields {
   border-top: 1px solid var(--line);
 }
 
-/* One option row. The whole row is the <label>, so a press anywhere on it
-   toggles - the tick box is a target, not the only target. */
-.af-opt {
-  display: flex;
-  align-items: center;
-  gap: clamp(0.9rem, 2vw, 1.15rem);
-  padding-block: clamp(1rem, 1.9vw, 1.35rem);
-  border-bottom: 1px solid var(--line);
-  cursor: pointer;
-}
-
-/* Kept in the accessibility tree and focusable, just not painted. */
-.af-opt__input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-  border: 0;
-}
-
-.af-opt__box {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.65rem;
-  height: 1.65rem;
-  border: 1px solid var(--line-strong);
-  border-radius: 8px;
-  background: var(--bg-2);
-  color: transparent;
-  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease),
-    color var(--dur) var(--ease);
-}
-
-.af-opt:hover .af-opt__box {
-  border-color: var(--text);
-}
-
-.af-opt__input:checked + .af-opt__box {
-  background: var(--text);
-  border-color: var(--text);
-  color: var(--bg);
-}
-
-.af-opt__input:focus-visible + .af-opt__box {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
-
-.af-opt__label {
-  font-size: clamp(1rem, 1.2vw, 1.12rem);
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  color: var(--text-dim);
-  cursor: pointer;
-  transition: color var(--dur) var(--ease);
-}
-
-.af-opt__input:checked ~ .af-opt__label {
-  color: var(--text);
-}
-
-/* ---- the client count, the only thing to type ---- */
+/* One field. The whole row is the <label>, so a press anywhere on it focuses
+   the input. */
 .af-count {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1.25rem;
-  margin-top: clamp(1.5rem, 3vw, 2.25rem);
-  padding-block: clamp(0.85rem, 1.6vw, 1.15rem);
-  /* No top rule: the last option row already closes with one, and a second
-     line a short gap below it read as a doubled separator. */
+  padding-block: clamp(1rem, 1.9vw, 1.35rem);
   border-bottom: 1px solid var(--line);
   cursor: pointer;
 }
 
 .af-count__label {
   font-size: clamp(1rem, 1.2vw, 1.12rem);
+  line-height: 1.3;
   letter-spacing: -0.01em;
   cursor: pointer;
 }
@@ -162,7 +89,7 @@
 }
 
 .af-count__input {
-  width: 3.5ch;
+  width: 4.5ch;
   border: 0;
   background: transparent;
   font-family: inherit;
@@ -173,57 +100,34 @@
   text-align: right;
   font-variant-numeric: tabular-nums;
   cursor: text;
-  /* Native spinners off; the field is type-and-go. */
-  -moz-appearance: textfield;
-  appearance: textfield;
+}
+
+/* "$1,200,000" is the longest thing a field has to hold. */
+.af-count__input--wide {
+  width: 8.5ch;
 }
 
 .af-count__input:focus {
   outline: none;
 }
 
-.af-count__input::-webkit-outer-spin-button,
-.af-count__input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+/* The grey example numbers. Lighter than any real value (600 weight, full ink)
+   so an example can never be mistaken for something that was typed, but dark
+   enough to read on the pill. */
+.af-count__input::placeholder {
+  color: #8b8b91;
+  font-weight: 500;
+  opacity: 1;
 }
 
-/* ---- right: the result panel ---- */
+/* ---- right: the answer panel ---- */
 .af__out {
   background: var(--bg-2);
   border-radius: var(--r-lg);
   padding: clamp(1.75rem, 3vw, 2.75rem);
 }
 
-/* ---- the figure block: the number and what it is in days ---- */
-/* Less tracked than the shared .label: at this size, sitting directly above
-   the big figure, the wide default read as gappy rather than quiet. */
-.af__out-label {
-  letter-spacing: 0.08em;
-}
-
-.af__total {
-  margin-top: 0.6rem;
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-optical-sizing: none;
-  font-size: clamp(2.8rem, 7.5vw, 5.5rem);
-  font-weight: 400;
-  line-height: 0.9;
-  letter-spacing: -0.045em;
-  color: var(--text);
-  font-variant-numeric: tabular-nums;
-}
-
-/* Hours and days demoted to one quiet line under the money. Data labels, not
-   sentences, so the fragment is the correct form here. */
-.af__days {
-  margin-top: 0.7rem;
-  font-size: 0.95rem;
-  color: var(--text-dim);
-  font-variant-numeric: tabular-nums;
-}
-
-/* Nothing ticked, or no client count to scale by. */
+/* Nothing typed yet. */
 .af__prompt {
   font-size: clamp(1.05rem, 1.4vw, 1.2rem);
   line-height: 1.45;
@@ -231,77 +135,76 @@
   color: var(--text-dim);
 }
 
-/* ---- the breakdown: where that number came from ----
-   Held well clear of the figure above it; run together they read as one
-   dense list instead of a headline and its working. */
-.af-break {
-  margin-top: clamp(2.75rem, 5vw, 4rem);
-}
-
-.af-break__row {
-  display: grid;
-  /* Label and its working share column 1; the value owns column 2 and spans
-     both rows, so it sits centred against the pair however long the label. */
-  grid-template-columns: 1fr auto;
-  column-gap: clamp(1rem, 2.5vw, 2rem);
-  row-gap: 0.3rem;
-  align-items: center;
-  padding-block: clamp(1.1rem, 2.2vw, 1.5rem);
+/* Last month, then what a share of it is worth. A hairline between them keeps
+   the two readings apart. */
+.af__block + .af__block {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  padding-top: clamp(1.5rem, 3vw, 2.25rem);
   border-top: 1px solid var(--line);
 }
 
-.af-break__job {
-  font-size: clamp(1rem, 1.2vw, 1.12rem);
-  letter-spacing: -0.01em;
-  line-height: 1.3;
+/* Less tracked than the shared .label: sitting directly above a sentence the
+   wide default read as gappy rather than quiet. */
+.af__out-label {
+  letter-spacing: 0.08em;
+}
+
+/* The label that carries the dropdown: "If [1 in 10] of those booked". */
+.af__pick {
+  display: block;
+  line-height: 2.2;
+}
+
+.af-select {
+  appearance: none;
+  -webkit-appearance: none;
+  margin-inline: 0.45rem;
+  padding: 0.3rem 1.65rem 0.3rem 0.8rem;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
   color: var(--text);
+  background: var(--bg)
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'><path d='M1 1l4 4 4-4' stroke='%230e0e0f' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/></svg>")
+    no-repeat right 0.65rem center / 0.62rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  transition: border-color var(--dur) var(--ease);
 }
 
-.af-break__work {
-  grid-column: 1;
-  margin: 0;
-  font-size: 0.85rem;
-  line-height: 1.35;
-  color: var(--text-dim);
-  font-variant-numeric: tabular-nums;
+.af-select:hover {
+  border-color: var(--text);
 }
 
-/* Same size on every row, so the rows compare at a glance. */
-.af-break__money {
-  grid-column: 2;
-  grid-row: 1 / span 2;
-  align-self: center;
-  justify-self: end;
-  margin: 0;
+/* The answer. Dim sentence, ink numbers: the figures are what gets read first,
+   and the words around them are what makes them mean something. */
+.af__headline {
+  margin-top: 0.7rem;
   font-family: var(--font-display), system-ui, sans-serif;
   font-optical-sizing: none;
-  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  font-size: clamp(1.45rem, 2.4vw, 2.1rem);
   font-weight: 400;
-  line-height: 1;
+  line-height: 1.14;
   letter-spacing: -0.03em;
-  white-space: nowrap;
-  color: var(--text);
+  color: var(--text-dim);
+  text-wrap: pretty;
   font-variant-numeric: tabular-nums;
 }
 
-/* ---- the payoff, standing on its own above the button ---- */
-.af__verdict {
-  margin-top: clamp(2.25rem, 4.5vw, 3.25rem);
-  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
-  line-height: 1.5;
-  letter-spacing: -0.01em;
-  color: var(--text-dim);
+.af__headline strong {
+  font-weight: 400;
+  color: var(--text);
 }
 
-.af__verdict strong {
-  display: block;
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
-  font-weight: 400;
-  line-height: 1.15;
-  letter-spacing: -0.025em;
-  color: var(--text);
-  margin-bottom: 0.35rem;
+/* The arithmetic, small: how the number above was reached. */
+.af__working {
+  margin-top: 1.1rem;
+  max-width: 54ch;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ---- the ask ---- */
@@ -313,7 +216,7 @@
   margin-top: clamp(2.25rem, 4vw, 3rem);
 }
 
-/* Tells the reader the ticks are not going into a void. */
+/* Tells the reader the numbers are not going into a void. */
 .af__carry {
   font-size: 0.92rem;
   line-height: 1.45;
@@ -335,7 +238,7 @@
   color: var(--text);
 }
 
-/* ---- desktop: two columns, verdict sticky so it stays in view ---- */
+/* ---- desktop: two columns, answer sticky so it stays in view ---- */
 @media (min-width: 1000px) {
   .af__grid {
     grid-template-columns: 1.05fr 0.95fr;
@@ -345,5 +248,13 @@
   .af__out {
     position: sticky;
     top: clamp(5.5rem, 12vh, 8rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .af-count__control,
+  .af-select,
+  .af__dm {
+    transition: none;
   }
 }

@@ -18,12 +18,12 @@ const SITE = "https://www.krmzov.com";
 
 // Outcome-led, niche-named, no job title (DESIGN.md voice rule).
 const TITLE =
-  "Gjorgi Krmzov. Automated account management systems for agencies";
-// The headline first, then the three jobs the offer covers. Both are lines the
-// page actually says, which is what gives Google a reason to use this instead
-// of stitching its own snippet out of the hero and the statement.
+  "Gjorgi Krmzov - automated speed to lead systems for B2B SaaS";
+// What he builds, then what it does for the reader. Both are things the page
+// says, which is what gives Google a reason to use this instead of stitching
+// its own snippet out of the hero and the statement.
 const DESCRIPTION =
-  "I build automated account management systems for agencies. Onboarding new clients, chasing follow ups, the monthly report.";
+  "I build automated speed to lead systems for B2B SaaS and make sure more of the people who ask you for a demo end up on a call.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
@@ -33,10 +33,12 @@ export const metadata: Metadata = {
   },
   description: DESCRIPTION,
   keywords: [
-    "AI automation",
-    "agency automation",
-    "n8n",
-    "workflow automation",
+    "speed to lead",
+    "demo request follow up",
+    "inbound lead response",
+    "HubSpot",
+    "Salesforce",
+    "B2B SaaS",
     "Gjorgi Krmzov",
   ],
   authors: [{ name: "Gjorgi Krmzov" }],

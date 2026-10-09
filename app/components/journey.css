@@ -1,0 +1,489 @@
+/* =================================================================
+   "Follow one demo request from the form to the call." (#how)
+
+   One demo request followed for a week, Tuesday to Monday. Timestamps
+   are the sequence markers. A line fills down the rail with the scroll,
+   the step crossing the middle of the screen is "now" (accent node),
+   earlier steps are ink, later ones ghost, the same dim and bright idea
+   as the statement. Desktop pins one card on the right with the page's
+   edge dots inside it; phones show each moment under its step.
+   ================================================================= */
+.jr {
+  --jr-node: 0.8rem;
+  --jr-rail-w: 1.9rem;
+  --jr-time-w: 0rem;
+  --jr-step-fs: clamp(1.3rem, 5.4vw, 1.6rem);
+  --jr-node-y: calc(0.58rem - var(--jr-node) / 2);
+  --jr-stage-h: clamp(24rem, 72vh, 42rem);
+
+  padding-block: var(--section-y);
+  /* The hero button jumps here, so keep the heading clear of the fixed nav. */
+  scroll-margin-top: clamp(4.5rem, 9vh, 6rem);
+}
+
+.jr__head {
+  margin-bottom: clamp(2.75rem, 7vw, 6.5rem);
+}
+
+.jr__title {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-optical-sizing: none;
+  font-size: var(--fs-h2);
+  font-weight: 350;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  max-width: 17ch;
+  text-wrap: balance;
+}
+
+.jr__sub {
+  margin: clamp(1.1rem, 2vw, 1.6rem) 0 0;
+  max-width: 44ch;
+  color: var(--text-dim);
+  font-size: var(--fs-body);
+  line-height: 1.5;
+}
+
+.jr__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* ---- the timeline ---- */
+.jr__timeline {
+  position: relative;
+}
+
+/* Track and fill. Runs from the first node to the last (measured in
+   Journey.tsx), centred on the rail column. */
+.jr__line {
+  position: absolute;
+  left: calc(var(--jr-time-w) + var(--jr-rail-w) / 2);
+  width: 2px;
+  margin-left: -1px;
+  background: var(--line);
+  pointer-events: none;
+}
+
+.jr__fill {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: var(--text);
+  transform-origin: 50% 0;
+}
+
+.jr__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Steps sit flush against each other; the space between them is padding
+   inside each step, so the middle of the screen is always inside one. */
+.jr__step {
+  display: grid;
+  grid-template-columns: var(--jr-rail-w) minmax(0, 1fr);
+  grid-template-areas:
+    "node time"
+    "node copy";
+  padding-bottom: clamp(2.25rem, 7vh, 3.25rem);
+}
+
+.jr__time {
+  grid-area: time;
+  margin: 0 0 0.5rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  transition: opacity 0.5s var(--ease);
+}
+
+.jr__clock {
+  font-weight: 500;
+}
+
+.jr__day {
+  color: var(--text-dim);
+}
+
+.jr__node {
+  grid-area: node;
+  position: relative;
+  z-index: 1;
+  justify-self: center;
+  align-self: start;
+  width: var(--jr-node);
+  height: var(--jr-node);
+  margin-top: var(--jr-node-y);
+  border-radius: 50%;
+  border: 1.5px solid var(--line-strong);
+  background: var(--bg);
+}
+
+/* The fill grows in from the centre (transform), so the colour change
+   itself never animates. */
+.jr__node::after {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 50%;
+  background: var(--text);
+  transform: scale(0);
+  transition: transform 0.45s var(--ease);
+}
+
+.jr__step[data-state="past"] .jr__node::after {
+  transform: scale(1);
+}
+
+.jr__step[data-state="now"] .jr__node::after {
+  background: var(--accent);
+  transform: scale(1);
+}
+
+.jr__copy {
+  grid-area: copy;
+  min-width: 0;
+}
+
+.jr__text {
+  margin: 0;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: var(--jr-step-fs);
+  font-weight: 400;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  max-width: 24ch;
+  text-wrap: pretty;
+  transition: opacity 0.5s var(--ease);
+}
+
+/* Later steps wait in ghost grey. Opacity, not colour, so it stays on the
+   compositor; ink at this opacity lands on the --text-ghost grey. */
+.jr__step[data-state="next"] .jr__text {
+  opacity: 0.26;
+}
+
+.jr__step[data-state="next"] .jr__time {
+  opacity: 0.4;
+}
+
+.jr__note {
+  margin: clamp(0.5rem, 2vw, 1.5rem) 0 0 var(--jr-rail-w);
+  max-width: 46ch;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+/* ---- the card look, shared by the pinned card and the phone panels ---- */
+
+/* z-index 32 opts it out of the page's edge wash and dot field (body
+   ::before and ::after, 30 and 31), the same way .btn does. */
+.jr-panel {
+  position: relative;
+  z-index: 32;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+/* The page's own edge treatment, inside the card: the same dot, the same
+   gap, solid at the left and right edges and gone toward the middle. */
+.jr-dots::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+  background-size: var(--dot-gap) var(--dot-gap);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    #000 0,
+    transparent 22%,
+    transparent 78%,
+    #000 100%
+  );
+  mask-image: linear-gradient(to right, #000 0, transparent 22%, transparent 78%, #000 100%);
+}
+
+/* phones: each moment under its step */
+.jr__art--inline {
+  margin-top: 1.25rem;
+  padding: 1.6rem 1.5rem 1.65rem 1.7rem;
+  border-radius: var(--r-md);
+  transition: opacity 0.5s var(--ease);
+}
+
+.jr__art--inline > * {
+  position: relative;
+  z-index: 1;
+}
+
+.jr__step[data-state="next"] .jr__art--inline {
+  opacity: 0.35;
+}
+
+/* ---- the pinned card (desktop) ---- */
+.jr__aside {
+  display: none;
+}
+
+/* A fixed height sticky frame; the card inside sits centred in it and
+   only the card changes height. */
+.jr__stage {
+  position: sticky;
+  z-index: 32;
+  top: calc(50vh - var(--jr-stage-h) / 2);
+  height: var(--jr-stage-h);
+  display: flex;
+  align-items: center;
+}
+
+.jr__card {
+  width: 100%;
+}
+
+.jr__inner {
+  position: relative;
+  z-index: 1;
+  padding: clamp(2.25rem, 3.8vw, 3.5rem);
+}
+
+/* The last 3 moments, one dim line each, the oldest faded out at the top. */
+.jr__log {
+  position: relative;
+  margin-bottom: 1.9rem;
+}
+
+.jr__log:empty {
+  display: none;
+}
+
+.jr__log[data-long="true"] {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 45%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 45%);
+}
+
+.jr__logline {
+  display: grid;
+  grid-template-columns: 4.75rem 1rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0;
+  padding-block: 0.3rem;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.jr__logtime {
+  font-variant-numeric: tabular-nums;
+}
+
+.jr__logtext {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.jr-icon {
+  flex: none;
+  color: var(--text-dim);
+}
+
+@media (min-width: 1000px) {
+  .jr {
+    --jr-rail-w: 2.75rem;
+    --jr-time-w: 7.5rem;
+    --jr-step-fs: clamp(1.35rem, 1.75vw, 2rem);
+    --jr-node-y: calc(var(--jr-step-fs) * 0.59 - var(--jr-node) / 2);
+  }
+
+  .jr__grid {
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+    column-gap: clamp(3rem, 6vw, 7.5rem);
+  }
+
+  .jr__step {
+    grid-template-columns: var(--jr-time-w) var(--jr-rail-w) minmax(0, 1fr);
+    grid-template-areas: "time node copy";
+    padding-bottom: clamp(4.5rem, 17vh, 9.5rem);
+  }
+
+  /* Day over clock, the block lined up with the sentence's first line. */
+  .jr__time {
+    margin: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+    padding-top: calc(var(--jr-step-fs) * 0.59 - 0.6rem);
+  }
+
+  .jr__day {
+    font-size: 0.85rem;
+  }
+
+  .jr__art--inline {
+    display: none;
+  }
+
+  .jr__aside {
+    display: block;
+    position: relative;
+  }
+
+  .jr__note {
+    margin-left: calc(var(--jr-time-w) + var(--jr-rail-w));
+  }
+}
+
+/* =================================================================
+   The moments, in type. Same family, same light display weight as the
+   rest of the page; the words carry the moment.
+   ================================================================= */
+.jr-q,
+.jr-reply__ask {
+  margin: 0;
+}
+
+.jr-q__text p,
+.jr-reply__ask p {
+  margin: 0;
+}
+
+.jr-q__text {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 350;
+  text-wrap: balance;
+}
+
+.jr-q[data-size="lg"] .jr-q__text {
+  max-width: 15ch;
+  font-size: clamp(1.75rem, 2.9vw, 3rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+}
+
+.jr-q[data-size="md"] .jr-q__text {
+  max-width: 23ch;
+  font-size: clamp(1.3rem, 1.85vw, 1.95rem);
+  line-height: 1.16;
+  letter-spacing: -0.025em;
+}
+
+/* Hanging opening quote: the mark sits in the margin so the words, not the
+   punctuation, line up with the caption. */
+.jr-q__mark {
+  margin-left: -0.4em;
+}
+
+.jr-by {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.1rem;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.jr-big {
+  margin: 0;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-optical-sizing: none;
+  font-size: clamp(2.3rem, 4.4vw, 4.6rem);
+  font-weight: 350;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.jr-big--xl {
+  font-size: clamp(4rem, 9vw, 9rem);
+  letter-spacing: -0.05em;
+}
+
+/* booked: the follow ups that won't go out, struck through */
+.jr-struck {
+  list-style: none;
+  display: grid;
+  gap: 0.3rem;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  color: var(--text-dim);
+  font-size: 1rem;
+}
+
+.jr-struck s {
+  text-decoration-thickness: 1.5px;
+}
+
+/* Dan asks small, Sarah's answer is the big line */
+.jr-reply__ask blockquote {
+  max-width: 30ch;
+  color: var(--text-dim);
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.jr-reply__ask .jr-by {
+  margin-top: 0.4rem;
+  font-size: 0.82rem;
+}
+
+.jr-reply .jr-q {
+  margin-top: 1.9rem;
+}
+
+/* Monday's report, a plain table */
+.jr-report {
+  width: 100%;
+}
+
+.jr-report__title {
+  margin: 0 0 1rem;
+}
+
+.jr-report__title .jr-by {
+  margin-top: 0;
+}
+
+.jr-report table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.jr-report th {
+  padding: 0 1rem 0.6rem 0;
+  border-bottom: 1px solid var(--line-strong);
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.jr-report td {
+  padding: 0.75rem 1rem 0.75rem 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--text-dim);
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(1.05rem, 1.35vw, 1.35rem);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+}
+
+.jr-report tr[data-mark="true"] td {
+  color: var(--text);
+}
+
+.jr-report tr:last-child td {
+  border-bottom: 0;
+}

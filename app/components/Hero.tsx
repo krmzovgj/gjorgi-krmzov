@@ -111,8 +111,8 @@ export default function Hero() {
         </h1>
 
         <motion.div className="hero__foot" {...fadeUp(0.7)}>
-          <a className="btn" href="#what-first" data-cursor="Start here">
-            Check last month&apos;s numbers
+          <a className="btn" href="#how" data-cursor="Start here">
+            See how it works
             <ArrowRight size={16} weight="bold" />
           </a>
         </motion.div>

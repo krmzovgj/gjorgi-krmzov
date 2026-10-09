@@ -1,11 +1,13 @@
-// Section order: hero, statement, calculator, faq, contact, footer. The hero
-// button scrolls to the calculator (#what-first), which sits right after the
-// statement that sets up the question it asks. Work and Process are hidden:
-// SelectedWork.tsx and Process.tsx still exist, just not rendered here.
+// Section order: hero, statement, journey, faq, contact, footer. The hero
+// button scrolls to the journey (#how), which follows one demo request from
+// the form to the call right after the statement promises exactly that.
+// Work, Process and the calculator are hidden: SelectedWork.tsx, Process.tsx
+// and AutomateFirst.tsx still exist (the calculator still runs /hours), just
+// not rendered here.
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Statement from "./components/Statement";
-import AutomateFirst from "./components/AutomateFirst";
+import Journey from "./components/Journey";
 import Faq from "./components/Faq";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -17,7 +19,7 @@ export default function Home() {
       <main>
         <Hero />
         <Statement />
-        <AutomateFirst />
+        <Journey />
         <Faq />
         <Contact />
       </main>

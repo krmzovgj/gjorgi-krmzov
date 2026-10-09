@@ -5,6 +5,7 @@ import {
   AnimatePresence,
   MotionConfig,
   motion,
+  useInView,
   useReducedMotion,
   useScroll,
   useSpring,
@@ -32,7 +33,7 @@ import {
 } from "../data/journey";
 import "./journey.css";
 
-// One demo request, followed from the form to the call to Monday's report.
+// One demo request, followed from the form to the call to Monday's email.
 //
 // Left: the steps with real timestamps. A line fills down the rail as the page
 // scrolls, and the step crossing the middle of the screen is "now": its node
@@ -43,7 +44,7 @@ import "./journey.css";
 // it. It shows the last 3 moments as one dim line each and the current one
 // large under them, all in type, never a mock interface. The card's height
 // follows its content on a soft spring. Phones get each moment inline under
-// its step instead.
+// its step instead, on a card that scales and fades in when it comes into view.
 //
 // Motion uses the site ease. The card height is the one animated size: it sits
 // in a fixed height sticky frame, so nothing else on the page moves with it.
@@ -66,7 +67,7 @@ const ICONS: Record<IconName, ComponentType<IconProps>> = {
 
 function Icon({ name }: { name: IconName }) {
   const C = ICONS[name];
-  return <C className="jr-icon" size={15} weight="regular" aria-hidden="true" />;
+  return <C className="jr-icon" size={16} weight="duotone" aria-hidden="true" />;
 }
 
 type State = "past" | "now" | "next";
@@ -182,9 +183,7 @@ export default function Journey() {
                   <span className="jr__node" data-node aria-hidden="true" />
                   <div className="jr__copy">
                     <p className="jr__text">{s.text}</p>
-                    <div className="jr__art jr__art--inline jr-panel jr-dots" aria-hidden="true">
-                      <Artwork art={s.art} icon={s.icon} />
-                    </div>
+                    <InlineArt art={s.art} icon={s.icon} state={stateOf(i)} />
                   </div>
                 </li>
               ))}
@@ -242,10 +241,46 @@ export default function Journey() {
 }
 
 /* ---------------------------------------------------------------------
+   Phones: the moment under its step, on its own card. The first time a
+   card comes into view it scales up from 0.9 and fades in, then its words
+   rise in the same way the desktop card's moments do. Cards for later steps
+   stay dimmed until their step is "now". Reduced motion skips the scale and
+   the rise, the card just appears.
+   --------------------------------------------------------------------- */
+function InlineArt({ art, icon, state }: { art: Art; icon: IconName; state: State }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const seen = useInView(ref, { once: true, margin: "0px 0px -20% 0px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      className="jr__art jr__art--inline jr-panel jr-dots"
+      aria-hidden="true"
+      initial={false}
+      animate={{ opacity: seen ? (state === "next" ? 0.35 : 1) : 0, scale: seen ? 1 : 0.9 }}
+      transition={
+        reduce
+          ? { duration: 0 }
+          : { scale: { duration: 0.8, ease: EASE }, opacity: { duration: 0.6, ease: EASE } }
+      }
+    >
+      <motion.div
+        initial={false}
+        animate={{ opacity: seen ? 1 : 0, y: seen ? 0 : 28 }}
+        transition={reduce ? { duration: 0 } : { duration: 0.75, ease: EASE, delay: 0.18 }}
+      >
+        <Artwork art={art} icon={icon} />
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ---------------------------------------------------------------------
    The right side, in type. Each step shows the one thing a person would
    actually see in that moment: a line someone wrote (with a hanging opening
-   quote), the booked time, Sarah's yes under Dan's question, the call time,
-   or the report. No avatars, buttons or fake windows.
+   quote), the booked time, Sarah's yes under Dan's question or the call
+   time. No avatars, buttons, tables or fake windows.
    --------------------------------------------------------------------- */
 
 function By({ icon, children }: { icon?: IconName; children: string }) {
@@ -294,8 +329,6 @@ function shortOf(art: Art): string {
       return `“${art.answer}”`;
     case "call":
       return `On the call at ${art.time}`;
-    case "report":
-      return art.title;
   }
 }
 
@@ -339,33 +372,6 @@ function Artwork({ art, icon }: { art: Art; icon: IconName }) {
         <div className="jr-call">
           <p className="jr-big jr-big--xl">{art.time}</p>
           <By icon={icon}>{art.by}</By>
-        </div>
-      );
-
-    case "report":
-      return (
-        <div className="jr-report">
-          <p className="jr-report__title">
-            <By icon={icon}>{art.title}</By>
-          </p>
-          <table>
-            <thead>
-              <tr>
-                {art.head.map((h) => (
-                  <th key={h}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {art.rows.map((r, i) => (
-                <tr key={i} data-mark={i === 0}>
-                  {r.map((c, j) => (
-                    <td key={j}>{c}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
       );
   }

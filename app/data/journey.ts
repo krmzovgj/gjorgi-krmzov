@@ -1,8 +1,8 @@
-// One demo request followed from the form to the call to Monday's report.
+// One demo request followed from the form to the call to Monday's email.
 // Every line on the section lives here: the step sentences on the left and
 // the words shown on the right (what Sarah wrote, what Dan sent, her reply,
-// the report) and the icon for each moment. Sarah, Dan, Northwind and the others are made up
-// examples of the reader's own lead and rep.
+// my Monday email) and the icon for each moment. Sarah, Dan, Northwind and
+// the others are made up examples of the reader's own lead and rep.
 
 export const JOURNEY_TITLE = "How it works";
 
@@ -12,7 +12,7 @@ export const JOURNEY_NOTE =
   "If she'd missed the call, she'd have gotten a link to pick a new time. Every weekday I also send a test request through your form, so you hear from me first if anything breaks.";
 
 // What the right side shows for each step. All type, no mock interface:
-// a line someone wrote, the time something landed, or the report.
+// a line someone wrote or the time something landed.
 export type Art =
   // Something a person wrote, set as a quote, with who and when under it.
   | { kind: "quote"; text: string; by: string; size?: "lg" | "md" }
@@ -20,10 +20,8 @@ export type Art =
   | { kind: "booked"; when: string; struck: string[]; by: string }
   // Dan asks, Sarah answers. Her answer is the big line.
   | { kind: "reply"; ask: string; askBy: string; answer: string; answerBy: string }
-  // The call itself: the time, white on black.
-  | { kind: "call"; time: string; by: string }
-  // Monday's report, as a plain table.
-  | { kind: "report"; title: string; head: string[]; rows: string[][] };
+  // The call itself: the time, large.
+  | { kind: "call"; time: string; by: string };
 
 // The small icon shown with each moment on the right (Phosphor, in Journey.tsx).
 export type IconName =
@@ -49,7 +47,7 @@ export const JOURNEY: Step[] = [
   {
     day: "Tuesday",
     time: "2:14 PM",
-    text: "Sarah fills out your demo form.",
+    text: "Sarah, a warm lead, fills out your demo form.",
     icon: "form",
     art: {
       kind: "quote",
@@ -146,14 +144,10 @@ export const JOURNEY: Step[] = [
     text: "You see how fast she heard back and that she showed up.",
     icon: "report",
     art: {
-      kind: "report",
-      title: "Last week's demo requests",
-      head: ["Who", "Heard back in", "What happened"],
-      rows: [
-        ["Sarah", "41 sec", "Showed up"],
-        ["Omar", "38 sec", "Showed up"],
-        ["Jess", "52 sec", "Booked for Thursday"],
-      ],
+      kind: "quote",
+      text: "Last week Sarah heard back in 41 seconds and showed up, and so did Omar, and Jess is booked for Thursday.",
+      by: "From me, Monday at 8:00 AM",
+      size: "md",
     },
   },
 ];

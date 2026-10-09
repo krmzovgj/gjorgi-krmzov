@@ -133,7 +133,7 @@ export const JOURNEY: Step[] = [
     icon: "call",
     art: {
       kind: "call",
-      time: "10:00",
+      time: "10:00\u00a0AM",
       by: "You and Sarah, Friday",
     },
   },

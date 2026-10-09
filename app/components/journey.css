@@ -388,8 +388,10 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* "10:00 AM" runs about 3.6 times the font size, so this keeps it at about
+   85% of the card's width from 1000px up. */
 .jr-big--xl {
-  font-size: clamp(4rem, 9vw, 9rem);
+  font-size: clamp(4rem, 7.6vw, 8rem);
   letter-spacing: -0.05em;
 }
 
@@ -467,7 +469,9 @@
     font-size: clamp(2.3rem, 10.2vw, 2.6rem);
   }
 
+  /* Same 3.6 times: the vw keeps "10:00 AM" at 75 to 90% of the card's
+     width down to a 320px screen. */
   .jr-big--xl {
-    font-size: 4.5rem;
+    font-size: clamp(2.9rem, 15.5vw, 4rem);
   }
 }

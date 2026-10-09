@@ -436,3 +436,50 @@
 .jr-reply .jr-q {
   margin-top: 1.9rem;
 }
+
+/* Phones: every reading size steps up (Gjorgi, 2026-10-09). The pinned card
+   never shows below 1000px, so these only touch the steps and the cards under
+   them. "Friday, 10:00 AM" still fits one line in a card at 360px. */
+@media (max-width: 760px) {
+  .jr {
+    --jr-step-fs: clamp(1.5rem, 6.2vw, 1.75rem);
+    /* The node centres on the larger time line. */
+    --jr-node-y: calc(0.6rem - var(--jr-node) / 2);
+  }
+
+  .jr__time {
+    font-size: 1rem;
+  }
+
+  .jr-q[data-size="lg"] .jr-q__text {
+    font-size: 2rem;
+  }
+
+  .jr-q[data-size="md"] .jr-q__text {
+    font-size: 1.5rem;
+  }
+
+  .jr-by {
+    font-size: 0.98rem;
+  }
+
+  .jr-reply__ask blockquote {
+    font-size: 1.15rem;
+  }
+
+  .jr-reply__ask .jr-by {
+    font-size: 0.9rem;
+  }
+
+  .jr-struck {
+    font-size: 1.08rem;
+  }
+
+  .jr-big {
+    font-size: clamp(2.3rem, 10.2vw, 2.6rem);
+  }
+
+  .jr-big--xl {
+    font-size: 4.5rem;
+  }
+}

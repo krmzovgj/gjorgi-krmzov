@@ -60,6 +60,15 @@
   color-scheme: light;
 }
 
+/* Phones: the reading sizes step up (Gjorgi, 2026-10-09). Body copy goes from
+   16px to 17px here; the statement, the FAQ questions and How it works follow
+   in their own phone rules. Headings and the hero keep their sizes. */
+@media (max-width: 760px) {
+  :root {
+    --fs-body: 1.0625rem;
+  }
+}
+
 *,
 *::before,
 *::after {
@@ -769,6 +778,9 @@ video {
    stranded on their own line, so drop the breaks and let the prose reflow.
    The paragraph split between problem and promise still stands. */
 @media (max-width: 760px) {
+  .statement {
+    font-size: 1.6rem;
+  }
   .statement__line {
     display: inline;
   }
@@ -1056,6 +1068,12 @@ video {
      section; the state lives in the mark instead, which is what DESIGN.md
      reserves the accent for. */
   color: var(--text);
+}
+
+@media (max-width: 760px) {
+  .faq-item__q {
+    font-size: 1.4rem;
+  }
 }
 
 .faq-item__q:focus-visible {

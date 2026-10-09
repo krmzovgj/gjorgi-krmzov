@@ -279,7 +279,7 @@ function InlineArt({ art, icon, state }: { art: Art; icon: IconName; state: Stat
 /* ---------------------------------------------------------------------
    The right side, in type. Each step shows the one thing a person would
    actually see in that moment: a line someone wrote (with a hanging opening
-   quote), the booked time, Sarah's yes under Dan's question or the call
+   quote), the booked time, Sarah's yes under the system's question or the call
    time. No avatars, buttons, tables or fake windows.
    --------------------------------------------------------------------- */
 

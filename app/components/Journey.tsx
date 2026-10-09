@@ -13,7 +13,6 @@ import {
 import {
   ArrowBendUpRight,
   CalendarCheck,
-  ChartBar,
   ChatCircleText,
   ClipboardText,
   EnvelopeSimple,
@@ -25,7 +24,6 @@ import {
 import Reveal from "./Reveal";
 import {
   JOURNEY,
-  JOURNEY_NOTE,
   JOURNEY_SUB,
   JOURNEY_TITLE,
   type Art,
@@ -33,7 +31,7 @@ import {
 } from "../data/journey";
 import "./journey.css";
 
-// One demo request, followed from the form to the call to Monday's email.
+// One demo request, followed from the form to the call.
 //
 // Left: the steps with real timestamps. A line fills down the rail as the page
 // scrolls, and the step crossing the middle of the screen is "now": its node
@@ -62,7 +60,6 @@ const ICONS: Record<IconName, ComponentType<IconProps>> = {
   reply: ChatCircleText,
   link: LinkSimple,
   call: VideoCamera,
-  report: ChartBar,
 };
 
 function Icon({ name }: { name: IconName }) {
@@ -233,8 +230,6 @@ export default function Journey() {
             </MotionConfig>
           </div>
         </div>
-
-        <p className="jr__note">{JOURNEY_NOTE}</p>
       </div>
     </section>
   );

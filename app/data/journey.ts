@@ -1,17 +1,15 @@
-// One demo request followed from the form to the call to Monday's email.
+// One demo request followed from the form to the call. The story ends on
+// the call because that's the return the page promises, more of the people
+// who ask for a demo end up on a call with you.
 // Every line on the section lives here: the step sentences on the left and
 // the words shown on the right (what Sarah wrote, what the system sent from
-// the reader's inbox, her reply, my Monday email) and the icon for each
-// moment. Sarah, Northwind and the others are made up examples of the
+// the reader's inbox, her reply) and the icon for each moment. Sarah, Northwind and the others are made up examples of the
 // reader's own leads. There is no rep in the story: the system does the
 // sending and the reader takes the call.
 
 export const JOURNEY_TITLE = "How it works";
 
 export const JOURNEY_SUB = "Sarah asks you for a demo on a Tuesday afternoon.";
-
-export const JOURNEY_NOTE =
-  "If she'd missed the call, she'd have gotten a link to pick a new time. Every weekday I also send a test request through your form, so you hear from me first if anything breaks.";
 
 // What the right side shows for each step. All type, no mock interface:
 // a line someone wrote or the time something landed.
@@ -34,8 +32,7 @@ export type IconName =
   | "calendar"
   | "reply"
   | "link"
-  | "call"
-  | "report";
+  | "call";
 
 export type Step = {
   day: string;
@@ -65,7 +62,7 @@ export const JOURNEY: Step[] = [
     art: {
       kind: "quote",
       text: "Hi Sarah, happy to walk you through pricing for\u00a012. Here's my calendar, pick any time that works.",
-      by: "From your inbox, 41 seconds after she asked",
+      by: "From your inbox, Tuesday at 2:15\u00a0PM",
       size: "md",
     },
   },
@@ -89,7 +86,7 @@ export const JOURNEY: Step[] = [
     art: {
       kind: "quote",
       text: "Hi Sarah, in case my email got buried yesterday, here's my calendar again.",
-      by: "From your inbox, Wednesday at 9:00 AM",
+      by: "From your inbox, Wednesday at 9:00\u00a0AM",
       size: "md",
     },
   },
@@ -113,9 +110,9 @@ export const JOURNEY: Step[] = [
     art: {
       kind: "reply",
       ask: "Still good for tomorrow at 10? Reply yes and you're all set.",
-      askBy: "From your inbox, Thursday at 10:00 AM",
+      askBy: "From your inbox, Thursday at 10:00\u00a0AM",
       answer: "Yes, see you then.",
-      answerBy: "Sarah, 10:41 AM",
+      answerBy: "Sarah, 10:41\u00a0AM",
     },
   },
   {
@@ -126,7 +123,7 @@ export const JOURNEY: Step[] = [
     art: {
       kind: "quote",
       text: "Here's the link for 10:00, see you soon.",
-      by: "From your inbox, Friday at 9:00 AM",
+      by: "From your inbox, Friday at 9:00\u00a0AM",
     },
   },
   {
@@ -138,18 +135,6 @@ export const JOURNEY: Step[] = [
       kind: "call",
       time: "10:00",
       by: "You and Sarah, Friday",
-    },
-  },
-  {
-    day: "Monday",
-    time: "8:00 AM",
-    text: "You see how fast she heard back and that she showed up.",
-    icon: "report",
-    art: {
-      kind: "quote",
-      text: "Last week Sarah heard back in 41 seconds and showed up, and so did Omar, and Jess is booked for Thursday.",
-      by: "From me, Monday at 8:00 AM",
-      size: "md",
     },
   },
 ];

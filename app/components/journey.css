@@ -1,7 +1,7 @@
 /* =================================================================
    "Follow one demo request from the form to the call." (#how)
 
-   One demo request followed for a week, Tuesday to Monday. Timestamps
+   One demo request followed from Tuesday to the call on Friday. Timestamps
    are the sequence markers. A line fills down the rail with the scroll,
    the step crossing the middle of the screen is "now" (accent node),
    earlier steps are ink, later ones ghost, the same dim and bright idea
@@ -172,14 +172,6 @@
   opacity: 0.4;
 }
 
-.jr__note {
-  margin: clamp(0.5rem, 2vw, 1.5rem) 0 0 var(--jr-rail-w);
-  max-width: 46ch;
-  font-size: var(--fs-body);
-  line-height: 1.5;
-  color: var(--text-dim);
-}
-
 /* ---- the card look, shared by the pinned card and the phone panels ---- */
 
 /* z-index 32 opts it out of the page's edge wash and dot field (body
@@ -332,10 +324,6 @@
   .jr__aside {
     display: block;
     position: relative;
-  }
-
-  .jr__note {
-    margin-left: calc(var(--jr-time-w) + var(--jr-rail-w));
   }
 }
 

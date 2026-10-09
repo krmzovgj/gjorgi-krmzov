@@ -5,6 +5,7 @@ import {
   AnimatePresence,
   MotionConfig,
   motion,
+  useInView,
   useReducedMotion,
   useScroll,
   useSpring,
@@ -43,7 +44,7 @@ import "./journey.css";
 // it. It shows the last 3 moments as one dim line each and the current one
 // large under them, all in type, never a mock interface. The card's height
 // follows its content on a soft spring. Phones get each moment inline under
-// its step instead.
+// its step instead, on a card that scales and fades in when it comes into view.
 //
 // Motion uses the site ease. The card height is the one animated size: it sits
 // in a fixed height sticky frame, so nothing else on the page moves with it.
@@ -182,9 +183,7 @@ export default function Journey() {
                   <span className="jr__node" data-node aria-hidden="true" />
                   <div className="jr__copy">
                     <p className="jr__text">{s.text}</p>
-                    <div className="jr__art jr__art--inline jr-panel jr-dots" aria-hidden="true">
-                      <Artwork art={s.art} icon={s.icon} />
-                    </div>
+                    <InlineArt art={s.art} icon={s.icon} state={stateOf(i)} />
                   </div>
                 </li>
               ))}
@@ -238,6 +237,42 @@ export default function Journey() {
         <p className="jr__note">{JOURNEY_NOTE}</p>
       </div>
     </section>
+  );
+}
+
+/* ---------------------------------------------------------------------
+   Phones: the moment under its step, on its own card. The first time a
+   card comes into view it scales up from 0.9 and fades in, then its words
+   rise in the same way the desktop card's moments do. Cards for later steps
+   stay dimmed until their step is "now". Reduced motion skips the scale and
+   the rise, the card just appears.
+   --------------------------------------------------------------------- */
+function InlineArt({ art, icon, state }: { art: Art; icon: IconName; state: State }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const seen = useInView(ref, { once: true, margin: "0px 0px -20% 0px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      className="jr__art jr__art--inline jr-panel jr-dots"
+      aria-hidden="true"
+      initial={false}
+      animate={{ opacity: seen ? (state === "next" ? 0.35 : 1) : 0, scale: seen ? 1 : 0.9 }}
+      transition={
+        reduce
+          ? { duration: 0 }
+          : { scale: { duration: 0.8, ease: EASE }, opacity: { duration: 0.6, ease: EASE } }
+      }
+    >
+      <motion.div
+        initial={false}
+        animate={{ opacity: seen ? 1 : 0, y: seen ? 0 : 28 }}
+        transition={reduce ? { duration: 0 } : { duration: 0.75, ease: EASE, delay: 0.18 }}
+      >
+        <Artwork art={art} icon={icon} />
+      </motion.div>
+    </motion.div>
   );
 }
 

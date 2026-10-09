@@ -212,21 +212,17 @@
   mask-image: linear-gradient(to right, #000 0, transparent 22%, transparent 78%, #000 100%);
 }
 
-/* phones: each moment under its step */
+/* phones: each moment under its step. Its entrance (scale and fade, then
+   the words rising) and the dim for later steps run in Journey.tsx. */
 .jr__art--inline {
   margin-top: 1.25rem;
   padding: 1.6rem 1.5rem 1.65rem 1.7rem;
   border-radius: var(--r-md);
-  transition: opacity 0.5s var(--ease);
 }
 
 .jr__art--inline > * {
   position: relative;
   z-index: 1;
-}
-
-.jr__step[data-state="next"] .jr__art--inline {
-  opacity: 0.35;
 }
 
 /* ---- the pinned card (desktop) ---- */

@@ -47,7 +47,7 @@ export const JOURNEY: Step[] = [
   {
     day: "Tuesday",
     time: "2:14 PM",
-    text: "Sarah fills out your demo form.",
+    text: "Sarah, a warm lead, fills out your demo form.",
     icon: "form",
     art: {
       kind: "quote",

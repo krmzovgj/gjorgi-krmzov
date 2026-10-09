@@ -1,8 +1,10 @@
 // One demo request followed from the form to the call to Monday's email.
 // Every line on the section lives here: the step sentences on the left and
-// the words shown on the right (what Sarah wrote, what Dan sent, her reply,
-// my Monday email) and the icon for each moment. Sarah, Dan, Northwind and
-// the others are made up examples of the reader's own lead and rep.
+// the words shown on the right (what Sarah wrote, what the system sent from
+// the reader's inbox, her reply, my Monday email) and the icon for each
+// moment. Sarah, Northwind and the others are made up examples of the
+// reader's own leads. There is no rep in the story: the system does the
+// sending and the reader takes the call.
 
 export const JOURNEY_TITLE = "How it works";
 
@@ -18,7 +20,7 @@ export type Art =
   | { kind: "quote"; text: string; by: string; size?: "lg" | "md" }
   // The booked slot, with the follow ups that won't go out struck through.
   | { kind: "booked"; when: string; struck: string[]; by: string }
-  // Dan asks, Sarah answers. Her answer is the big line.
+  // The system asks, Sarah answers. Her answer is the big line.
   | { kind: "reply"; ask: string; askBy: string; answer: string; answerBy: string }
   // The call itself: the time, large.
   | { kind: "call"; time: string; by: string };
@@ -58,36 +60,36 @@ export const JOURNEY: Step[] = [
   {
     day: "Tuesday",
     time: "2:15 PM",
-    text: "A minute later she has an email from Dan on your team with a link to book a call.",
+    text: "A minute later the system emails her from your inbox with a link to book a call.",
     icon: "email",
     art: {
       kind: "quote",
       text: "Hi Sarah, happy to walk you through pricing for\u00a012. Here's my calendar, pick any time that works.",
-      by: "Dan, 41 seconds after she asked",
+      by: "From your inbox, 41 seconds after she asked",
       size: "md",
     },
   },
   {
     day: "Tuesday",
     time: "2:15 PM",
-    text: "Dan gets a note on who she is and what she asked.",
+    text: "You get a note on who she is and what she asked.",
     icon: "note",
     art: {
       kind: "quote",
-      text: "Sarah's at Northwind, they're 84 people and sell inventory software to wholesalers. She wants pricing for a team of\u00a012.",
-      by: "Dan's note, from her form and Northwind's website",
+      text: "Sarah's at Northwind, they sell inventory software to wholesalers. She wants pricing for a team of\u00a012.",
+      by: "From her form and Northwind's website",
       size: "md",
     },
   },
   {
     day: "Wednesday",
     time: "9:00 AM",
-    text: "She hasn't booked by the next morning, so Dan follows up.",
+    text: "She hasn't booked by the next morning, so the system follows up.",
     icon: "followup",
     art: {
       kind: "quote",
       text: "Hi Sarah, in case my email got buried yesterday, here's my calendar again.",
-      by: "Dan, Wednesday at 9:00 AM",
+      by: "From your inbox, Wednesday at 9:00 AM",
       size: "md",
     },
   },
@@ -100,18 +102,18 @@ export const JOURNEY: Step[] = [
       kind: "booked",
       when: "Friday, 10:00 AM",
       struck: ["Follow up on Friday", "Follow up next Tuesday"],
-      by: "On Dan's calendar",
+      by: "On your calendar",
     },
   },
   {
     day: "Thursday",
     time: "10:00 AM",
-    text: "The day before, Dan asks her to confirm, and she replies yes.",
+    text: "The day before, the system asks her to confirm, and she replies yes.",
     icon: "reply",
     art: {
       kind: "reply",
       ask: "Still good for tomorrow at 10? Reply yes and you're all set.",
-      askBy: "Dan, Thursday at 10:00 AM",
+      askBy: "From your inbox, Thursday at 10:00 AM",
       answer: "Yes, see you then.",
       answerBy: "Sarah, 10:41 AM",
     },
@@ -124,18 +126,18 @@ export const JOURNEY: Step[] = [
     art: {
       kind: "quote",
       text: "Here's the link for 10:00, see you soon.",
-      by: "Dan, Friday at 9:00 AM",
+      by: "From your inbox, Friday at 9:00 AM",
     },
   },
   {
     day: "Friday",
     time: "10:00 AM",
-    text: "Sarah and Dan are on the call.",
+    text: "You and Sarah are on the call.",
     icon: "call",
     art: {
       kind: "call",
       time: "10:00",
-      by: "Sarah and Dan, Friday",
+      by: "You and Sarah, Friday",
     },
   },
   {

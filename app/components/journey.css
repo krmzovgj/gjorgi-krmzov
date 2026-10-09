@@ -420,7 +420,7 @@
   text-decoration-thickness: 1.5px;
 }
 
-/* Dan asks small, Sarah's answer is the big line */
+/* The system asks small, Sarah's answer is the big line */
 .jr-reply__ask blockquote {
   max-width: 30ch;
   color: var(--text-dim);

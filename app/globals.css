@@ -60,6 +60,15 @@
   color-scheme: light;
 }
 
+/* Phones: the reading sizes step up (Gjorgi, 2026-10-09). Body copy goes from
+   16px to 17px here; the statement, the FAQ questions and How it works follow
+   in their own phone rules. Headings and the hero keep their sizes. */
+@media (max-width: 760px) {
+  :root {
+    --fs-body: 1.0625rem;
+  }
+}
+
 *,
 *::before,
 *::after {
@@ -656,13 +665,15 @@ video {
 
 @media (max-width: 760px) {
   /* Keep nowrap + the mask (overflow: hidden from the base rule) so the line
-     rise still works on mobile; only the size steps down. The vw size keeps each
+     rise still works on mobile; only the size changes. The vw size keeps each
      line on one visual line, so the tight line-height never overlaps wraps.
-     The narrow line set tops out at ~20ch ("systems for agencies") instead of
-     25ch, which buys roughly a third more type size at the same gutters.
-     Verified 320-430px: longest line still clears the gutters. */
+     The narrow set's longest line, "automated speed", runs about 6.9 times the
+     font size, so 12vw fills 92 to 95% of the width between the gutters from
+     320 to 430px (Gjorgi asked for a bigger headline on phones, 2026-10-09).
+     It stops growing at 4rem, from about 530px. Verified 320-760px: the
+     longest line still clears the gutters. */
   .hero__title {
-    font-size: clamp(1.95rem, 9.9vw, 3.2rem);
+    font-size: clamp(1.95rem, 12vw, 4rem);
   }
 }
 
@@ -769,6 +780,9 @@ video {
    stranded on their own line, so drop the breaks and let the prose reflow.
    The paragraph split between problem and promise still stands. */
 @media (max-width: 760px) {
+  .statement {
+    font-size: 1.6rem;
+  }
   .statement__line {
     display: inline;
   }
@@ -1056,6 +1070,12 @@ video {
      section; the state lives in the mark instead, which is what DESIGN.md
      reserves the accent for. */
   color: var(--text);
+}
+
+@media (max-width: 760px) {
+  .faq-item__q {
+    font-size: 1.4rem;
+  }
 }
 
 .faq-item__q:focus-visible {

@@ -4,6 +4,11 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "@phosphor-icons/react";
 import { DoodleArrow } from "./Doodles";
 import { AUDIT_URL, withUtm } from "../config";
+// Imported, not referenced as "/gjorgi.png": the build serves it from a URL
+// with the file's hash in it, so every new photo gets a new address and no
+// cache (browsers, Google Images) can keep showing an old one under the old
+// name. public/gjorgi.png stays as the source the link-preview card reads.
+import portrait from "../../public/gjorgi.png";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -76,7 +81,9 @@ export default function Hero() {
           has fully settled. */}
       <motion.img
         className="hero__portrait"
-        src="/gjorgi.png"
+        src={portrait.src}
+        width={portrait.width}
+        height={portrait.height}
         alt="Gjorgi Krmzov"
         initial={
           reduce

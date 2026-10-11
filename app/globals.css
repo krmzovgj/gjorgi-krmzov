@@ -425,59 +425,81 @@ video {
      the header without crowding it. */
   justify-content: center;
   padding: clamp(7rem, 16vh, 10rem) var(--pad-x) clamp(3rem, 7vh, 5rem);
-  /* Clip the portrait's sideways bleed so it can never push out a horizontal
-     scrollbar. clip (not hidden) keeps overflow-y visible for the bottom bleed
-     and does not isolate the headline's mix-blend. */
+  /* Clip any sideways overflow so it can never push out a horizontal
+     scrollbar. clip (not hidden) does not isolate the headline's mix-blend. */
   overflow-x: clip;
+  /* The line where the arrow's tail and the bottom of the photo both end. */
+  --hero-end: clamp(0.75rem, 3vh, 2.5rem);
 }
 
-/* Content paints over the portrait (DOM order). No z-index here, so the
-   headline's mix-blend-mode can still blend against the photo behind it. */
+/* No z-index here, so the headline's mix-blend-mode still blends against the
+   page behind it. The portrait sits above this content and is sized to stay
+   clear of it. */
 .hero__content {
   position: relative;
 }
 
-/* Big tilted B&W cut-out, grounded bottom-right, sitting BEHIND the headline.
-   The headline crosses the dark sweater and (via mix-blend-mode) inverts to
-   light there, staying dark on the canvas. Image fades out at the bottom. */
+/* Arms-crossed cut-out, bottom-right, big on purpose: about 86% of the hero's
+   height with his head above the headline, pushed 10% past the right edge so
+   his arm comes in from the very edge of the screen. It ends where the arrow
+   ends, and the white fade below (.hero::after) takes both down into the page.
+   Over the edge wash (same z-index, later in the tree) so the photo is never
+   greyed at the screen edge; under the fade and the dot field. The width cap
+   keeps his shoulder clear of the end of the headline on narrower windows. */
 .hero__portrait {
   position: absolute;
-  right: clamp(-3rem, -1vw, 1.5rem);
-  /* Pushed below the hero so the bottom (and its fade) bleed off-screen -
-     you never see where the image ends. */
-  bottom: clamp(-22rem, -26vh, -8rem);
-  /* Tuned as large as line 2 ("boring work agencies") allows before it
-     starts crossing the eyes/nose/mouth instead of just grazing hair/cheek. */
-  height: clamp(680px, 118vh, 1440px);
+  right: 0;
+  bottom: var(--hero-end);
+  z-index: 30;
+  height: min(86svh, calc(55vw - 30px));
   width: auto;
+  translate: 10% 0;
   pointer-events: none;
   user-select: none;
 }
 
-/* Narrow-but-not-mobile laptops (e.g. 1024x768): the height-based clamp
-   doesn't know the viewport is also narrow, so at a short viewport height it
-   reaches too far up and right, crossing into the eyes on line 2. Cap it
-   harder in just this band. */
-@media (min-width: 961px) and (max-width: 1300px) {
-  .hero__portrait {
-    height: clamp(560px, 92vh, 1000px);
-  }
+/* One white fade across the full width of the hero's foot. It dissolves the
+   bottom of the photo and the tail of the arrow into the page together, and is
+   solid white by the line where both end, so the next section starts on clean
+   canvas. Over the portrait (30); level with the dot field (31) but earlier in
+   the tree, so the dots still paint over it and run on unbroken. Not 30: on
+   phones the portrait is a flex item with order 2, which paints it after an
+   absolutely positioned sibling of the same z-index. Even rate through the
+   middle, eased only at the two ends. */
+.hero::after {
+  --run: calc(100% - var(--hero-end));
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 26svh;
+  z-index: 31;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 0) 0,
+    rgb(255 255 255 / 0.015) calc(var(--run) * 0.07),
+    rgb(255 255 255 / 0.06) calc(var(--run) * 0.14),
+    rgb(255 255 255 / 0.125) calc(var(--run) * 0.2),
+    rgb(255 255 255 / 0.875) calc(var(--run) * 0.8),
+    rgb(255 255 255 / 0.94) calc(var(--run) * 0.86),
+    rgb(255 255 255 / 0.985) calc(var(--run) * 0.93),
+    rgb(255 255 255 / 1) var(--run)
+  );
 }
 
 @media (max-width: 960px) {
-  /* Portrait stays OUT of the flow and emerges from the bottom-right corner
-     (the desktop treatment, scaled for a narrow canvas). Content sits centred so
-     the headline and actions drop low enough to overlap the top of the image;
-     mix-blend keeps them legible where they cross it. The image bleeds off the
-     corner so you never see where it ends until you scroll. */
+  /* Portrait stays OUT of the flow, bottom-right (the desktop treatment,
+     scaled for a narrow canvas). Content sits at the top. The height cap
+     (45svh) keeps his head below the actions on short windows, since the
+     photo sits above the text. */
   .hero {
     justify-content: start;
     padding-bottom: clamp(7rem, 20vh, 10rem);
   }
   .hero__portrait {
-    right: clamp(-5rem, -12vw, -1rem);
-    bottom: clamp(-7rem, -12vh, -2rem);
-    width: clamp(280px, 82vw, 460px);
+    width: min(62vw, 480px, 45svh);
     height: auto;
   }
 }
@@ -495,16 +517,19 @@ video {
     order: 1;
   }
   .hero__portrait {
-    position: static;
+    /* relative, not static, so the z-index above the edge wash still applies */
+    position: relative;
     order: 2;
     right: auto;
     bottom: auto;
-    width: clamp(300px, 86vw, 460px);
+    width: clamp(300px, 88vw, 460px);
     height: auto;
+    translate: none;
     margin-top: clamp(1.25rem, 4vh, 2.25rem);
-    /* right-anchored with a small bleed past the gutter, like the wider layout */
+    /* right-anchored and bled through the gutter to the screen edge, so his
+       arm comes in from the edge here too */
     margin-left: auto;
-    margin-right: clamp(-1.5rem, -4vw, 0rem);
+    margin-right: calc(-1 * var(--pad-x));
   }
 }
 

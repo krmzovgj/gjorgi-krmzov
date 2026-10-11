@@ -48,3 +48,32 @@ export function DoodleSpark({ className }: { className?: string }) {
   );
 }
 
+// One thick curved line across the hero. Drawn in the hero photo's own pixels
+// (1160x1402, its bottom edge at y 1402) and laid exactly over the photo, so it
+// can run right along the edge the photo is masked to; it reaches well past
+// the photo both ways and the hero clips it at the screen edges. Two shapes:
+// the full sweep for wide screens, a shallow bowl for phones (globals.css
+// shows one). The photo's masks in globals.css follow the same curves.
+export function Swoosh({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 1160 1402"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        className="swoosh--wide"
+        d="M1800 520C1750 542 1583 603 1500 650C1417 697 1357 752 1300 800C1243 848 1207 883 1160 935C1113 987 1067 1051 1020 1110C973 1169 927 1244 880 1290C833 1336 793 1364 740 1385C687 1406 625 1414 560 1418C495 1422 443 1416 350 1412C257 1408 125 1400 0 1392C-125 1384 -267 1372 -400 1362C-533 1352 -667 1342 -800 1332C-933 1322 -1050 1313 -1200 1302C-1350 1291 -1617 1272 -1700 1266"
+        stroke="currentColor"
+        strokeLinecap="round"
+      />
+      <path
+        className="swoosh--phone"
+        d="M1500 1150C1457 1172 1332 1247 1240 1285C1148 1323 1063 1358 950 1380C837 1402 693 1419 560 1418C427 1417 257 1393 150 1372C43 1351 12 1327 -80 1292C-172 1257 -347 1182 -400 1160"
+        stroke="currentColor"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}

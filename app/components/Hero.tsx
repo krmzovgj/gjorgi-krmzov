@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "@phosphor-icons/react";
-import { DoodleArrow } from "./Doodles";
+import { DoodleArrow, Swoosh } from "./Doodles";
 import { AUDIT_URL, withUtm } from "../config";
 // The portrait as WebP at three widths, imported so the build serves each from
 // a URL with the file's hash in it: every new photo gets a new address, so no
@@ -120,6 +120,17 @@ export default function Hero() {
         }
         transition={{ duration: reduce ? 0.4 : 0.6, ease: EASE }}
       />
+      {/* The line the photo sits on. A sibling laid over the photo's box, not
+          inside it, so the photo's animation filter never touches it. */}
+      <motion.div
+        className="hero__swoosh"
+        aria-hidden="true"
+        initial={{ opacity: 0 }}
+        animate={portraitReady ? { opacity: 1 } : undefined}
+        transition={{ duration: 0.5, ease: EASE, delay: reduce ? 0 : 0.2 }}
+      >
+        <Swoosh />
+      </motion.div>
 
       <div className="hero__content">
         <motion.p className="hero__greeting" {...fadeUp(0.4)}>

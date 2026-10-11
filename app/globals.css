@@ -458,34 +458,35 @@ video {
   user-select: none;
 }
 
-/* One white fade across the full width of the hero's foot. It dissolves the
-   bottom of the photo and the tail of the arrow into the page together, and is
-   solid white by the line where both end, so the next section starts on clean
-   canvas. Over the portrait (30); level with the dot field (31) but earlier in
-   the tree, so the dots still paint over it and run on unbroken. Not 30: on
-   phones the portrait is a flex item with order 2, which paints it after an
-   absolutely positioned sibling of the same z-index. Even rate through the
-   middle, eased only at the two ends. */
+/* One white fade across the full width of the hero's foot. It takes the
+   bottom of the photo and the tail of the arrow into the page together. Short
+   (only the lower arms go) and set LOWER than where the photo ends: the photo
+   stops at about 80% of the way down, where this is already mostly white, and
+   the photo's own short edge fade hides its last rows, so the two blend into
+   one soft fade with no line where the photo ends. Over the portrait (30);
+   level with the dot field (31) but earlier in the tree, so the dots still
+   paint over it and run on unbroken. Not 30: on phones the portrait is a flex
+   item with order 2, which paints it after an absolutely positioned sibling
+   of the same z-index. Eased in at the top so the fade has no starting edge. */
 .hero::after {
-  --run: calc(100% - var(--hero-end));
   content: "";
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 26svh;
+  height: 16svh;
   z-index: 31;
   pointer-events: none;
   background: linear-gradient(
     to bottom,
-    rgb(255 255 255 / 0) 0,
-    rgb(255 255 255 / 0.015) calc(var(--run) * 0.07),
-    rgb(255 255 255 / 0.06) calc(var(--run) * 0.14),
-    rgb(255 255 255 / 0.125) calc(var(--run) * 0.2),
-    rgb(255 255 255 / 0.875) calc(var(--run) * 0.8),
-    rgb(255 255 255 / 0.94) calc(var(--run) * 0.86),
-    rgb(255 255 255 / 0.985) calc(var(--run) * 0.93),
-    rgb(255 255 255 / 1) var(--run)
+    rgb(255 255 255 / 0) 0%,
+    rgb(255 255 255 / 0.03) 15%,
+    rgb(255 255 255 / 0.12) 30%,
+    rgb(255 255 255 / 0.3) 45%,
+    rgb(255 255 255 / 0.55) 60%,
+    rgb(255 255 255 / 0.8) 75%,
+    rgb(255 255 255 / 0.93) 87%,
+    rgb(255 255 255 / 1) 100%
   );
 }
 

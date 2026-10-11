@@ -440,56 +440,53 @@ video {
    inverts over the sweater, see .hero__title), and it never sits left of 70%
    of the width minus half its own width, so wide screens keep it right. Both
    elbows are closed in the file, so it can stand clear of the edges.
-   It comes up out of the page: only the bottom edge goes transparent, through
-   a mask (nothing is painted over it). The fade holds back at the top, so his
-   arms stay solid, and eases out at the bottom, so there is no line where it
-   ends. Over the edge wash (same z-index, later in the tree) so the photo is
-   never greyed near the screen edge; under the dot field. */
+   No fade: a scribble runs across its sharp bottom edge (.hero__scribble).
+   Over the edge wash (same z-index, later in the tree) so the photo is never
+   greyed near the screen edge; under the dot field. */
 .hero {
   /* rendered height of the photo; its width is 0.8274 of this (1160x1402) */
   --portrait-h: min(86svh, calc(55vw - 30px));
+  --portrait-left: max(
+    calc(min(61.45%, 1048px) - var(--portrait-h) * 0.2),
+    calc(70% - var(--portrait-h) * 0.4137)
+  );
   /* the line where the arrow's tail and the bottom of the photo both end */
   --hero-end: clamp(0.75rem, 3vh, 2.5rem);
 }
 .hero__portrait {
-  --fade: 18%;
   position: absolute;
   bottom: var(--hero-end);
-  left: max(
-    calc(min(61.45%, 1048px) - var(--portrait-h) * 0.2),
-    calc(70% - var(--portrait-h) * 0.4137)
-  );
+  left: var(--portrait-left);
   z-index: 30;
   height: var(--portrait-h);
   width: auto;
   pointer-events: none;
   user-select: none;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    #000 calc(100% - var(--fade)),
-    rgb(0 0 0 / 0.973) calc(100% - var(--fade) * 0.8),
-    rgb(0 0 0 / 0.914) calc(100% - var(--fade) * 0.7),
-    rgb(0 0 0 / 0.812) calc(100% - var(--fade) * 0.6),
-    rgb(0 0 0 / 0.67) calc(100% - var(--fade) * 0.5),
-    rgb(0 0 0 / 0.5) calc(100% - var(--fade) * 0.4),
-    rgb(0 0 0 / 0.323) calc(100% - var(--fade) * 0.3),
-    rgb(0 0 0 / 0.161) calc(100% - var(--fade) * 0.2),
-    rgb(0 0 0 / 0.044) calc(100% - var(--fade) * 0.1),
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    #000 calc(100% - var(--fade)),
-    rgb(0 0 0 / 0.973) calc(100% - var(--fade) * 0.8),
-    rgb(0 0 0 / 0.914) calc(100% - var(--fade) * 0.7),
-    rgb(0 0 0 / 0.812) calc(100% - var(--fade) * 0.6),
-    rgb(0 0 0 / 0.67) calc(100% - var(--fade) * 0.5),
-    rgb(0 0 0 / 0.5) calc(100% - var(--fade) * 0.4),
-    rgb(0 0 0 / 0.323) calc(100% - var(--fade) * 0.3),
-    rgb(0 0 0 / 0.161) calc(100% - var(--fade) * 0.2),
-    rgb(0 0 0 / 0.044) calc(100% - var(--fade) * 0.1),
-    transparent 100%
-  );
+}
+
+/* Hand-drawn scribble across the photo's bottom edge, the arrow's pen and the
+   arrow's trick: white with the difference blend, so it reads white over the
+   photo and black on the page. Exactly as wide as the photo (it is drawn in
+   the photo's pixels); the photo's edge sits at y 100 of the 160-unit drawing,
+   so 60/160 of it hangs below. Later in the tree than the photo at the same
+   z-index, so it paints over it. */
+.hero__scribble {
+  position: absolute;
+  bottom: var(--hero-end);
+  left: var(--portrait-left);
+  z-index: 30;
+  width: calc(var(--portrait-h) * 0.8274);
+  translate: 0 37.5%;
+  color: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+.hero__scribble svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  stroke-width: 6;
 }
 
 @media (max-width: 960px) {
@@ -502,8 +499,8 @@ video {
     padding-bottom: clamp(7rem, 20vh, 10rem);
     --portrait-h: calc(min(62vw, 480px, 45svh) * 1.2086);
   }
-  .hero__portrait {
-    left: calc(50% - var(--portrait-h) * 0.4137);
+  .hero {
+    --portrait-left: calc(50% - var(--portrait-h) * 0.4137);
   }
 }
 
@@ -527,6 +524,23 @@ video {
     bottom: auto;
     margin-top: clamp(1.25rem, 4vh, 2.25rem);
     margin-inline: auto;
+  }
+  /* in the flow right under the photo, pulled up so the photo's edge sits at
+     y 100 of the drawing; same width and centring as the photo */
+  .hero__scribble {
+    position: relative;
+    order: 2;
+    left: auto;
+    bottom: auto;
+    translate: none;
+    width: clamp(300px, 88vw, 460px);
+    margin-inline: auto;
+    margin-top: calc(clamp(300px, 88vw, 460px) * -100 / 1160);
+  }
+  /* the drawing scales down with the photo; a heavier line keeps the pen
+     close to the desktop weight */
+  .hero__scribble svg {
+    stroke-width: 8;
   }
 }
 
@@ -682,25 +696,6 @@ video {
   display: block;
   width: 100%;
   height: auto;
-  /* Its tail fades out with the bottom of the photo (same smoothstep). */
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    #000 35%,
-    rgb(0 0 0 / 0.896) 48%,
-    rgb(0 0 0 / 0.648) 61%,
-    rgb(0 0 0 / 0.352) 74%,
-    rgb(0 0 0 / 0.104) 87%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    #000 35%,
-    rgb(0 0 0 / 0.896) 48%,
-    rgb(0 0 0 / 0.648) 61%,
-    rgb(0 0 0 / 0.352) 74%,
-    rgb(0 0 0 / 0.104) 87%,
-    transparent 100%
-  );
   /* Drawn head-up-left, which is already the direction of the headline from
      here, so it runs unmirrored. The old artwork was flipped; this one is not.
      The tilt swings the head further round toward the line above it. */

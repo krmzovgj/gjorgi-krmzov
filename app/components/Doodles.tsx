@@ -48,3 +48,26 @@ export function DoodleSpark({ className }: { className?: string }) {
   );
 }
 
+// Scribble across the bottom edge of the hero photo. Same pen as the arrow,
+// and like the arrow it is drawn white with the difference blend (globals.css),
+// so it reads white over the photo and black on the page. One pass of the pen
+// going up and down as it travels, dense enough that the photo's straight
+// bottom edge only shows in short bits between strokes. Drawn in the photo's
+// own pixels (1160 wide); the photo's edge sits at y 100 of 160.
+export function DoodleScribble({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 1160 160"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M43.2 37.5C45 47 56 135 60 134C65 133 90 25 91 26C92 27 63 140 69 141C76 143 152 42 160 41C168 39 147 130 149 128C151 126 176 20 181 21C187 22 201 133 205 136C208 140 212 53 216 53C221 52 242 132 250 131C257 130 286 44 292 44C298 44 307 136 312 135C316 134 337 35 340 35C344 35 341 134 347 136C353 137 394 51 401 49C408 48 410 124 416 123C422 122 454 42 459 44C463 46 461 145 463 143C465 142 472 30 477 28C483 27 511 130 518 132C526 134 545 46 551 47C557 48 570 144 578 143C585 142 623 40 625 38C627 36 593 124 597 126C601 128 658 52 666 54C674 55 671 142 675 142C680 142 706 57 710 55C714 53 715 127 718 124C722 122 739 30 746 30C753 30 779 119 786 120C793 122 812 42 816 43C819 45 818 135 823 134C829 133 866 34 870 33C875 33 866 126 870 128C874 130 906 53 912 54C918 54 920 134 925 131C931 128 963 22 968 21C974 20 974 121 978 122C982 123 1003 26 1009 28C1015 29 1029 135 1036 137C1043 139 1074 46 1079 47C1084 47 1081 144 1085 142C1089 139 1115 26 1119 25C1122 24 1119 120 1119 131"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}

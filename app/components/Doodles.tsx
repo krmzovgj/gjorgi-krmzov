@@ -51,23 +51,16 @@ export function DoodleSpark({ className }: { className?: string }) {
 // The hero line, as thin as the arrow's. Drawn in the hero photo's own pixels
 // (1160x1402, its bottom edge at y 1402) and laid exactly over the photo, so
 // where it meets the photo it lines up at every size; the hero clips the rest
-// at the screen edges. The photo is cut along it (globals.css) so nothing of
-// the photo shows outside the line and its straight bottom edge is never seen.
-// Wide screens: in from the right above his shoulder, a bit left, curving down
-// his right side, a round bow under the photo, then left through the button.
-// Phones (photo dead centre): the same right-hand movement started level with
-// the button: in from the right edge, a bit left, a curve, down past his head
-// and behind his right shoulder and arm (the "back" layer, painted under the
-// photo), then out of the black at the bottom of his arm straight into the
-// bow under the photo (the "front" layer), whose corner stays inside the
-// photo's width. The two pieces meet inside the black of the sleeve.
-export function Swoosh({
-  className,
-  layer,
-}: {
-  className?: string;
-  layer: "back" | "front";
-}) {
+// at the screen edges. It is painted behind the photo and the photo is cut
+// along it where it runs under him (globals.css), so his straight bottom edge
+// is never seen and nothing of the photo shows outside the line.
+// Wide screens: in from the right above his shoulder, a bit left, down his
+// right side, a round bow under the photo, then left through the button.
+// Phones (photo dead centre): in from the right edge level with the button,
+// one hook, straight down past his head and into his right shoulder (the
+// photo covers it there), out exactly at the outline of his arm near the
+// bottom, one round bow under the photo, one even curve out to the left.
+export function Swoosh({ className }: { className?: string }) {
   return (
     <svg
       className={className}
@@ -75,32 +68,20 @@ export function Swoosh({
       fill="none"
       aria-hidden="true"
     >
-      {layer === "back" ? (
-        <path
-          className="swoosh--phone"
-          vectorEffect="non-scaling-stroke"
-          d="M1480 -560C1440 -550 1307 -523 1239 -500C1171 -477 1111 -465 1070 -420C1029 -375 998 -320 995 -230C992 -140 1030 2 1050 120C1070 238 1108 373 1115 480C1122 587 1092 673 1090 760C1088 847 1097 918 1100 1000C1103 1082 1108 1208 1110 1250"
-          stroke="currentColor"
-          strokeLinecap="round"
-        />
-      ) : (
-        <>
-          <path
-            className="swoosh--wide"
-            vectorEffect="non-scaling-stroke"
-            d="M1500 560C1450 568 1260 583 1200 610C1140 637 1139 672 1140 720C1141 768 1192 837 1205 900C1218 963 1229 1033 1215 1100C1201 1167 1189 1252 1120 1300C1051 1348 903 1370 800 1386C697 1402 603 1400 500 1397C397 1394 260 1384 180 1366C100 1348 75 1317 20 1290C-35 1263 -83 1203 -150 1205C-217 1207 -278 1332 -380 1300C-482 1268 -643 1064 -760 1010C-877 956 -960 993 -1080 975C-1200 957 -1413 912 -1480 900"
-            stroke="currentColor"
-            strokeLinecap="round"
-          />
-          <path
-            className="swoosh--phone"
-            vectorEffect="non-scaling-stroke"
-            d="M1110 1250C1102 1265 1100 1316 1065 1340C1030 1364 984 1382 900 1391C816 1400 692 1396 560 1393C428 1390 208 1390 110 1370C12 1350 13 1315 -30 1270C-73 1225 -105 1155 -150 1100C-195 1045 -275 967 -300 940"
-            stroke="currentColor"
-            strokeLinecap="round"
-          />
-        </>
-      )}
+      <path
+        className="swoosh--wide"
+        vectorEffect="non-scaling-stroke"
+        d="M1500 560C1450 568 1260 583 1200 610C1140 637 1139 672 1140 720C1141 768 1192 837 1205 900C1218 963 1229 1033 1215 1100C1201 1167 1189 1252 1120 1300C1051 1348 903 1370 800 1386C697 1402 603 1400 500 1397C397 1394 260 1384 180 1366C100 1348 75 1317 20 1290C-35 1263 -83 1203 -150 1205C-217 1207 -278 1332 -380 1300C-482 1268 -643 1064 -760 1010C-877 956 -960 993 -1080 975C-1200 957 -1413 912 -1480 900"
+        stroke="currentColor"
+        strokeLinecap="round"
+      />
+      <path
+        className="swoosh--phone"
+        vectorEffect="non-scaling-stroke"
+        d="M1480 -560C1440 -548 1311 -530 1239 -490C1167 -450 1090 -395 1050 -320C1010 -245 1009 -163 1000 -40C991 83 993 287 995 420C997 553 996 663 1010 760C1024 857 1060 927 1080 1000C1100 1073 1122 1150 1133 1200C1144 1250 1156 1270 1148 1300C1140 1330 1135 1362 1085 1378C1035 1394 938 1391 850 1394C762 1397 660 1396 560 1395C460 1394 337 1396 250 1386C163 1376 137 1390 40 1332C-57 1274 -268 1089 -330 1040"
+        stroke="currentColor"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }

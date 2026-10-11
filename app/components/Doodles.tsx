@@ -49,14 +49,23 @@ export function DoodleSpark({ className }: { className?: string }) {
 }
 
 // The hero line, as thin as the arrow's. Drawn in the hero photo's own pixels
-// (1160x1402, its bottom edge at y 1402) and laid exactly over the photo: in
-// from the right edge above his shoulder, a bit left, down his right side, a
-// round bow under the photo, then on to the left (past the arrow, through the
-// button, out). The photo is cut along it down the right side and along the
-// bow (globals.css), so nothing of the photo shows outside the line and its
-// straight bottom edge is never seen. The hero clips it at the screen edges.
-// Two routes, wide screens and phones; globals.css shows one.
-export function Swoosh({ className }: { className?: string }) {
+// (1160x1402, its bottom edge at y 1402) and laid exactly over the photo, so
+// where it meets the photo it lines up at every size; the hero clips the rest
+// at the screen edges. The photo is cut along it (globals.css) so nothing of
+// the photo shows outside the line and its straight bottom edge is never seen.
+// Wide screens: in from the right above his shoulder, down his right side, a
+// round bow under the photo, then left through the button.
+// Phones (photo dead centre): in from the right at head height and behind his
+// head (the "back" layer, painted under the photo), then out again as a round
+// bow under the photo and away left (the "front" layer). The two pieces meet
+// inside the black of the sweater, where the front one can't be seen.
+export function Swoosh({
+  className,
+  layer,
+}: {
+  className?: string;
+  layer: "back" | "front";
+}) {
   return (
     <svg
       className={className}
@@ -64,20 +73,32 @@ export function Swoosh({ className }: { className?: string }) {
       fill="none"
       aria-hidden="true"
     >
-      <path
-        className="swoosh--wide"
-        vectorEffect="non-scaling-stroke"
-        d="M1500 560C1450 568 1260 583 1200 610C1140 637 1139 672 1140 720C1141 768 1192 837 1205 900C1218 963 1229 1033 1215 1100C1201 1167 1189 1252 1120 1300C1051 1348 903 1370 800 1386C697 1402 603 1400 500 1397C397 1394 260 1384 180 1366C100 1348 75 1317 20 1290C-35 1263 -83 1203 -150 1205C-217 1207 -278 1332 -380 1300C-482 1268 -643 1064 -760 1010C-877 956 -960 993 -1080 975C-1200 957 -1413 912 -1480 900"
-        stroke="currentColor"
-        strokeLinecap="round"
-      />
-      <path
-        className="swoosh--phone"
-        vectorEffect="non-scaling-stroke"
-        d="M1350 -250C1317 -158 1188 158 1150 300C1112 442 1112 508 1120 600C1128 692 1184 767 1200 850C1216 933 1228 1022 1215 1100C1202 1178 1189 1272 1120 1320C1051 1368 893 1375 800 1388C707 1401 643 1397 560 1397C477 1397 387 1399 300 1386C213 1373 110 1359 40 1320C-30 1281 -63 1203 -120 1150C-177 1097 -270 1025 -300 1000"
-        stroke="currentColor"
-        strokeLinecap="round"
-      />
+      {layer === "back" ? (
+        <path
+          className="swoosh--phone"
+          vectorEffect="non-scaling-stroke"
+          d="M1500 40C1456 55 1307 82 1239 130C1171 178 1136 290 1090 330C1044 370 1003 372 960 372C917 372 882 322 830 330C778 338 702 375 650 420C598 465 535 533 520 600C505 667 540 753 560 820C580 887 627 970 640 1000"
+          stroke="currentColor"
+          strokeLinecap="round"
+        />
+      ) : (
+        <>
+          <path
+            className="swoosh--wide"
+            vectorEffect="non-scaling-stroke"
+            d="M1500 560C1450 568 1260 583 1200 610C1140 637 1139 672 1140 720C1141 768 1192 837 1205 900C1218 963 1229 1033 1215 1100C1201 1167 1189 1252 1120 1300C1051 1348 903 1370 800 1386C697 1402 603 1400 500 1397C397 1394 260 1384 180 1366C100 1348 75 1317 20 1290C-35 1263 -83 1203 -150 1205C-217 1207 -278 1332 -380 1300C-482 1268 -643 1064 -760 1010C-877 956 -960 993 -1080 975C-1200 957 -1413 912 -1480 900"
+            stroke="currentColor"
+            strokeLinecap="round"
+          />
+          <path
+            className="swoosh--phone"
+            vectorEffect="non-scaling-stroke"
+            d="M640 1000C683 1010 820 1030 900 1060C980 1090 1075 1142 1120 1180C1165 1218 1190 1257 1172 1290C1154 1323 1112 1362 1010 1380C908 1398 710 1398 560 1397C410 1396 208 1397 110 1376C12 1355 13 1316 -30 1270C-73 1224 -105 1155 -150 1100C-195 1045 -275 967 -300 940"
+            stroke="currentColor"
+            strokeLinecap="round"
+          />
+        </>
+      )}
     </svg>
   );
 }

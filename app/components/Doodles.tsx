@@ -56,10 +56,8 @@ export function DoodleSpark({ className }: { className?: string }) {
 // is never seen and nothing of the photo shows outside the line.
 // Wide screens: in from the right above his shoulder, a bit left, down his
 // right side, a round bow under the photo, then left through the button.
-// Phones (photo dead centre): in from the right edge level with the button,
-// one round hook, straight down past his head and into his right shoulder (the
-// photo covers it there), out exactly at the outline of his arm near the
-// bottom, one round bow under the photo, one even curve out to the left.
+// Phones (photo dead centre): one plain curve from screen edge to screen edge,
+// a single cubic, lowest right on the photo's bottom edge under its centre.
 export function Swoosh({ className }: { className?: string }) {
   return (
     <svg
@@ -78,7 +76,7 @@ export function Swoosh({ className }: { className?: string }) {
       <path
         className="swoosh--phone"
         vectorEffect="non-scaling-stroke"
-        d="M1480 -400C1440 -405 1301 -418 1239 -430C1177 -442 1150 -470 1110 -472C1070 -474 1028 -466 1000 -445C972 -424 952 -389 940 -345C928 -301 925 -248 928 -180C931 -112 947 -40 958 60C969 160 986 303 995 420C1004 537 996 663 1010 760C1024 857 1060 927 1080 1000C1100 1073 1122 1150 1133 1200C1144 1250 1156 1270 1148 1300C1140 1330 1135 1362 1085 1378C1035 1394 938 1391 850 1394C762 1397 660 1396 560 1395C460 1394 337 1396 250 1386C163 1376 137 1390 40 1332C-57 1274 -268 1089 -330 1040"
+        d="M-150 960C190 1532 970 1532 1310 960"
         stroke="currentColor"
         strokeLinecap="round"
       />

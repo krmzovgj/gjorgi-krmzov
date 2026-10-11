@@ -93,6 +93,17 @@ export default function Hero() {
 
   return (
     <section className="hero" id="top">
+      {/* The line the photo sits on. Painted behind the photo (and under the
+          edge wash, so its ends fade at the screen edges like the type). */}
+      <motion.div
+        className="hero__swoosh"
+        aria-hidden="true"
+        initial={{ opacity: 0 }}
+        animate={portraitReady ? { opacity: 1 } : undefined}
+        transition={{ duration: 0.5, ease: EASE, delay: reduce ? 0 : 0.2 }}
+      >
+        <Swoosh />
+      </motion.div>
       {/* Morphs in (blur + scale + opacity, no rotation) as soon as it has
           loaded. */}
       <motion.img
@@ -120,17 +131,6 @@ export default function Hero() {
         }
         transition={{ duration: reduce ? 0.4 : 0.6, ease: EASE }}
       />
-      {/* The line the photo sits on. A sibling laid over the photo's box, not
-          inside it, so the photo's animation filter never touches it. */}
-      <motion.div
-        className="hero__swoosh"
-        aria-hidden="true"
-        initial={{ opacity: 0 }}
-        animate={portraitReady ? { opacity: 1 } : undefined}
-        transition={{ duration: 0.5, ease: EASE, delay: reduce ? 0 : 0.2 }}
-      >
-        <Swoosh />
-      </motion.div>
 
       <div className="hero__content">
         <motion.p className="hero__greeting" {...fadeUp(0.4)}>

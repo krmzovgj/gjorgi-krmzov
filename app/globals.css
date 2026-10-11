@@ -428,91 +428,93 @@ video {
   /* Clip any sideways overflow so it can never push out a horizontal
      scrollbar. clip (not hidden) does not isolate the headline's mix-blend. */
   overflow-x: clip;
-  /* The line where the arrow's tail and the bottom of the photo both end. */
-  --hero-end: clamp(0.75rem, 3vh, 2.5rem);
 }
 
-/* No z-index here, so the headline's mix-blend-mode still blends against the
-   page behind it. The portrait sits above this content and is sized to stay
-   clear of it. */
 .hero__content {
   position: relative;
 }
 
-/* Arms-crossed cut-out, bottom-right, big on purpose: about 86% of the hero's
-   height with his head above the headline, pushed 10% past the right edge so
-   his arm comes in from the very edge of the screen. It ends where the arrow
-   ends, and the white fade below (.hero::after) takes both down into the page.
-   Over the edge wash (same z-index, later in the tree) so the photo is never
-   greyed at the screen edge; under the fade and the dot field. The width cap
-   keeps his shoulder clear of the end of the headline on narrower windows. */
+/* Arms-crossed cut-out, the photo as it is. Big on purpose: head above the
+   headline, standing on the line where the arrow ends. Its left shoulder
+   overlaps the end of the headline a little (the headline sits above it and
+   inverts over the sweater, see .hero__title), and it never sits left of 70%
+   of the width minus half its own width, so wide screens keep it right. Both
+   elbows are closed in the file, so it can stand clear of the edges.
+   It comes up out of the page: only the bottom edge goes transparent, through
+   a mask (nothing is painted over it). The fade holds back at the top, so his
+   arms stay solid, and eases out at the bottom, so there is no line where it
+   ends. Over the edge wash (same z-index, later in the tree) so the photo is
+   never greyed near the screen edge; under the dot field. */
+.hero {
+  /* rendered height of the photo; its width is 0.8274 of this (1160x1402) */
+  --portrait-h: min(86svh, calc(55vw - 30px));
+  /* the line where the arrow's tail and the bottom of the photo both end */
+  --hero-end: clamp(0.75rem, 3vh, 2.5rem);
+}
 .hero__portrait {
+  --fade: 18%;
   position: absolute;
-  right: 0;
   bottom: var(--hero-end);
+  left: max(
+    calc(min(61.45%, 1048px) - var(--portrait-h) * 0.2),
+    calc(70% - var(--portrait-h) * 0.4137)
+  );
   z-index: 30;
-  height: min(86svh, calc(55vw - 30px));
+  height: var(--portrait-h);
   width: auto;
-  translate: 10% 0;
   pointer-events: none;
   user-select: none;
-}
-
-/* One white fade across the full width of the hero's foot. It takes the
-   bottom of the photo and the tail of the arrow into the page together. Short
-   (only the lower arms go) and set LOWER than where the photo ends: the photo
-   stops at about 80% of the way down, where this is already mostly white, and
-   the photo's own short edge fade hides its last rows, so the two blend into
-   one soft fade with no line where the photo ends. Over the portrait (30);
-   level with the dot field (31) but earlier in the tree, so the dots still
-   paint over it and run on unbroken. Not 30: on phones the portrait is a flex
-   item with order 2, which paints it after an absolutely positioned sibling
-   of the same z-index. Eased in at the top so the fade has no starting edge. */
-.hero::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 16svh;
-  z-index: 31;
-  pointer-events: none;
-  background: linear-gradient(
+  -webkit-mask-image: linear-gradient(
     to bottom,
-    rgb(255 255 255 / 0) 0%,
-    rgb(255 255 255 / 0.03) 15%,
-    rgb(255 255 255 / 0.12) 30%,
-    rgb(255 255 255 / 0.3) 45%,
-    rgb(255 255 255 / 0.55) 60%,
-    rgb(255 255 255 / 0.8) 75%,
-    rgb(255 255 255 / 0.93) 87%,
-    rgb(255 255 255 / 1) 100%
+    #000 calc(100% - var(--fade)),
+    rgb(0 0 0 / 0.973) calc(100% - var(--fade) * 0.8),
+    rgb(0 0 0 / 0.914) calc(100% - var(--fade) * 0.7),
+    rgb(0 0 0 / 0.812) calc(100% - var(--fade) * 0.6),
+    rgb(0 0 0 / 0.67) calc(100% - var(--fade) * 0.5),
+    rgb(0 0 0 / 0.5) calc(100% - var(--fade) * 0.4),
+    rgb(0 0 0 / 0.323) calc(100% - var(--fade) * 0.3),
+    rgb(0 0 0 / 0.161) calc(100% - var(--fade) * 0.2),
+    rgb(0 0 0 / 0.044) calc(100% - var(--fade) * 0.1),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 calc(100% - var(--fade)),
+    rgb(0 0 0 / 0.973) calc(100% - var(--fade) * 0.8),
+    rgb(0 0 0 / 0.914) calc(100% - var(--fade) * 0.7),
+    rgb(0 0 0 / 0.812) calc(100% - var(--fade) * 0.6),
+    rgb(0 0 0 / 0.67) calc(100% - var(--fade) * 0.5),
+    rgb(0 0 0 / 0.5) calc(100% - var(--fade) * 0.4),
+    rgb(0 0 0 / 0.323) calc(100% - var(--fade) * 0.3),
+    rgb(0 0 0 / 0.161) calc(100% - var(--fade) * 0.2),
+    rgb(0 0 0 / 0.044) calc(100% - var(--fade) * 0.1),
+    transparent 100%
   );
 }
 
 @media (max-width: 960px) {
-  /* Portrait stays OUT of the flow, bottom-right (the desktop treatment,
-     scaled for a narrow canvas). Content sits at the top. The height cap
-     (45svh) keeps his head below the actions on short windows, since the
-     photo sits above the text. */
+  /* Portrait stays OUT of the flow, centred at the bottom (the desktop
+     treatment, scaled for a narrow canvas). Content sits at the top. The
+     height cap (45svh) keeps his head below the actions on short windows,
+     since the photo sits above the text. */
   .hero {
     justify-content: start;
     padding-bottom: clamp(7rem, 20vh, 10rem);
+    --portrait-h: calc(min(62vw, 480px, 45svh) * 1.2086);
   }
   .hero__portrait {
-    width: min(62vw, 480px, 45svh);
-    height: auto;
+    left: calc(50% - var(--portrait-h) * 0.4137);
   }
 }
 
 /* Phones: stack the portrait in the flow, directly under the mapping-call line,
-   instead of bleeding it up behind the text. Anchored to the viewport bottom the
-   head crossed that line and the gap shifted with every reflow; in the flow the
-   gap above (margin-top) and below (statement padding) stay fixed and even. */
+   centred. In the flow the gap above (margin-top) and below (statement padding)
+   stay fixed and even. */
 @media (max-width: 600px) {
   .hero {
     min-height: auto;
     padding-bottom: clamp(1rem, 2.5vh, 1.75rem);
+    --portrait-h: calc(clamp(300px, 88vw, 460px) * 1.2086);
   }
   .hero__content {
     order: 1;
@@ -521,16 +523,10 @@ video {
     /* relative, not static, so the z-index above the edge wash still applies */
     position: relative;
     order: 2;
-    right: auto;
+    left: auto;
     bottom: auto;
-    width: clamp(300px, 88vw, 460px);
-    height: auto;
-    translate: none;
     margin-top: clamp(1.25rem, 4vh, 2.25rem);
-    /* right-anchored and bled through the gutter to the screen edge, so his
-       arm comes in from the edge here too */
-    margin-left: auto;
-    margin-right: calc(-1 * var(--pad-x));
+    margin-inline: auto;
   }
 }
 
@@ -560,9 +556,13 @@ video {
   line-height: 0.5;
   letter-spacing: -0.03em;
   /* White type blended against everything behind it: reads near-black on the
-     light canvas, inverts to light where it crosses the dark portrait. */
+     light canvas, inverts to light where it crosses the dark portrait. Above
+     the portrait (30) and the edge layers (30, 31) so the blend reaches the
+     photo; the wash it would have had is rebuilt on .hero__line. */
   color: #fff;
   mix-blend-mode: difference;
+  position: relative;
+  z-index: 32;
 }
 
 /* Two line sets, one shown per breakpoint (see Hero.tsx). The narrow set's
@@ -587,6 +587,20 @@ video {
 .hero__line {
   display: block;
   overflow: hidden;
+  /* The edge wash, rebuilt as a mask: the headline sits above the real wash
+     (body::before), so each line fades itself by the same amounts at the same
+     screen positions (a line box spans --pad-x to the width minus --pad-x). */
+  --wash: linear-gradient(
+    to right,
+    rgb(0 0 0 / 0.1) calc(-1 * var(--pad-x)),
+    rgb(0 0 0 / 0.62) calc(var(--edge) * 0.42 - var(--pad-x)),
+    #000 calc(var(--edge) - var(--pad-x)),
+    #000 calc(100% - var(--edge) + var(--pad-x)),
+    rgb(0 0 0 / 0.62) calc(100% - var(--edge) * 0.42 + var(--pad-x)),
+    rgb(0 0 0 / 0.1) calc(100% + var(--pad-x))
+  );
+  -webkit-mask-image: var(--wash);
+  mask-image: var(--wash);
   /* Padding gives the mask room for ascenders/descenders at very tight
      line-heights; the matching negative margin keeps the visual spacing tight. */
   padding-block: 0.34em;
@@ -668,6 +682,25 @@ video {
   display: block;
   width: 100%;
   height: auto;
+  /* Its tail fades out with the bottom of the photo (same smoothstep). */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 35%,
+    rgb(0 0 0 / 0.896) 48%,
+    rgb(0 0 0 / 0.648) 61%,
+    rgb(0 0 0 / 0.352) 74%,
+    rgb(0 0 0 / 0.104) 87%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 35%,
+    rgb(0 0 0 / 0.896) 48%,
+    rgb(0 0 0 / 0.648) 61%,
+    rgb(0 0 0 / 0.352) 74%,
+    rgb(0 0 0 / 0.104) 87%,
+    transparent 100%
+  );
   /* Drawn head-up-left, which is already the direction of the headline from
      here, so it runs unmirrored. The old artwork was flipped; this one is not.
      The tilt swings the head further round toward the line above it. */

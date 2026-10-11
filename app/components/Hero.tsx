@@ -1,14 +1,23 @@
 "use client";
 
+import { useCallback, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "@phosphor-icons/react";
 import { DoodleArrow } from "./Doodles";
 import { AUDIT_URL, withUtm } from "../config";
-// Imported, not referenced as "/gjorgi.png": the build serves it from a URL
-// with the file's hash in it, so every new photo gets a new address and no
-// cache (browsers, Google Images) can keep showing an old one under the old
-// name. public/gjorgi.png stays as the source the link-preview card reads.
-import portrait from "../../public/gjorgi.png";
+// The portrait as WebP at three widths, imported so the build serves each from
+// a URL with the file's hash in it: every new photo gets a new address, so no
+// cache (browsers, Google Images) can keep an old one. The browser picks the
+// smallest that is sharp at its size (a phone gets ~40-110KB instead of the
+// 1.8MB PNG). public/gjorgi.png stays as the source the link-preview card reads.
+import portrait600 from "../assets/gjorgi-600.webp";
+import portrait900 from "../assets/gjorgi-900.webp";
+import portrait1160 from "../assets/gjorgi-1160.webp";
+
+const PORTRAIT_SRCSET = `${portrait600.src} 600w, ${portrait900.src} 900w, ${portrait1160.src} 1160w`;
+// Rendered width in each layout (globals.css): phone 88vw, tablet up to 62vw,
+// desktop up to ~46vw.
+const PORTRAIT_SIZES = "(max-width: 600px) 88vw, (max-width: 960px) 62vw, 46vw";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -64,6 +73,13 @@ function renderLines(lines: Segment[][], yHidden: number | string) {
 
 export default function Hero() {
   const reduce = useReducedMotion();
+  // The portrait animates in once it has actually loaded. Started on mount, the
+  // animation could finish before the file arrived and the photo then popped in
+  // with no fade. The ref catches a file that loaded before hydration.
+  const [portraitReady, setPortraitReady] = useState(false);
+  const portraitRef = useCallback((el: HTMLImageElement | null) => {
+    if (el?.complete && el.naturalWidth > 0) setPortraitReady(true);
+  }, []);
   // line-height is 0.6, so the glyphs are ~1.2em tall and overflow their line
   // box. The hidden offset must exceed the glyph height (not just the line box)
   // or their tops peek above the mask before the rise. ~240% clears them fully.
@@ -77,25 +93,32 @@ export default function Hero() {
 
   return (
     <section className="hero" id="top">
-      {/* Morphs in (blur + scale + opacity, no rotation) only after the text
-          has fully settled. */}
+      {/* Morphs in (blur + scale + opacity, no rotation) as soon as it has
+          loaded. */}
       <motion.img
+        ref={portraitRef}
         className="hero__portrait"
-        src={portrait.src}
-        width={portrait.width}
-        height={portrait.height}
+        src={portrait900.src}
+        srcSet={PORTRAIT_SRCSET}
+        sizes={PORTRAIT_SIZES}
+        width={portrait1160.width}
+        height={portrait1160.height}
         alt="Gjorgi Krmzov"
+        fetchPriority="high"
+        onLoad={() => setPortraitReady(true)}
         initial={
           reduce
             ? { opacity: 0 }
-            : { opacity: 0, scale: 1.06, filter: "blur(26px)" }
+            : { opacity: 0, scale: 1.04, filter: "blur(12px)" }
         }
         animate={
-          reduce
-            ? { opacity: 1 }
-            : { opacity: 1, scale: 1, filter: "blur(0px)" }
+          !portraitReady
+            ? undefined
+            : reduce
+              ? { opacity: 1 }
+              : { opacity: 1, scale: 1, filter: "blur(0px)" }
         }
-        transition={{ duration: reduce ? 0.5 : 0.9, ease: EASE, delay: 0.1 }}
+        transition={{ duration: reduce ? 0.4 : 0.6, ease: EASE }}
       />
 
       <div className="hero__content">

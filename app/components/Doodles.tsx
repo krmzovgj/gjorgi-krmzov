@@ -48,12 +48,14 @@ export function DoodleSpark({ className }: { className?: string }) {
   );
 }
 
-// One thick curved line across the hero. Drawn in the hero photo's own pixels
-// (1160x1402, its bottom edge at y 1402) and laid exactly over the photo, so it
-// can run right along the edge the photo is masked to; it reaches well past
-// the photo both ways and the hero clips it at the screen edges. Two shapes:
-// the full sweep for wide screens, a shallow bowl for phones (globals.css
-// shows one). The photo's masks in globals.css follow the same curves.
+// One line that wanders across the hero as a detail and, once, runs right
+// along the photo's straight bottom edge, so the edge sits inside the line and
+// never shows. Drawn in the hero photo's own pixels (1160x1402, its bottom edge
+// at y 1402) and laid exactly over the photo, so that run lines up at every
+// size; the rest reaches past the photo and the hero clips it at the screen
+// edges. Two routes: wide screens (in from the right, along the bottom, a curl,
+// through the button, out left) and phones (in from above, down the right
+// side, under the photo, out left). globals.css shows one.
 export function Swoosh({ className }: { className?: string }) {
   return (
     <svg
@@ -64,13 +66,13 @@ export function Swoosh({ className }: { className?: string }) {
     >
       <path
         className="swoosh--wide"
-        d="M1800 520C1750 542 1583 603 1500 650C1417 697 1357 752 1300 800C1243 848 1207 883 1160 935C1113 987 1067 1051 1020 1110C973 1169 927 1244 880 1290C833 1336 793 1364 740 1385C687 1406 625 1414 560 1418C495 1422 443 1416 350 1412C257 1408 125 1400 0 1392C-125 1384 -267 1372 -400 1362C-533 1352 -667 1342 -800 1332C-933 1322 -1050 1313 -1200 1302C-1350 1291 -1617 1272 -1700 1266"
+        d="M1900 560C1833 593 1595 687 1500 760C1405 833 1363 918 1330 1000C1297 1082 1317 1187 1300 1250C1283 1313 1263 1350 1230 1376C1197 1402 1212 1400 1100 1405C988 1410 740 1406 560 1406C380 1406 157 1406 20 1405C-117 1404 -190 1412 -260 1400C-330 1388 -363 1367 -400 1330C-437 1293 -468 1233 -480 1180C-492 1127 -457 1057 -470 1010C-483 963 -522 918 -560 900C-598 882 -667 887 -700 905C-733 923 -733 994 -760 1010C-787 1026 -807 1008 -860 1000C-913 992 -1007 973 -1080 965C-1153 957 -1213 944 -1300 950C-1387 956 -1550 992 -1600 1000"
         stroke="currentColor"
         strokeLinecap="round"
       />
       <path
         className="swoosh--phone"
-        d="M1500 1150C1457 1172 1332 1247 1240 1285C1148 1323 1063 1358 950 1380C837 1402 693 1419 560 1418C427 1417 257 1393 150 1372C43 1351 12 1327 -80 1292C-172 1257 -347 1182 -400 1160"
+        d="M1300 -260C1282 -192 1201 7 1190 150C1179 293 1238 458 1235 600C1232 742 1178 885 1170 1000C1162 1115 1205 1222 1190 1290C1175 1358 1185 1386 1080 1405C975 1424 733 1406 560 1406C387 1406 142 1416 40 1405C-62 1394 -25 1382 -50 1340C-75 1298 -100 1182 -110 1150"
         stroke="currentColor"
         strokeLinecap="round"
       />

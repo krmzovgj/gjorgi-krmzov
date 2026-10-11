@@ -57,7 +57,7 @@ export function DoodleSpark({ className }: { className?: string }) {
 // Wide screens: in from the right above his shoulder, a bit left, down his
 // right side, a round bow under the photo, then left through the button.
 // Phones (photo dead centre): in from the right edge level with the button,
-// one hook, straight down past his head and into his right shoulder (the
+// one round hook, straight down past his head and into his right shoulder (the
 // photo covers it there), out exactly at the outline of his arm near the
 // bottom, one round bow under the photo, one even curve out to the left.
 export function Swoosh({ className }: { className?: string }) {
@@ -78,7 +78,7 @@ export function Swoosh({ className }: { className?: string }) {
       <path
         className="swoosh--phone"
         vectorEffect="non-scaling-stroke"
-        d="M1480 -560C1440 -548 1311 -530 1239 -490C1167 -450 1090 -395 1050 -320C1010 -245 1009 -163 1000 -40C991 83 993 287 995 420C997 553 996 663 1010 760C1024 857 1060 927 1080 1000C1100 1073 1122 1150 1133 1200C1144 1250 1156 1270 1148 1300C1140 1330 1135 1362 1085 1378C1035 1394 938 1391 850 1394C762 1397 660 1396 560 1395C460 1394 337 1396 250 1386C163 1376 137 1390 40 1332C-57 1274 -268 1089 -330 1040"
+        d="M1480 -400C1440 -405 1301 -418 1239 -430C1177 -442 1150 -470 1110 -472C1070 -474 1028 -466 1000 -445C972 -424 952 -389 940 -345C928 -301 925 -248 928 -180C931 -112 947 -40 958 60C969 160 986 303 995 420C1004 537 996 663 1010 760C1024 857 1060 927 1080 1000C1100 1073 1122 1150 1133 1200C1144 1250 1156 1270 1148 1300C1140 1330 1135 1362 1085 1378C1035 1394 938 1391 850 1394C762 1397 660 1396 560 1395C460 1394 337 1396 250 1386C163 1376 137 1390 40 1332C-57 1274 -268 1089 -330 1040"
         stroke="currentColor"
         strokeLinecap="round"
       />

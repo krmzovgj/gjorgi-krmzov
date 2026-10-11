@@ -49,13 +49,14 @@ export function DoodleSpark({ className }: { className?: string }) {
 }
 
 // The hero line, as thin as the arrow's. Drawn in the hero photo's own pixels
-// (1160x1402, its bottom edge at y 1402) and laid exactly over the photo: in
-// from the right edge above his shoulder, a bit left, down his right side, a
-// round bow under the photo, then on to the left (past the arrow, through the
-// button, out). The photo is cut along it down the right side and along the
-// bow (globals.css), so nothing of the photo shows outside the line and its
-// straight bottom edge is never seen. The hero clips it at the screen edges.
-// Two routes, wide screens and phones; globals.css shows one.
+// (1160x1402, its bottom edge at y 1402) and laid exactly over the photo, so
+// where it meets the photo it lines up at every size; the hero clips the rest
+// at the screen edges. The photo is cut along it (globals.css) so nothing of
+// the photo shows outside the line and its straight bottom edge is never seen.
+// Same movement on every screen: in from the right edge above his shoulder, a
+// bit left, curving down his right side, a round bow under the photo, then
+// away left (on wide screens on through the button). Two routes because the
+// room beside the photo differs; globals.css shows one.
 export function Swoosh({ className }: { className?: string }) {
   return (
     <svg
@@ -74,7 +75,7 @@ export function Swoosh({ className }: { className?: string }) {
       <path
         className="swoosh--phone"
         vectorEffect="non-scaling-stroke"
-        d="M1350 -250C1317 -158 1188 158 1150 300C1112 442 1112 508 1120 600C1128 692 1184 767 1200 850C1216 933 1228 1022 1215 1100C1202 1178 1189 1272 1120 1320C1051 1368 893 1375 800 1388C707 1401 643 1397 560 1397C477 1397 387 1399 300 1386C213 1373 110 1359 40 1320C-30 1281 -63 1203 -120 1150C-177 1097 -270 1025 -300 1000"
+        d="M1450 560C1415 573 1296 613 1239 640C1182 667 1128 680 1110 720C1092 760 1116 823 1130 880C1144 937 1184 998 1195 1060C1206 1122 1214 1198 1195 1250C1176 1302 1186 1346 1080 1370C974 1394 722 1396 560 1397C398 1398 208 1397 110 1376C12 1355 13 1316 -30 1270C-73 1224 -105 1155 -150 1100C-195 1045 -275 967 -300 940"
         stroke="currentColor"
         strokeLinecap="round"
       />

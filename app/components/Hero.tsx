@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "@phosphor-icons/react";
-import { DoodleArrow, Swoosh } from "./Doodles";
+import { Swoosh } from "./Doodles";
 import { AUDIT_URL, withUtm } from "../config";
 // The portrait as WebP at three widths, imported so the build serves each from
 // a URL with the file's hash in it: every new photo gets a new address, so no
@@ -179,11 +179,6 @@ export default function Hero() {
         </motion.p>
       </div>
 
-      {/* hand-drawn arrow in the whitespace right of the CTAs, flipped so the
-          head points up-right at "work" in the headline */}
-      <motion.span className="hero__doodle" aria-hidden="true" {...fadeUp(0.95)}>
-        <DoodleArrow />
-      </motion.span>
     </section>
   );
 }

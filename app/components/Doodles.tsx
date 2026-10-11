@@ -53,11 +53,21 @@ export function DoodleSpark({ className }: { className?: string }) {
 // where it meets the photo it lines up at every size; the hero clips the rest
 // at the screen edges. The photo is cut along it (globals.css) so nothing of
 // the photo shows outside the line and its straight bottom edge is never seen.
-// Same movement on every screen: in from the right edge above his shoulder, a
-// bit left, curving down his right side, a round bow under the photo, then
-// away left (on wide screens on through the button). Two routes because the
-// room beside the photo differs; globals.css shows one.
-export function Swoosh({ className }: { className?: string }) {
+// Wide screens: in from the right above his shoulder, a bit left, curving down
+// his right side, a round bow under the photo, then left through the button.
+// Phones (photo dead centre): the same right-hand movement started level with
+// the button: in from the right edge, a bit left, a curve, down past his head
+// and behind his right shoulder and arm (the "back" layer, painted under the
+// photo), then out of the black at the bottom of his arm straight into the
+// bow under the photo (the "front" layer), whose corner stays inside the
+// photo's width. The two pieces meet inside the black of the sleeve.
+export function Swoosh({
+  className,
+  layer,
+}: {
+  className?: string;
+  layer: "back" | "front";
+}) {
   return (
     <svg
       className={className}
@@ -65,20 +75,32 @@ export function Swoosh({ className }: { className?: string }) {
       fill="none"
       aria-hidden="true"
     >
-      <path
-        className="swoosh--wide"
-        vectorEffect="non-scaling-stroke"
-        d="M1500 560C1450 568 1260 583 1200 610C1140 637 1139 672 1140 720C1141 768 1192 837 1205 900C1218 963 1229 1033 1215 1100C1201 1167 1189 1252 1120 1300C1051 1348 903 1370 800 1386C697 1402 603 1400 500 1397C397 1394 260 1384 180 1366C100 1348 75 1317 20 1290C-35 1263 -83 1203 -150 1205C-217 1207 -278 1332 -380 1300C-482 1268 -643 1064 -760 1010C-877 956 -960 993 -1080 975C-1200 957 -1413 912 -1480 900"
-        stroke="currentColor"
-        strokeLinecap="round"
-      />
-      <path
-        className="swoosh--phone"
-        vectorEffect="non-scaling-stroke"
-        d="M1450 560C1415 573 1296 613 1239 640C1182 667 1128 680 1110 720C1092 760 1116 823 1130 880C1144 937 1184 998 1195 1060C1206 1122 1214 1198 1195 1250C1176 1302 1186 1346 1080 1370C974 1394 722 1396 560 1397C398 1398 208 1397 110 1376C12 1355 13 1316 -30 1270C-73 1224 -105 1155 -150 1100C-195 1045 -275 967 -300 940"
-        stroke="currentColor"
-        strokeLinecap="round"
-      />
+      {layer === "back" ? (
+        <path
+          className="swoosh--phone"
+          vectorEffect="non-scaling-stroke"
+          d="M1480 -560C1440 -550 1307 -523 1239 -500C1171 -477 1111 -465 1070 -420C1029 -375 998 -320 995 -230C992 -140 1030 2 1050 120C1070 238 1108 373 1115 480C1122 587 1092 673 1090 760C1088 847 1097 918 1100 1000C1103 1082 1108 1208 1110 1250"
+          stroke="currentColor"
+          strokeLinecap="round"
+        />
+      ) : (
+        <>
+          <path
+            className="swoosh--wide"
+            vectorEffect="non-scaling-stroke"
+            d="M1500 560C1450 568 1260 583 1200 610C1140 637 1139 672 1140 720C1141 768 1192 837 1205 900C1218 963 1229 1033 1215 1100C1201 1167 1189 1252 1120 1300C1051 1348 903 1370 800 1386C697 1402 603 1400 500 1397C397 1394 260 1384 180 1366C100 1348 75 1317 20 1290C-35 1263 -83 1203 -150 1205C-217 1207 -278 1332 -380 1300C-482 1268 -643 1064 -760 1010C-877 956 -960 993 -1080 975C-1200 957 -1413 912 -1480 900"
+            stroke="currentColor"
+            strokeLinecap="round"
+          />
+          <path
+            className="swoosh--phone"
+            vectorEffect="non-scaling-stroke"
+            d="M1110 1250C1102 1265 1100 1316 1065 1340C1030 1364 984 1382 900 1391C816 1400 692 1396 560 1393C428 1390 208 1390 110 1370C12 1350 13 1315 -30 1270C-73 1225 -105 1155 -150 1100C-195 1045 -275 967 -300 940"
+            stroke="currentColor"
+            strokeLinecap="round"
+          />
+        </>
+      )}
     </svg>
   );
 }

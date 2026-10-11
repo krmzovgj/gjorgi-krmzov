@@ -93,17 +93,6 @@ export default function Hero() {
 
   return (
     <section className="hero" id="top">
-      {/* Phones only: the part of the line that runs behind his head. Before
-          the photo in the tree, so the photo paints over it. */}
-      <motion.div
-        className="hero__swoosh hero__swoosh--back"
-        aria-hidden="true"
-        initial={{ opacity: 0 }}
-        animate={portraitReady ? { opacity: 1 } : undefined}
-        transition={{ duration: 0.5, ease: EASE, delay: reduce ? 0 : 0.2 }}
-      >
-        <Swoosh layer="back" />
-      </motion.div>
       {/* Morphs in (blur + scale + opacity, no rotation) as soon as it has
           loaded. */}
       <motion.img
@@ -140,7 +129,7 @@ export default function Hero() {
         animate={portraitReady ? { opacity: 1 } : undefined}
         transition={{ duration: 0.5, ease: EASE, delay: reduce ? 0 : 0.2 }}
       >
-        <Swoosh layer="front" />
+        <Swoosh />
       </motion.div>
 
       <div className="hero__content">

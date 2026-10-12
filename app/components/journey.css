@@ -21,6 +21,14 @@
   scroll-margin-top: clamp(4.5rem, 9vh, 6rem);
 }
 
+/* Above 760px the last step's own padding already holds the card's last moment
+   in view, so the section's foot only needs a small gap before the FAQ. */
+@media (min-width: 761px) {
+  .jr {
+    padding-bottom: clamp(1.5rem, 3vh, 2.5rem);
+  }
+}
+
 .jr__head {
   margin-bottom: clamp(2.75rem, 7vw, 6.5rem);
 }

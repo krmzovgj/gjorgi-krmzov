@@ -56,14 +56,22 @@ match the hero (`app/components/Hero.tsx` + the `.hero` block in `app/globals.cs
   so the logo blends against the page behind it.
 
 ## Hero
-- One idea, told big: greeting, a lowercase headline that owns the screen, one
-  sub line, two actions, the portrait. No cards, lists or extra components.
-- The headline's last line runs across his chest and inverts over the
-  sweater; it never touches his hair, face, neck or hands, and the first two
-  lines keep a clear gap from the photo. Its size and the photo's position are
-  computed from measurements of the photo (`--h1`, `--portrait-lift` in
-  `globals.css`). If the photo, the copy or the line breaks change, re-measure
-  and re-run the geometry check across screen sizes.
+- Centred: a big light headline (lowercase, "B2B SaaS" kept as is), one sub
+  line, two actions. No greeting, cards, lists or photo for now; the portrait
+  is kept in `app/assets` until it has a job.
+- The headline is sized at 7vw so its longest line stays inside the band the
+  edge wash leaves clear; a centred line must never grey out at its ends.
+
+## Framed grid (`SystemGrid.tsx`)
+- One grid, hairlines between cells (the 1px gaps showing a SOLID line colour;
+  a translucent one lets the page's dots through as a dotted rule) and a small
+  cross on every corner. Over the edge wash so the frame stays crisp.
+- Big cells show one real moment in type, the way it looks on screen (an
+  email, a sequence, a note, a workflow), in one card style: white, hairline,
+  14px radius, long soft shadow, 14px text, times in tabular figures. Never
+  stock illustrations or invented numbers; every line comes from `app/data`.
+- Each cell: the moment, then a centred title and one line. The middle strip
+  carries real numbers from the story and who stays in charge.
 
 ## Kill-list (never reintroduce)
 - No em dashes anywhere. Use periods or commas.
@@ -102,6 +110,7 @@ match the hero (`app/components/Hero.tsx` + the `.hero` block in `app/globals.cs
 ## Section status
 - [x] Nav, Hero (reference implementation)
 - [x] Statement (outcome-led copy)
+- [x] System grid (what happens when someone asks for a demo)
 - [x] Selected Work (4-column compact cards, type-only; media slot can be added later)
 - [ ] Process
 - [ ] Background / About

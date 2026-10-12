@@ -3,7 +3,6 @@
 import { useCallback, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "@phosphor-icons/react";
-import { Swoosh } from "./Doodles";
 import { AUDIT_URL, withUtm } from "../config";
 // The portrait as WebP at three widths, imported so the build serves each from
 // a URL with the file's hash in it: every new photo gets a new address, so no
@@ -21,24 +20,27 @@ const PORTRAIT_SIZES = "(max-width: 600px) 88vw, (max-width: 960px) 62vw, 46vw";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const HEADLINE = "I build automated speed to lead systems for B2B SaaS.";
+// Set in lowercase by CSS (.hero__title), so the source, and what Google and
+// screen readers get, keeps its capitals.
+const HEADLINE = "Automated speed to lead systems for B2B SaaS.";
+
+const SUB = "I make sure more of your demo requests end up on a call with you.";
 
 // Two sets of controlled line breaks for the same sentence, one shown at a
-// time (globals.css). Wide lines run long enough to cross the portrait on
-// purpose. Narrow lines are shorter, which is what lets the phone size step
-// up: at the wide breaks the longest line nearly fills a 390px screen, so the
-// type could not grow there without clipping.
+// time (globals.css). Wide lines step out short, medium, long: the first two
+// stay clear of his head and shoulder, the last runs across his chest, and the
+// photo is placed so it lands there (--portrait-lift). Narrow lines are for
+// phones, where the longest one sets the type size.
 type Segment = { text: string; emph?: boolean };
 
 const WIDE: Segment[][] = [
-  [{ text: "I build automated" }],
+  [{ text: "Automated" }],
   [{ text: "speed to lead" }],
   [{ text: "systems for " }, { text: "B2B SaaS.", emph: true }],
 ];
 
 const NARROW: Segment[][] = [
-  [{ text: "I build" }],
-  [{ text: "automated speed" }],
+  [{ text: "Automated speed" }],
   [{ text: "to lead systems" }],
   [{ text: "for " }, { text: "B2B SaaS.", emph: true }],
 ];
@@ -63,7 +65,7 @@ function renderLines(lines: Segment[][], yHidden: number | string) {
         )}
       </motion.span>
       {/* Lines are separate block elements, so without this the extracted text
-          fuses them: "I build automatedspeed to leadsystems". That fused
+          fuses them: "automatedspeed to leadsystems". That kind of fused
           string was what Google was quoting in the search snippet. The space is
           collapsed visually because .hero__line is display: block. */}
       {" "}
@@ -93,17 +95,6 @@ export default function Hero() {
 
   return (
     <section className="hero" id="top">
-      {/* The line the photo sits on. Painted behind the photo (and under the
-          edge wash, so its ends fade at the screen edges like the type). */}
-      <motion.div
-        className="hero__swoosh"
-        aria-hidden="true"
-        initial={{ opacity: 0 }}
-        animate={portraitReady ? { opacity: 1 } : undefined}
-        transition={{ duration: 0.5, ease: EASE, delay: reduce ? 0 : 0.2 }}
-      >
-        <Swoosh />
-      </motion.div>
       {/* Morphs in (blur + scale + opacity, no rotation) as soon as it has
           loaded. */}
       <motion.img
@@ -134,14 +125,14 @@ export default function Hero() {
 
       <div className="hero__content">
         <motion.p className="hero__greeting" {...fadeUp(0.4)}>
-          <span>{"I'm Gjorgi Krmzov"}</span>
+          {"I'm Gjorgi Krmzov"}
         </motion.p>
 
         {/* The h1 carries the whole sentence for screen readers; both visual
             line sets are aria-hidden, so rendering two of them costs nothing
-            in the accessibility tree. On wide screens the lines deliberately
-            cross the portrait - mix-blend-mode on .hero__title inverts the
-            type over the photo, so the overlap stays legible. */}
+            in the accessibility tree. Where the lines cross the portrait,
+            mix-blend-mode on .hero__title inverts the type over the photo, so
+            the overlap stays legible. */}
         <h1 className="hero__title" aria-label={HEADLINE}>
           <span className="hero__lines hero__lines--wide">
             {renderLines(WIDE, yHidden)}
@@ -151,15 +142,17 @@ export default function Hero() {
           </span>
         </h1>
 
-        <motion.div className="hero__foot" {...fadeUp(0.7)}>
+        <motion.p className="hero__sub" {...fadeUp(0.7)}>
+          {SUB}
+        </motion.p>
+
+        <motion.div className="hero__foot" {...fadeUp(0.8)}>
           <a className="btn" href="#how" data-cursor="Start here">
             See how it works
             <ArrowRight size={16} weight="bold" />
           </a>
-        </motion.div>
-
-        <motion.p className="hero__audit" {...fadeUp(0.82)}>
           <a
+            className="hero__audit"
             href={withUtm(AUDIT_URL, "hero-audit")}
             target="_blank"
             rel="noopener"
@@ -176,7 +169,7 @@ export default function Hero() {
               />
             </svg>
           </a>
-        </motion.p>
+        </motion.div>
       </div>
 
     </section>

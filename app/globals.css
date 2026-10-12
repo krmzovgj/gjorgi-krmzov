@@ -93,22 +93,22 @@ body {
 }
 
 /* =================================================================
-   Edge treatment: a wash that takes ink out of whatever runs into the
-   margin, and a dot field painted on top of it. Both fixed, so they
-   frame the viewport and cost nothing to scroll.
+   Page texture and edge treatment. A dot field behind everything,
+   full in the middle and fading out toward the left and right sides,
+   and a wash over the content that takes ink out of whatever runs into
+   the margin. Both fixed, so they frame the viewport and cost nothing
+   to scroll.
 
-   Order matters and is the whole trick. The wash has to be over the
-   content to pale it, and the dots have to be over the wash or the
-   wash erases the very texture it sits behind. So: content, wash,
-   dots, and every fixed control (work reveal 40, nav 50, preview 60)
-   still sits clear above all three.
+   The dots sit under the content (z-index -1, above the canvas white),
+   so type and photos always paint over them. The wash sits over the
+   content (30) to pale it; every fixed control (work reveal 40, nav 50,
+   preview 60) and the few solid controls in the gutter (32) still sit
+   clear above it.
    ================================================================= */
 
-/* The wash. Runs the SAME band as the dot field, deliberately: when it was
-   narrower there was a strip where dots fell over type that was still at full
-   ink, which read as dirt rather than as a fade. The middle stop is what keeps
-   it from being a flat ramp, so it bites hardest in the gutter and has eased
-   off by the time it reaches the text. */
+/* The wash. The middle stop is what keeps it from being a flat ramp, so it
+   bites hardest in the gutter and has eased off by the time it reaches the
+   text. */
 body::before {
   content: "";
   position: fixed;
@@ -126,30 +126,33 @@ body::before {
   );
 }
 
-/* The dot field, over the wash so it stays legible against it. */
+/* The dot field. Gone at the screen edges, full from --edge inward, so it
+   fades out over the same band the wash covers. */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: 31;
+  z-index: -1;
   pointer-events: none;
   background-image: radial-gradient(var(--dot) 1px, transparent 1px);
   background-size: var(--dot-gap) var(--dot-gap);
-  /* Solid at the edge, gone by --edge, so the middle stays clean canvas.
-     Same shape as the Figma mask, expressed as a length. */
   -webkit-mask-image: linear-gradient(
     to right,
-    #000 0,
-    transparent var(--edge),
-    transparent calc(100% - var(--edge)),
-    #000 100%
+    transparent 0,
+    rgb(0 0 0 / 0.45) calc(var(--edge) * 0.5),
+    #000 var(--edge),
+    #000 calc(100% - var(--edge)),
+    rgb(0 0 0 / 0.45) calc(100% - var(--edge) * 0.5),
+    transparent 100%
   );
   mask-image: linear-gradient(
     to right,
-    #000 0,
-    transparent var(--edge),
-    transparent calc(100% - var(--edge)),
-    #000 100%
+    transparent 0,
+    rgb(0 0 0 / 0.45) calc(var(--edge) * 0.5),
+    #000 var(--edge),
+    #000 calc(100% - var(--edge)),
+    rgb(0 0 0 / 0.45) calc(100% - var(--edge) * 0.5),
+    transparent 100%
   );
 }
 
@@ -304,8 +307,8 @@ video {
   transform: scale(1.04);
 }
 
-/* Above the edge wash (30) and the dot field (31). Type is meant to thin out
-   as it reaches the margin; a solid control washed to grey just reads as a
+/* Above the edge wash (30). Type is meant to thin out as it reaches the
+   margin; a solid control washed to grey just reads as a
    broken button, so the few that sit in the gutter opt out. */
 .btn,
 .footer__social,
@@ -410,122 +413,139 @@ video {
 }
 
 /* =================================================================
-   Hero - editorial, bottom-anchored. A short greeting, one large
-   light statement, a single action. Generous negative space; the
-   type carries the page.
+   Hero. One idea, told big. The headline owns the screen and its last
+   line runs across his shoulder, inverting over the sweater, so the
+   type and the photo lock together. The rest is pinned to the frame:
+   the greeting at the top, level with the top of his head, and the
+   sub and the two actions at the bottom, level with the photo's foot.
    ================================================================= */
 .hero {
   position: relative;
-  min-height: 100svh;
+  /* A full screen, unless the screen is taller than the composition (the
+     photo, its lift and room for the nav): then the next section shows at
+     the foot instead of an empty band at the top. */
+  min-height: min(
+    100svh,
+    calc(var(--portrait-h) + var(--portrait-lift) + 7rem)
+  );
   display: flex;
   flex-direction: column;
-  /* Centred, not bottom-anchored. At flex-end all the slack in a 100svh column
-     collected above the greeting, which left a dead ~300px band between the nav
-     and the first line. Centring splits that slack so the block sits closer to
-     the header without crowding it. */
-  justify-content: center;
-  padding: clamp(7rem, 16vh, 10rem) var(--pad-x) clamp(3rem, 7vh, 5rem);
+  padding: var(--hero-top) var(--pad-x) var(--hero-bottom);
   /* Clip any sideways overflow so it can never push out a horizontal
      scrollbar. clip (not hidden) does not isolate the headline's mix-blend. */
   overflow-x: clip;
+
+  /* Rendered height of the photo; its width is 0.8274 of this (1160x1402).
+     The third term keeps his head clear of the nav on short screens, where
+     the photo has to rise to meet the headline (--portrait-lift). */
+  --portrait-h: min(
+    80svh,
+    calc(55vw - 30px),
+    calc((100svh - 20.2rem) * 1.294)
+  );
+  /* In vw, not %, so the type can be sized against it too (the headline,
+     the sub's measure). Never left of 70% of the width minus half the photo,
+     so wide screens keep it right. */
+  --portrait-left: max(
+    calc(min(61.45vw, 1048px) - var(--portrait-h) * 0.2),
+    calc(70vw - var(--portrait-h) * 0.4137)
+  );
+  --hero-bottom: clamp(2.25rem, 5.5vh, 4rem);
+  --sub-fs: clamp(1.08rem, 0.85rem + 0.5vw, 1.35rem);
+
+  /* The headline, as big as it can be: 9vw, but never so big that its glyphs
+     outgrow the sweater (0.18 of the photo), and never so long that its
+     first two lines come near his hair or shoulder. They keep a clear gap
+     (1rem) short of the photo's edge at their height: "speed to lead"
+     (5.245em) stops 2% into the photo's width, "automated" (4.259em) 19%
+     (measured off its pixels). A line that only grazes the photo reads as a
+     mistake. */
+  --h1: clamp(
+    2.1rem,
+    min(
+      9vw,
+      var(--portrait-h) * 0.18,
+      calc((var(--portrait-left) + var(--portrait-h) * 0.02 - var(--pad-x) - 1rem) / 5.245),
+      calc((var(--portrait-left) + var(--portrait-h) * 0.16 - var(--pad-x)) / 4.259)
+    ),
+    10.5rem
+  );
+  /* The headline's descenders hang 0.23em below its box, so the gap to the
+     sub is measured from them, not from the box. */
+  --h1-gap: calc(var(--h1) * 0.23 + 1.6rem);
+  /* The photo rises until the headline's last line crosses it at 62% of its
+     height: below his neck (skin runs down to 60%), on the solid sweater,
+     above his hands. The sum is the distance from the foot of the hero to
+     the top of that line: bottom padding, button (3.45rem), gap (2.25rem),
+     sub (up to two lines, 2.9 of its size), the gap above the sub, and the
+     part of the line above the headline's box (0.618em). */
+  --portrait-lift: max(
+    0px,
+    calc(
+      var(--hero-bottom) + 3.45rem + 2.25rem + var(--sub-fs) * 2.9 +
+        var(--h1-gap) + var(--h1) * 0.618 - var(--portrait-h) * 0.38
+    )
+  );
+  --hero-top: clamp(5.5rem, 12vh, 8rem);
 }
 
+/* One group, anchored to the foot of the frame: his head fills the top
+   right, the type the bottom left. */
 .hero__content {
   position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
-/* Arms-crossed cut-out, the photo as it is. Big on purpose: head above the
-   headline, standing on the line where the arrow ends. Its left shoulder
-   overlaps the end of the headline a little (the headline sits above it and
-   inverts over the sweater, see .hero__title), and it never sits left of 70%
-   of the width minus half its own width, so wide screens keep it right. Both
-   elbows are closed in the file, so it can stand clear of the edges.
-   No fade: it sits on one thin curved line (.hero__swoosh).
-   Over the edge wash (same z-index, later in the tree) so the photo is never
-   greyed near the screen edge; under the dot field. */
-.hero {
-  /* rendered height of the photo; its width is 0.8274 of this (1160x1402) */
-  --portrait-h: min(86svh, calc(55vw - 30px));
-  --portrait-left: max(
-    calc(min(61.45%, 1048px) - var(--portrait-h) * 0.2),
-    calc(70% - var(--portrait-h) * 0.4137)
-  );
-  /* the line where the arrow's tail and the bottom of the photo both end */
-  --hero-end: clamp(0.75rem, 3vh, 2.5rem);
-}
+/* Arms-crossed cut-out, the photo as it is, standing on the foot of the
+   hero. Its foot fades out into the page, so its straight bottom edge is
+   never seen. Over the edge wash (same z-index, later in the tree) so the
+   photo is never greyed near the screen edge. */
 .hero__portrait {
   position: absolute;
-  bottom: var(--hero-end);
+  bottom: var(--portrait-lift);
   left: var(--portrait-left);
   z-index: 30;
   height: var(--portrait-h);
   width: auto;
   pointer-events: none;
   user-select: none;
+  /* Eased at both ends of the ramp, so the fade has no starting edge. */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 68%,
+    rgb(0 0 0 / 0.86) 75%,
+    rgb(0 0 0 / 0.55) 83%,
+    rgb(0 0 0 / 0.2) 91%,
+    transparent 98%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 68%,
+    rgb(0 0 0 / 0.86) 75%,
+    rgb(0 0 0 / 0.55) 83%,
+    rgb(0 0 0 / 0.2) 91%,
+    transparent 98%
+  );
 }
 
-/* The hero line (Swoosh in Doodles.tsx), as thin as the arrow's: in from the
-   right above his shoulder, down his right side, a round bow under the photo,
-   on through the button. The photo is cut along it where it runs under him,
-   so nothing of the photo shows outside the line and its straight bottom edge
-   sits on it. Drawn in the photo's pixels and laid exactly over the photo's
-   box. Painted at 29: behind the photo (where the sweater meets it, black on
-   black), under the edge wash (30) so its two ends fade at the screen edges
-   the way the type does, and under the buttons (32). */
-.hero__portrait {
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1160 1402' preserveAspectRatio='none'%3E%3Cpath d='M1205 -40L1205 900L1206 904L1207 908L1207 912L1208 916L1209 920L1210 924L1210 928L1211 932L1212 936L1212 940L1213 944L1214 948L1214 952L1215 956L1216 960L1216 964L1217 968L1217 972L1218 976L1218 980L1219 984L1219 988L1219 993L1220 997L1220 1001L1220 1005L1221 1009L1221 1013L1221 1017L1221 1022L1221 1026L1221 1030L1221 1034L1221 1038L1221 1042L1221 1046L1221 1051L1221 1055L1221 1059L1220 1063L1220 1067L1220 1071L1219 1075L1219 1079L1218 1084L1217 1088L1217 1092L1216 1096L1215 1100L1215 1100L1214 1104L1213 1108L1212 1112L1212 1117L1211 1121L1210 1125L1209 1130L1208 1134L1207 1138L1206 1143L1205 1147L1204 1152L1203 1156L1202 1160L1201 1165L1200 1169L1199 1174L1197 1178L1196 1183L1195 1187L1193 1192L1192 1196L1190 1201L1189 1205L1187 1209L1186 1214L1184 1218L1182 1222L1180 1227L1178 1231L1176 1235L1174 1239L1171 1243L1169 1247L1167 1251L1164 1255L1161 1259L1159 1263L1156 1267L1153 1270L1150 1274L1146 1277L1143 1281L1139 1284L1136 1288L1132 1291L1128 1294L1124 1297L1120 1300L1120 1300L1116 1303L1111 1306L1106 1308L1102 1311L1097 1314L1091 1316L1086 1319L1080 1321L1075 1324L1069 1326L1063 1328L1057 1331L1051 1333L1044 1335L1038 1337L1031 1339L1025 1341L1018 1343L1011 1345L1004 1347L998 1349L991 1351L983 1352L976 1354L969 1356L962 1357L955 1359L948 1360L940 1362L933 1363L926 1365L918 1366L911 1368L904 1369L897 1370L889 1372L882 1373L875 1374L868 1375L861 1376L854 1378L847 1379L840 1380L833 1381L826 1382L819 1383L813 1384L806 1385L800 1386L800 1386L794 1387L787 1388L781 1389L775 1390L769 1390L762 1391L756 1392L750 1393L744 1393L738 1394L732 1394L726 1395L719 1395L713 1396L707 1396L701 1397L695 1397L689 1397L683 1398L677 1398L671 1398L665 1398L659 1399L653 1399L647 1399L641 1399L635 1399L629 1399L623 1399L617 1399L611 1399L605 1399L599 1399L593 1399L587 1399L581 1399L574 1399L568 1399L562 1399L556 1399L550 1398L544 1398L538 1398L531 1398L525 1398L519 1398L513 1397L506 1397L500 1397L500 1397L494 1397L487 1397L481 1396L474 1396L467 1396L461 1395L454 1395L447 1395L440 1394L433 1394L426 1394L419 1393L412 1393L405 1393L398 1392L391 1392L384 1391L377 1391L370 1390L363 1390L356 1389L349 1388L342 1388L335 1387L328 1387L321 1386L314 1385L307 1385L300 1384L293 1383L287 1382L280 1382L273 1381L267 1380L260 1379L254 1379L248 1378L241 1377L235 1376L229 1375L223 1374L217 1373L212 1372L206 1371L201 1370L195 1369L190 1368L185 1367L180 1366L180 1366L175 1365L170 1364L166 1363L161 1361L157 1360L153 1359L149 1358L145 1356L141 1355L137 1354L133 1352L130 1351L126 1349L123 1348L120 1346L116 1345L113 1343L110 1342L107 1340L104 1339L101 1337L98 1335L95 1334L92 1332L89 1331L86 1329L84 1327L81 1326L78 1324L75 1322L73 1321L70 1319L67 1317L65 1315L62 1314L59 1312L56 1310L53 1309L51 1307L48 1305L45 1303L42 1302L39 1300L36 1298L33 1297L30 1295L27 1293L23 1292L20 1290L20 1290L17 1288L13 1287L10 1285L7 1283L3 1281L0 1279L-3 1277L-7 1275L-10 1272L-13 1270L-16 1268L-20 1266L-23 1263L-26 1261L-29 1259L-33 1256L-36 1254L-39 1252L-42 1249L-46 1247L-49 1245L-52 1242L-56 1240L-59 1238L-62 1236L-66 1234L-69 1231L-72 1229L-76 1227L-79 1225L-83 1223L-86 1222L-90 1220L-93 1218L-97 1216L-100 1215L-104 1213L-108 1212L-111 1211L-115 1210L-119 1209L-122 1208L-126 1207L-130 1206L-134 1206L-138 1205L-142 1205L-146 1205L-150 1205L-150 -40Z' fill='white'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1160 1402' preserveAspectRatio='none'%3E%3Cpath d='M1205 -40L1205 900L1206 904L1207 908L1207 912L1208 916L1209 920L1210 924L1210 928L1211 932L1212 936L1212 940L1213 944L1214 948L1214 952L1215 956L1216 960L1216 964L1217 968L1217 972L1218 976L1218 980L1219 984L1219 988L1219 993L1220 997L1220 1001L1220 1005L1221 1009L1221 1013L1221 1017L1221 1022L1221 1026L1221 1030L1221 1034L1221 1038L1221 1042L1221 1046L1221 1051L1221 1055L1221 1059L1220 1063L1220 1067L1220 1071L1219 1075L1219 1079L1218 1084L1217 1088L1217 1092L1216 1096L1215 1100L1215 1100L1214 1104L1213 1108L1212 1112L1212 1117L1211 1121L1210 1125L1209 1130L1208 1134L1207 1138L1206 1143L1205 1147L1204 1152L1203 1156L1202 1160L1201 1165L1200 1169L1199 1174L1197 1178L1196 1183L1195 1187L1193 1192L1192 1196L1190 1201L1189 1205L1187 1209L1186 1214L1184 1218L1182 1222L1180 1227L1178 1231L1176 1235L1174 1239L1171 1243L1169 1247L1167 1251L1164 1255L1161 1259L1159 1263L1156 1267L1153 1270L1150 1274L1146 1277L1143 1281L1139 1284L1136 1288L1132 1291L1128 1294L1124 1297L1120 1300L1120 1300L1116 1303L1111 1306L1106 1308L1102 1311L1097 1314L1091 1316L1086 1319L1080 1321L1075 1324L1069 1326L1063 1328L1057 1331L1051 1333L1044 1335L1038 1337L1031 1339L1025 1341L1018 1343L1011 1345L1004 1347L998 1349L991 1351L983 1352L976 1354L969 1356L962 1357L955 1359L948 1360L940 1362L933 1363L926 1365L918 1366L911 1368L904 1369L897 1370L889 1372L882 1373L875 1374L868 1375L861 1376L854 1378L847 1379L840 1380L833 1381L826 1382L819 1383L813 1384L806 1385L800 1386L800 1386L794 1387L787 1388L781 1389L775 1390L769 1390L762 1391L756 1392L750 1393L744 1393L738 1394L732 1394L726 1395L719 1395L713 1396L707 1396L701 1397L695 1397L689 1397L683 1398L677 1398L671 1398L665 1398L659 1399L653 1399L647 1399L641 1399L635 1399L629 1399L623 1399L617 1399L611 1399L605 1399L599 1399L593 1399L587 1399L581 1399L574 1399L568 1399L562 1399L556 1399L550 1398L544 1398L538 1398L531 1398L525 1398L519 1398L513 1397L506 1397L500 1397L500 1397L494 1397L487 1397L481 1396L474 1396L467 1396L461 1395L454 1395L447 1395L440 1394L433 1394L426 1394L419 1393L412 1393L405 1393L398 1392L391 1392L384 1391L377 1391L370 1390L363 1390L356 1389L349 1388L342 1388L335 1387L328 1387L321 1386L314 1385L307 1385L300 1384L293 1383L287 1382L280 1382L273 1381L267 1380L260 1379L254 1379L248 1378L241 1377L235 1376L229 1375L223 1374L217 1373L212 1372L206 1371L201 1370L195 1369L190 1368L185 1367L180 1366L180 1366L175 1365L170 1364L166 1363L161 1361L157 1360L153 1359L149 1358L145 1356L141 1355L137 1354L133 1352L130 1351L126 1349L123 1348L120 1346L116 1345L113 1343L110 1342L107 1340L104 1339L101 1337L98 1335L95 1334L92 1332L89 1331L86 1329L84 1327L81 1326L78 1324L75 1322L73 1321L70 1319L67 1317L65 1315L62 1314L59 1312L56 1310L53 1309L51 1307L48 1305L45 1303L42 1302L39 1300L36 1298L33 1297L30 1295L27 1293L23 1292L20 1290L20 1290L17 1288L13 1287L10 1285L7 1283L3 1281L0 1279L-3 1277L-7 1275L-10 1272L-13 1270L-16 1268L-20 1266L-23 1263L-26 1261L-29 1259L-33 1256L-36 1254L-39 1252L-42 1249L-46 1247L-49 1245L-52 1242L-56 1240L-59 1238L-62 1236L-66 1234L-69 1231L-72 1229L-76 1227L-79 1225L-83 1223L-86 1222L-90 1220L-93 1218L-97 1216L-100 1215L-104 1213L-108 1212L-111 1211L-115 1210L-119 1209L-122 1208L-126 1207L-130 1206L-134 1206L-138 1205L-142 1205L-146 1205L-150 1205L-150 -40Z' fill='white'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
-}
-.hero__swoosh {
-  position: absolute;
-  bottom: var(--hero-end);
-  left: var(--portrait-left);
-  z-index: 29;
-  width: calc(var(--portrait-h) * 0.8274);
-  height: var(--portrait-h);
-  color: var(--text);
-  pointer-events: none;
-}
-.hero__swoosh svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-/* the arrow's own line weight: 3 of its 118 units at clamp(70px, 7vw, 120px) */
-.hero__swoosh .swoosh--wide {
-  stroke-width: clamp(1.8px, 0.178vw, 3.05px);
-}
-.hero__swoosh .swoosh--phone {
-  display: none;
-  stroke-width: 2.4px;
-}
-
+/* Tablets and phones: one column, in the flow, so the gaps stay fixed and
+   even. The text, then the photo centred under it. */
 @media (max-width: 960px) {
-  /* Portrait stays OUT of the flow, centred at the bottom (the desktop
-     treatment, scaled for a narrow canvas). Content sits at the top. The
-     height cap (45svh) keeps his head below the actions on short windows,
-     since the photo sits above the text. */
-  .hero {
-    justify-content: start;
-    padding-bottom: clamp(7rem, 20vh, 10rem);
-    --portrait-h: calc(min(62vw, 480px, 45svh) * 1.2086);
-  }
-  .hero {
-    --portrait-left: calc(50% - var(--portrait-h) * 0.4137);
-  }
-}
-
-/* Phones: stack the portrait in the flow, directly under the mapping-call line,
-   centred. In the flow the gap above (margin-top) and below (statement padding)
-   stay fixed and even. */
-@media (max-width: 600px) {
   .hero {
     min-height: auto;
-    padding-bottom: clamp(1rem, 2.5vh, 1.75rem);
+    --hero-top: clamp(5.75rem, 13vh, 9rem);
+    --hero-bottom: clamp(1rem, 2.5vh, 1.75rem);
     --portrait-h: calc(clamp(300px, 88vw, 460px) * 1.2086);
+    /* the longest line (8.55em) fills about 80% of the width at 9vw */
+    --h1: clamp(2.1rem, 9vw, 5.5rem);
   }
   .hero__content {
+    flex: none;
     order: 1;
   }
   .hero__portrait {
@@ -534,64 +554,35 @@ video {
     order: 2;
     left: auto;
     bottom: auto;
-    margin-top: clamp(1.25rem, 4vh, 2.25rem);
+    margin-top: clamp(0.75rem, 3vh, 2rem);
     margin-inline: auto;
-    /* cut along the phone route's bow (the wide mask is for the wide route) */
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1160 1402' preserveAspectRatio='none'%3E%3Cpath d='M1310 -40L1310.0 960.0L1307.4 964.3L1304.9 968.6L1302.3 972.8L1299.6 977.0L1297.0 981.2L1294.4 985.4L1291.7 989.6L1289.0 993.7L1286.3 997.8L1283.6 1001.9L1280.9 1006.0L1278.2 1010.1L1275.4 1014.1L1272.6 1018.1L1269.8 1022.1L1267.0 1026.1L1264.2 1030.0L1261.4 1033.9L1258.5 1037.8L1255.7 1041.7L1252.8 1045.6L1249.9 1049.4L1247.0 1053.2L1244.1 1057.0L1241.1 1060.8L1238.2 1064.5L1235.2 1068.3L1232.2 1072.0L1229.2 1075.7L1226.2 1079.3L1223.2 1083.0L1220.2 1086.6L1217.1 1090.2L1214.0 1093.8L1211.0 1097.3L1207.9 1100.9L1204.8 1104.4L1201.6 1107.9L1198.5 1111.3L1195.4 1114.8L1192.2 1118.2L1189.0 1121.6L1185.8 1125.0L1182.6 1128.4L1179.4 1131.7L1176.2 1135.0L1173.0 1138.3L1169.7 1141.6L1166.5 1144.9L1163.2 1148.1L1159.9 1151.3L1156.6 1154.5L1153.3 1157.7L1150.0 1160.8L1146.6 1163.9L1143.3 1167.0L1139.9 1170.1L1136.5 1173.2L1133.2 1176.2L1129.8 1179.2L1126.4 1182.2L1122.9 1185.2L1119.5 1188.2L1116.1 1191.1L1112.6 1194.0L1109.1 1196.9L1105.7 1199.8L1102.2 1202.6L1098.7 1205.4L1095.2 1208.2L1091.7 1211.0L1088.1 1213.8L1084.6 1216.5L1081.0 1219.2L1077.5 1221.9L1073.9 1224.6L1070.3 1227.3L1066.7 1229.9L1063.1 1232.5L1059.5 1235.1L1055.9 1237.6L1052.3 1240.2L1048.6 1242.7L1045.0 1245.2L1041.3 1247.7L1037.6 1250.1L1034.0 1252.6L1030.3 1255.0L1026.6 1257.4L1022.9 1259.8L1019.1 1262.1L1015.4 1264.4L1011.7 1266.7L1007.9 1269.0L1004.2 1271.3L1000.4 1273.5L996.7 1275.8L992.9 1278.0L989.1 1280.1L985.3 1282.3L981.5 1284.4L977.7 1286.5L973.9 1288.6L970.0 1290.7L966.2 1292.7L962.4 1294.8L958.5 1296.8L954.7 1298.8L950.8 1300.7L946.9 1302.7L943.0 1304.6L939.1 1306.5L935.2 1308.4L931.3 1310.2L927.4 1312.0L923.5 1313.8L919.6 1315.6L915.7 1317.4L911.7 1319.2L907.8 1320.9L903.8 1322.6L899.9 1324.3L895.9 1325.9L891.9 1327.6L888.0 1329.2L884.0 1330.8L880.0 1332.3L876.0 1333.9L872.0 1335.4L868.0 1336.9L864.0 1338.4L859.9 1339.9L855.9 1341.3L851.9 1342.8L847.9 1344.2L843.8 1345.5L839.8 1346.9L835.7 1348.2L831.7 1349.5L827.6 1350.8L823.5 1352.1L819.5 1353.4L815.4 1354.6L811.3 1355.8L807.2 1357.0L803.1 1358.1L799.0 1359.3L794.9 1360.4L790.8 1361.5L786.7 1362.6L782.6 1363.6L778.5 1364.7L774.4 1365.7L770.3 1366.7L766.1 1367.7L762.0 1368.6L757.9 1369.5L753.7 1370.4L749.6 1371.3L745.5 1372.2L741.3 1373.0L737.2 1373.8L733.0 1374.6L728.9 1375.4L724.7 1376.2L720.5 1376.9L716.4 1377.6L712.2 1378.3L708.0 1379.0L703.9 1379.6L699.7 1380.2L695.5 1380.8L691.3 1381.4L687.1 1382.0L683.0 1382.5L678.8 1383.0L674.6 1383.5L670.4 1384.0L666.2 1384.5L662.0 1384.9L657.8 1385.3L653.6 1385.7L649.4 1386.1L645.2 1386.4L641.0 1386.7L636.8 1387.0L632.6 1387.3L628.4 1387.6L624.2 1387.8L620.0 1388.0L615.8 1388.2L611.6 1388.4L607.4 1388.5L603.2 1388.7L598.9 1388.8L594.7 1388.9L590.5 1388.9L586.3 1389.0L582.1 1389.0L577.9 1389.0L573.7 1389.0L569.5 1388.9L565.3 1388.9L561.1 1388.8L556.8 1388.7L552.6 1388.5L548.4 1388.4L544.2 1388.2L540.0 1388.0L535.8 1387.8L531.6 1387.6L527.4 1387.3L523.2 1387.0L519.0 1386.7L514.8 1386.4L510.6 1386.1L506.4 1385.7L502.2 1385.3L498.0 1384.9L493.8 1384.5L489.6 1384.0L485.4 1383.5L481.2 1383.0L477.0 1382.5L472.9 1382.0L468.7 1381.4L464.5 1380.8L460.3 1380.2L456.1 1379.6L452.0 1379.0L447.8 1378.3L443.6 1377.6L439.5 1376.9L435.3 1376.2L431.1 1375.4L427.0 1374.6L422.8 1373.8L418.7 1373.0L414.5 1372.2L410.4 1371.3L406.3 1370.4L402.1 1369.5L398.0 1368.6L393.9 1367.7L389.7 1366.7L385.6 1365.7L381.5 1364.7L377.4 1363.6L373.3 1362.6L369.2 1361.5L365.1 1360.4L361.0 1359.3L356.9 1358.1L352.8 1357.0L348.7 1355.8L344.6 1354.6L340.5 1353.4L336.5 1352.1L332.4 1350.8L328.3 1349.5L324.3 1348.2L320.2 1346.9L316.2 1345.5L312.1 1344.2L308.1 1342.8L304.1 1341.3L300.1 1339.9L296.0 1338.4L292.0 1336.9L288.0 1335.4L284.0 1333.9L280.0 1332.3L276.0 1330.8L272.0 1329.2L268.1 1327.6L264.1 1325.9L260.1 1324.3L256.2 1322.6L252.2 1320.9L248.3 1319.2L244.3 1317.4L240.4 1315.6L236.5 1313.8L232.6 1312.0L228.7 1310.2L224.8 1308.4L220.9 1306.5L217.0 1304.6L213.1 1302.7L209.2 1300.7L205.3 1298.8L201.5 1296.8L197.6 1294.8L193.8 1292.7L190.0 1290.7L186.1 1288.6L182.3 1286.5L178.5 1284.4L174.7 1282.3L170.9 1280.1L167.1 1278.0L163.3 1275.8L159.6 1273.5L155.8 1271.3L152.1 1269.0L148.3 1266.7L144.6 1264.4L140.9 1262.1L137.1 1259.8L133.4 1257.4L129.7 1255.0L126.0 1252.6L122.4 1250.1L118.7 1247.7L115.0 1245.2L111.4 1242.7L107.7 1240.2L104.1 1237.6L100.5 1235.1L96.9 1232.5L93.3 1229.9L89.7 1227.3L86.1 1224.6L82.5 1221.9L79.0 1219.2L75.4 1216.5L71.9 1213.8L68.3 1211.0L64.8 1208.2L61.3 1205.4L57.8 1202.6L54.3 1199.8L50.9 1196.9L47.4 1194.0L43.9 1191.1L40.5 1188.2L37.1 1185.2L33.6 1182.2L30.2 1179.2L26.8 1176.2L23.5 1173.2L20.1 1170.1L16.7 1167.0L13.4 1163.9L10.0 1160.8L6.7 1157.7L3.4 1154.5L0.1 1151.3L-3.2 1148.1L-6.5 1144.9L-9.7 1141.6L-13.0 1138.3L-16.2 1135.0L-19.4 1131.7L-22.6 1128.4L-25.8 1125.0L-29.0 1121.6L-32.2 1118.2L-35.4 1114.8L-38.5 1111.3L-41.6 1107.9L-44.8 1104.4L-47.9 1100.9L-51.0 1097.3L-54.0 1093.8L-57.1 1090.2L-60.2 1086.6L-63.2 1083.0L-66.2 1079.3L-69.2 1075.7L-72.2 1072.0L-75.2 1068.3L-78.2 1064.5L-81.1 1060.8L-84.1 1057.0L-87.0 1053.2L-89.9 1049.4L-92.8 1045.6L-95.7 1041.7L-98.5 1037.8L-101.4 1033.9L-104.2 1030.0L-107.0 1026.1L-109.8 1022.1L-112.6 1018.1L-115.4 1014.1L-118.2 1010.1L-120.9 1006.0L-123.6 1001.9L-126.3 997.8L-129.0 993.7L-131.7 989.6L-134.4 985.4L-137.0 981.2L-139.6 977.0L-142.3 972.8L-144.9 968.6L-147.4 964.3L-150.0 960.0L-150 -40Z' fill='white'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1160 1402' preserveAspectRatio='none'%3E%3Cpath d='M1310 -40L1310.0 960.0L1307.4 964.3L1304.9 968.6L1302.3 972.8L1299.6 977.0L1297.0 981.2L1294.4 985.4L1291.7 989.6L1289.0 993.7L1286.3 997.8L1283.6 1001.9L1280.9 1006.0L1278.2 1010.1L1275.4 1014.1L1272.6 1018.1L1269.8 1022.1L1267.0 1026.1L1264.2 1030.0L1261.4 1033.9L1258.5 1037.8L1255.7 1041.7L1252.8 1045.6L1249.9 1049.4L1247.0 1053.2L1244.1 1057.0L1241.1 1060.8L1238.2 1064.5L1235.2 1068.3L1232.2 1072.0L1229.2 1075.7L1226.2 1079.3L1223.2 1083.0L1220.2 1086.6L1217.1 1090.2L1214.0 1093.8L1211.0 1097.3L1207.9 1100.9L1204.8 1104.4L1201.6 1107.9L1198.5 1111.3L1195.4 1114.8L1192.2 1118.2L1189.0 1121.6L1185.8 1125.0L1182.6 1128.4L1179.4 1131.7L1176.2 1135.0L1173.0 1138.3L1169.7 1141.6L1166.5 1144.9L1163.2 1148.1L1159.9 1151.3L1156.6 1154.5L1153.3 1157.7L1150.0 1160.8L1146.6 1163.9L1143.3 1167.0L1139.9 1170.1L1136.5 1173.2L1133.2 1176.2L1129.8 1179.2L1126.4 1182.2L1122.9 1185.2L1119.5 1188.2L1116.1 1191.1L1112.6 1194.0L1109.1 1196.9L1105.7 1199.8L1102.2 1202.6L1098.7 1205.4L1095.2 1208.2L1091.7 1211.0L1088.1 1213.8L1084.6 1216.5L1081.0 1219.2L1077.5 1221.9L1073.9 1224.6L1070.3 1227.3L1066.7 1229.9L1063.1 1232.5L1059.5 1235.1L1055.9 1237.6L1052.3 1240.2L1048.6 1242.7L1045.0 1245.2L1041.3 1247.7L1037.6 1250.1L1034.0 1252.6L1030.3 1255.0L1026.6 1257.4L1022.9 1259.8L1019.1 1262.1L1015.4 1264.4L1011.7 1266.7L1007.9 1269.0L1004.2 1271.3L1000.4 1273.5L996.7 1275.8L992.9 1278.0L989.1 1280.1L985.3 1282.3L981.5 1284.4L977.7 1286.5L973.9 1288.6L970.0 1290.7L966.2 1292.7L962.4 1294.8L958.5 1296.8L954.7 1298.8L950.8 1300.7L946.9 1302.7L943.0 1304.6L939.1 1306.5L935.2 1308.4L931.3 1310.2L927.4 1312.0L923.5 1313.8L919.6 1315.6L915.7 1317.4L911.7 1319.2L907.8 1320.9L903.8 1322.6L899.9 1324.3L895.9 1325.9L891.9 1327.6L888.0 1329.2L884.0 1330.8L880.0 1332.3L876.0 1333.9L872.0 1335.4L868.0 1336.9L864.0 1338.4L859.9 1339.9L855.9 1341.3L851.9 1342.8L847.9 1344.2L843.8 1345.5L839.8 1346.9L835.7 1348.2L831.7 1349.5L827.6 1350.8L823.5 1352.1L819.5 1353.4L815.4 1354.6L811.3 1355.8L807.2 1357.0L803.1 1358.1L799.0 1359.3L794.9 1360.4L790.8 1361.5L786.7 1362.6L782.6 1363.6L778.5 1364.7L774.4 1365.7L770.3 1366.7L766.1 1367.7L762.0 1368.6L757.9 1369.5L753.7 1370.4L749.6 1371.3L745.5 1372.2L741.3 1373.0L737.2 1373.8L733.0 1374.6L728.9 1375.4L724.7 1376.2L720.5 1376.9L716.4 1377.6L712.2 1378.3L708.0 1379.0L703.9 1379.6L699.7 1380.2L695.5 1380.8L691.3 1381.4L687.1 1382.0L683.0 1382.5L678.8 1383.0L674.6 1383.5L670.4 1384.0L666.2 1384.5L662.0 1384.9L657.8 1385.3L653.6 1385.7L649.4 1386.1L645.2 1386.4L641.0 1386.7L636.8 1387.0L632.6 1387.3L628.4 1387.6L624.2 1387.8L620.0 1388.0L615.8 1388.2L611.6 1388.4L607.4 1388.5L603.2 1388.7L598.9 1388.8L594.7 1388.9L590.5 1388.9L586.3 1389.0L582.1 1389.0L577.9 1389.0L573.7 1389.0L569.5 1388.9L565.3 1388.9L561.1 1388.8L556.8 1388.7L552.6 1388.5L548.4 1388.4L544.2 1388.2L540.0 1388.0L535.8 1387.8L531.6 1387.6L527.4 1387.3L523.2 1387.0L519.0 1386.7L514.8 1386.4L510.6 1386.1L506.4 1385.7L502.2 1385.3L498.0 1384.9L493.8 1384.5L489.6 1384.0L485.4 1383.5L481.2 1383.0L477.0 1382.5L472.9 1382.0L468.7 1381.4L464.5 1380.8L460.3 1380.2L456.1 1379.6L452.0 1379.0L447.8 1378.3L443.6 1377.6L439.5 1376.9L435.3 1376.2L431.1 1375.4L427.0 1374.6L422.8 1373.8L418.7 1373.0L414.5 1372.2L410.4 1371.3L406.3 1370.4L402.1 1369.5L398.0 1368.6L393.9 1367.7L389.7 1366.7L385.6 1365.7L381.5 1364.7L377.4 1363.6L373.3 1362.6L369.2 1361.5L365.1 1360.4L361.0 1359.3L356.9 1358.1L352.8 1357.0L348.7 1355.8L344.6 1354.6L340.5 1353.4L336.5 1352.1L332.4 1350.8L328.3 1349.5L324.3 1348.2L320.2 1346.9L316.2 1345.5L312.1 1344.2L308.1 1342.8L304.1 1341.3L300.1 1339.9L296.0 1338.4L292.0 1336.9L288.0 1335.4L284.0 1333.9L280.0 1332.3L276.0 1330.8L272.0 1329.2L268.1 1327.6L264.1 1325.9L260.1 1324.3L256.2 1322.6L252.2 1320.9L248.3 1319.2L244.3 1317.4L240.4 1315.6L236.5 1313.8L232.6 1312.0L228.7 1310.2L224.8 1308.4L220.9 1306.5L217.0 1304.6L213.1 1302.7L209.2 1300.7L205.3 1298.8L201.5 1296.8L197.6 1294.8L193.8 1292.7L190.0 1290.7L186.1 1288.6L182.3 1286.5L178.5 1284.4L174.7 1282.3L170.9 1280.1L167.1 1278.0L163.3 1275.8L159.6 1273.5L155.8 1271.3L152.1 1269.0L148.3 1266.7L144.6 1264.4L140.9 1262.1L137.1 1259.8L133.4 1257.4L129.7 1255.0L126.0 1252.6L122.4 1250.1L118.7 1247.7L115.0 1245.2L111.4 1242.7L107.7 1240.2L104.1 1237.6L100.5 1235.1L96.9 1232.5L93.3 1229.9L89.7 1227.3L86.1 1224.6L82.5 1221.9L79.0 1219.2L75.4 1216.5L71.9 1213.8L68.3 1211.0L64.8 1208.2L61.3 1205.4L57.8 1202.6L54.3 1199.8L50.9 1196.9L47.4 1194.0L43.9 1191.1L40.5 1188.2L37.1 1185.2L33.6 1182.2L30.2 1179.2L26.8 1176.2L23.5 1173.2L20.1 1170.1L16.7 1167.0L13.4 1163.9L10.0 1160.8L6.7 1157.7L3.4 1154.5L0.1 1151.3L-3.2 1148.1L-6.5 1144.9L-9.7 1141.6L-13.0 1138.3L-16.2 1135.0L-19.4 1131.7L-22.6 1128.4L-25.8 1125.0L-29.0 1121.6L-32.2 1118.2L-35.4 1114.8L-38.5 1111.3L-41.6 1107.9L-44.8 1104.4L-47.9 1100.9L-51.0 1097.3L-54.0 1093.8L-57.1 1090.2L-60.2 1086.6L-63.2 1083.0L-66.2 1079.3L-69.2 1075.7L-72.2 1072.0L-75.2 1068.3L-78.2 1064.5L-81.1 1060.8L-84.1 1057.0L-87.0 1053.2L-89.9 1049.4L-92.8 1045.6L-95.7 1041.7L-98.5 1037.8L-101.4 1033.9L-104.2 1030.0L-107.0 1026.1L-109.8 1022.1L-112.6 1018.1L-115.4 1014.1L-118.2 1010.1L-120.9 1006.0L-123.6 1001.9L-126.3 997.8L-129.0 993.7L-131.7 989.6L-134.4 985.4L-137.0 981.2L-139.6 977.0L-142.3 972.8L-144.9 968.6L-147.4 964.3L-150.0 960.0L-150 -40Z' fill='white'/%3E%3C/svg%3E");
-  }
-  /* in the flow right before the photo, which is pulled up over it by the
-     same height; same size and centring */
-  .hero__swoosh {
-    position: relative;
-    order: 2;
-    left: auto;
-    bottom: auto;
-    width: calc(var(--portrait-h) * 0.8274);
-    margin-inline: auto;
-    margin-top: clamp(1.25rem, 4vh, 2.25rem);
-    margin-bottom: calc(-1 * var(--portrait-h));
-  }
-  .hero__swoosh + .hero__portrait {
-    margin-top: 0;
-  }
-  .hero__swoosh .swoosh--wide {
-    display: none;
-  }
-  .hero__swoosh .swoosh--phone {
-    display: inline;
   }
 }
 
 .hero__greeting {
+  margin-bottom: clamp(1.5rem, 2.6vw, 2.75rem);
   font-size: clamp(1.3rem, 1rem + 1vw, 2.1rem);
   font-weight: 400;
   line-height: 1.08;
   letter-spacing: -0.02em;
   color: var(--text);
-  margin-bottom: clamp(2.25rem, 4.5vw, 4.25rem);
 }
 
-.hero__greeting span {
-  display: block;
-}
 
 .hero__title {
   font-family: var(--font-display), system-ui, sans-serif;
   /* Keep glyph proportions constant across sizes so line width is predictable
      (Bricolage's auto optical sizing widens small text and breaks the wrap). */
   font-optical-sizing: none;
-  /* Longest line ("I build automated systems") is ~25ch, wide enough that
-     its tail crosses the portrait on purpose. Stepped down from 8vw when the
-     headline grew from 20ch to 25ch lines. */
-  font-size: clamp(2.1rem, 6.4vw, 6.8rem);
+  font-size: var(--h1);
   font-weight: 350;
   line-height: 0.5;
   letter-spacing: -0.03em;
+  text-transform: lowercase;
   /* White type blended against everything behind it: reads near-black on the
      light canvas, inverts to light where it crosses the dark portrait. Above
-     the portrait (30) and the edge layers (30, 31) so the blend reaches the
-     photo; the wash it would have had is rebuilt on .hero__line. */
+     the portrait (30) and the edge wash (30) so the blend reaches the photo;
+     the wash it would have had is rebuilt on .hero__line. */
   color: #fff;
   mix-blend-mode: difference;
   position: relative;
@@ -653,55 +644,47 @@ video {
   font-weight: 400;
 }
 
+/* What the system does, in one sentence under the headline. */
+.hero__sub {
+  position: relative;
+  /* the photo's position counts on this gap (--portrait-lift) */
+  margin-top: var(--h1-gap);
+  /* never wider than 46ch, and never reaching the photo */
+  max-width: min(46ch, calc(var(--portrait-left) - var(--pad-x) - 2.5rem));
+  font-size: var(--sub-fs);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--text-dim);
+  /* two even lines, never a word or two left on the second */
+  text-wrap: balance;
+}
+
+/* Tablets and phones: the photo is under the text, so only the measure
+   limits the sub. */
+@media (max-width: 960px) {
+  .hero__sub {
+    max-width: 46ch;
+  }
+}
+
+/* The button and the call link on one line, wrapping on narrow screens. */
 .hero__foot {
   display: flex;
   align-items: center;
-  gap: clamp(1.25rem, 3vw, 2rem);
-  margin-top: clamp(2.25rem, 4.5vw, 3.5rem);
   flex-wrap: wrap;
-}
-
-.hero__link {
-  position: relative;
-  font-size: 0.96rem;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  /* White + difference like the headline: near-black on the canvas, inverts to
-     light where it overlaps the portrait. */
-  padding-bottom: 2px;
-}
-
-.hero__link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 1px;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--dur) var(--ease);
-}
-
-.hero__link:hover::after {
-  transform: scaleX(1);
+  gap: 1rem clamp(1.25rem, 2.4vw, 2rem);
+  margin-top: 2.25rem;
 }
 
 .hero__audit {
-  margin-top: clamp(1.5rem, 3vw, 2.25rem);
-  font-size: 0.95rem;
-  color: var(--text-dim);
-}
-
-.hero__audit a {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  font-size: 0.95rem;
   color: var(--text-dim);
   transition: color var(--dur) var(--ease);
 }
-.hero__audit a:hover {
+.hero__audit:hover {
   color: var(--text);
 }
 
@@ -838,30 +821,13 @@ video {
   }
 }
 
-/* The statement sits right under the hero; on desktop the portrait bleeds down
-   past the fold, so push the statement lower to clear it. */
-@media (min-width: 961px) {
-  .statement-sec {
-    padding-top: clamp(8rem, 28vh, 18rem);
-  }
-}
-
-/* On mobile the hero portrait bleeds down into the top of this section (the text
-   was overlapping it), so add top room to clear it; the work section below
-   brings its own top space, so the bottom can be tight. */
+/* Up to 960px the portrait is stacked inside the hero and the facts close it,
+   so this only needs a normal gap on top; the next section brings its own top
+   space, so the bottom can be tight. */
 @media (max-width: 960px) {
   .statement-sec {
-    padding-top: clamp(10rem, 22vh, 13rem);
+    padding-top: clamp(2.5rem, 6vh, 4rem);
     padding-bottom: clamp(2rem, 5vh, 3.5rem);
-  }
-}
-
-/* Phones: the portrait is now stacked inside the hero (it no longer bleeds down),
-   so drop the big top inset to a normal gap that matches the space above the
-   image under the audit line. */
-@media (max-width: 600px) {
-  .statement-sec {
-    padding-top: clamp(1.5rem, 4vh, 2.5rem);
   }
 }
 

@@ -47,39 +47,3 @@ export function DoodleSpark({ className }: { className?: string }) {
     </svg>
   );
 }
-
-// The hero line, as thin as the arrow's. Drawn in the hero photo's own pixels
-// (1160x1402, its bottom edge at y 1402) and laid exactly over the photo, so
-// where it meets the photo it lines up at every size; the hero clips the rest
-// at the screen edges. It is painted behind the photo and the photo is cut
-// along it where it runs under him (globals.css), so his straight bottom edge
-// is never seen and nothing of the photo shows outside the line.
-// Wide screens: in from the right above his shoulder, a bit left, down his
-// right side, a round bow under the photo, then left through the button.
-// Phones (photo dead centre): one plain curve from screen edge to screen edge,
-// a single cubic, lowest right on the photo's bottom edge under its centre.
-export function Swoosh({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 1160 1402"
-      fill="none"
-      aria-hidden="true"
-    >
-      <path
-        className="swoosh--wide"
-        vectorEffect="non-scaling-stroke"
-        d="M1500 560C1450 568 1260 583 1200 610C1140 637 1139 672 1140 720C1141 768 1192 837 1205 900C1218 963 1229 1033 1215 1100C1201 1167 1189 1252 1120 1300C1051 1348 903 1370 800 1386C697 1402 603 1400 500 1397C397 1394 260 1384 180 1366C100 1348 75 1317 20 1290C-35 1263 -83 1203 -150 1205C-217 1207 -278 1332 -380 1300C-482 1268 -643 1064 -760 1010C-877 956 -960 993 -1080 975C-1200 957 -1413 912 -1480 900"
-        stroke="currentColor"
-        strokeLinecap="round"
-      />
-      <path
-        className="swoosh--phone"
-        vectorEffect="non-scaling-stroke"
-        d="M-150 960C190 1532 970 1532 1310 960"
-        stroke="currentColor"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}

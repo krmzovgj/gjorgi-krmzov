@@ -174,8 +174,8 @@
 
 /* ---- the card look, shared by the pinned card and the phone panels ---- */
 
-/* z-index 32 opts it out of the page's edge wash and dot field (body
-   ::before and ::after, 30 and 31), the same way .btn does. */
+/* z-index 32 opts it out of the page's edge wash (body::before, 30), the
+   same way .btn does. */
 .jr-panel {
   position: relative;
   z-index: 32;
@@ -185,8 +185,8 @@
   box-shadow: inset 0 0 0 1px var(--line);
 }
 
-/* The page's own edge treatment, inside the card: the same dot, the same
-   gap, solid at the left and right edges and gone toward the middle. */
+/* Dots inside the card: the page's dot and gap, solid at the card's left
+   and right edges and gone toward the middle. */
 .jr-dots::before {
   content: "";
   position: absolute;

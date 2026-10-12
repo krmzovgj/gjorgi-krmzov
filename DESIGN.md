@@ -46,11 +46,24 @@ match the hero (`app/components/Hero.tsx` + the `.hero` block in `app/globals.cs
   smooth scroll is already disabled under reduced motion.
 
 ## Signature devices
+- A dot field behind the whole page (`body::after`, under the content): full
+  in the middle, fading out toward the left and right sides. Over the content,
+  an edge wash (`body::before`) pales type as it runs into the margins.
 - `mix-blend-mode: difference` for type / logo that crosses B&W imagery: it
   auto-inverts (dark on light, light on dark).
 - Transparent cut-outs that dissolve off the edge (image fade + mask).
 - Minimal fixed nav: text `gk` logo (blend) + one CTA. `.nav` is `display: contents`
   so the logo blends against the page behind it.
+
+## Hero
+- One idea, told big: greeting, a lowercase headline that owns the screen, one
+  sub line, two actions, the portrait. No cards, lists or extra components.
+- The headline's last line runs across his chest and inverts over the
+  sweater; it never touches his hair, face, neck or hands, and the first two
+  lines keep a clear gap from the photo. Its size and the photo's position are
+  computed from measurements of the photo (`--h1`, `--portrait-lift` in
+  `globals.css`). If the photo, the copy or the line breaks change, re-measure
+  and re-run the geometry check across screen sizes.
 
 ## Kill-list (never reintroduce)
 - No em dashes anywhere. Use periods or commas.

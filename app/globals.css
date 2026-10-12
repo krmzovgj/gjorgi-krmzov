@@ -413,163 +413,39 @@ video {
 }
 
 /* =================================================================
-   Hero. One idea, told big. The headline owns the screen and its last
-   line runs across his shoulder, inverting over the sweater, so the
-   type and the photo lock together. The rest is pinned to the frame:
-   the greeting at the top, level with the top of his head, and the
-   sub and the two actions at the bottom, level with the photo's foot.
+   Hero. Centred: a big light headline, one sub line and the two
+   actions, on the page's dot field. No photo for now (the
+   portrait is kept in app/assets for a later use).
    ================================================================= */
 .hero {
   position: relative;
-  /* A full screen, unless the screen is taller than the composition (the
-     photo, its lift and room for the nav): then the next section shows at
-     the foot instead of an empty band at the top. */
-  min-height: min(
-    100svh,
-    calc(var(--portrait-h) + var(--portrait-lift) + 7rem)
-  );
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
-  padding: var(--hero-top) var(--pad-x) var(--hero-bottom);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: clamp(6.5rem, 14vh, 9rem) var(--pad-x) clamp(3rem, 8vh, 5.5rem);
   /* Clip any sideways overflow so it can never push out a horizontal
-     scrollbar. clip (not hidden) does not isolate the headline's mix-blend. */
+     scrollbar. clip (not hidden) does not isolate the headline's blend. */
   overflow-x: clip;
-
-  /* Rendered height of the photo; its width is 0.8274 of this (1160x1402).
-     The third term keeps his head clear of the nav on short screens, where
-     the photo has to rise to meet the headline (--portrait-lift). */
-  --portrait-h: min(
-    80svh,
-    calc(55vw - 30px),
-    calc((100svh - 20.2rem) * 1.294)
-  );
-  /* In vw, not %, so the type can be sized against it too (the headline,
-     the sub's measure). Never left of 70% of the width minus half the photo,
-     so wide screens keep it right. */
-  --portrait-left: max(
-    calc(min(61.45vw, 1048px) - var(--portrait-h) * 0.2),
-    calc(70vw - var(--portrait-h) * 0.4137)
-  );
-  --hero-bottom: clamp(2.25rem, 5.5vh, 4rem);
-  --sub-fs: clamp(1.08rem, 0.85rem + 0.5vw, 1.35rem);
-
-  /* The headline, as big as it can be: 9vw, but never so big that its glyphs
-     outgrow the sweater (0.18 of the photo), and never so long that its
-     first two lines come near his hair or shoulder. They keep a clear gap
-     (1rem) short of the photo's edge at their height: "speed to lead"
-     (5.245em) stops 2% into the photo's width, "automated" (4.259em) 19%
-     (measured off its pixels). A line that only grazes the photo reads as a
-     mistake. */
-  --h1: clamp(
-    2.1rem,
-    min(
-      9vw,
-      var(--portrait-h) * 0.18,
-      calc((var(--portrait-left) + var(--portrait-h) * 0.02 - var(--pad-x) - 1rem) / 5.245),
-      calc((var(--portrait-left) + var(--portrait-h) * 0.16 - var(--pad-x)) / 4.259)
-    ),
-    10.5rem
-  );
-  /* The headline's descenders hang 0.23em below its box, so the gap to the
-     sub is measured from them, not from the box. */
-  --h1-gap: calc(var(--h1) * 0.23 + 1.6rem);
-  /* The photo rises until the headline's last line crosses it at 62% of its
-     height: below his neck (skin runs down to 60%), on the solid sweater,
-     above his hands. The sum is the distance from the foot of the hero to
-     the top of that line: bottom padding, button (3.45rem), gap (2.25rem),
-     sub (up to two lines, 2.9 of its size), the gap above the sub, and the
-     part of the line above the headline's box (0.618em). */
-  --portrait-lift: max(
-    0px,
-    calc(
-      var(--hero-bottom) + 3.45rem + 2.25rem + var(--sub-fs) * 2.9 +
-        var(--h1-gap) + var(--h1) * 0.618 - var(--portrait-h) * 0.38
-    )
-  );
-  --hero-top: clamp(5.5rem, 12vh, 8rem);
+  /* The first wide line, "automated speed to lead", is 9.75em long: at 7vw
+     it fills 68% of the screen, inside the band the edge wash leaves clear
+     (70%), so neither end of a centred line greys out. */
+  --h1: clamp(2.1rem, 7vw, 10.5rem);
+  --sub-fs: clamp(1.1rem, 0.85rem + 0.55vw, 1.45rem);
 }
 
-/* One group, anchored to the foot of the frame: his head fills the top
-   right, the type the bottom left. */
 .hero__content {
   position: relative;
-  flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  align-items: center;
 }
-
-/* Arms-crossed cut-out, the photo as it is, standing on the foot of the
-   hero. Its foot fades out into the page, so its straight bottom edge is
-   never seen. Over the edge wash (same z-index, later in the tree) so the
-   photo is never greyed near the screen edge. */
-.hero__portrait {
-  position: absolute;
-  bottom: var(--portrait-lift);
-  left: var(--portrait-left);
-  z-index: 30;
-  height: var(--portrait-h);
-  width: auto;
-  pointer-events: none;
-  user-select: none;
-  /* Eased at both ends of the ramp, so the fade has no starting edge. */
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    #000 0,
-    #000 68%,
-    rgb(0 0 0 / 0.86) 75%,
-    rgb(0 0 0 / 0.55) 83%,
-    rgb(0 0 0 / 0.2) 91%,
-    transparent 98%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    #000 0,
-    #000 68%,
-    rgb(0 0 0 / 0.86) 75%,
-    rgb(0 0 0 / 0.55) 83%,
-    rgb(0 0 0 / 0.2) 91%,
-    transparent 98%
-  );
-}
-
-/* Tablets and phones: one column, in the flow, so the gaps stay fixed and
-   even. The text, then the photo centred under it. */
-@media (max-width: 960px) {
-  .hero {
-    min-height: auto;
-    --hero-top: clamp(5.75rem, 13vh, 9rem);
-    --hero-bottom: clamp(1rem, 2.5vh, 1.75rem);
-    --portrait-h: calc(clamp(300px, 88vw, 460px) * 1.2086);
-    /* the longest line (8.55em) fills about 80% of the width at 9vw */
-    --h1: clamp(2.1rem, 9vw, 5.5rem);
-  }
-  .hero__content {
-    flex: none;
-    order: 1;
-  }
-  .hero__portrait {
-    /* relative, not static, so the z-index above the edge wash still applies */
-    position: relative;
-    order: 2;
-    left: auto;
-    bottom: auto;
-    margin-top: clamp(0.75rem, 3vh, 2rem);
-    margin-inline: auto;
-  }
-}
-
-.hero__greeting {
-  margin-bottom: clamp(1.5rem, 2.6vw, 2.75rem);
-  font-size: clamp(1.3rem, 1rem + 1vw, 2.1rem);
-  font-weight: 400;
-  line-height: 1.08;
-  letter-spacing: -0.02em;
-  color: var(--text);
-}
-
 
 .hero__title {
+  width: 100%;
   font-family: var(--font-display), system-ui, sans-serif;
   /* Keep glyph proportions constant across sizes so line width is predictable
      (Bricolage's auto optical sizing widens small text and breaks the wrap). */
@@ -578,10 +454,8 @@ video {
   font-weight: 350;
   line-height: 0.5;
   letter-spacing: -0.03em;
-  text-transform: lowercase;
   /* White type blended against everything behind it: reads near-black on the
-     light canvas, inverts to light where it crosses the dark portrait. Above
-     the portrait (30) and the edge wash (30) so the blend reaches the photo;
+     light canvas and would invert over a dark image. Above the edge wash (30);
      the wash it would have had is rebuilt on .hero__line. */
   color: #fff;
   mix-blend-mode: difference;
@@ -644,13 +518,12 @@ video {
   font-weight: 400;
 }
 
-/* What the system does, in one sentence under the headline. */
+/* What he does for the reader, in one sentence under the headline. The gap is
+   measured from the headline's descenders (0.23em below its box). */
 .hero__sub {
   position: relative;
-  /* the photo's position counts on this gap (--portrait-lift) */
-  margin-top: var(--h1-gap);
-  /* never wider than 46ch, and never reaching the photo */
-  max-width: min(46ch, calc(var(--portrait-left) - var(--pad-x) - 2.5rem));
+  margin-top: calc(var(--h1) * 0.23 + clamp(1.5rem, 2.4vw, 2.25rem));
+  max-width: 34ch;
   font-size: var(--sub-fs);
   line-height: 1.45;
   letter-spacing: -0.01em;
@@ -659,21 +532,14 @@ video {
   text-wrap: balance;
 }
 
-/* Tablets and phones: the photo is under the text, so only the measure
-   limits the sub. */
-@media (max-width: 960px) {
-  .hero__sub {
-    max-width: 46ch;
-  }
-}
-
 /* The button and the call link on one line, wrapping on narrow screens. */
 .hero__foot {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 1rem clamp(1.25rem, 2.4vw, 2rem);
-  margin-top: 2.25rem;
+  margin-top: clamp(2rem, 3vw, 2.75rem);
 }
 
 .hero__audit {
@@ -821,9 +687,8 @@ video {
   }
 }
 
-/* Up to 960px the portrait is stacked inside the hero and the facts close it,
-   so this only needs a normal gap on top; the next section brings its own top
-   space, so the bottom can be tight. */
+/* Up to 960px: a normal gap on top (the hero brings its own bottom space);
+   the next section brings its own top space, so the bottom can be tight. */
 @media (max-width: 960px) {
   .statement-sec {
     padding-top: clamp(2.5rem, 6vh, 4rem);

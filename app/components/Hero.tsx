@@ -1,46 +1,29 @@
 "use client";
 
-import { useCallback, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "@phosphor-icons/react";
 import { AUDIT_URL, withUtm } from "../config";
-// The portrait as WebP at three widths, imported so the build serves each from
-// a URL with the file's hash in it: every new photo gets a new address, so no
-// cache (browsers, Google Images) can keep an old one. The browser picks the
-// smallest that is sharp at its size (a phone gets ~40-110KB instead of the
-// 1.8MB PNG). public/gjorgi.png stays as the source the link-preview card reads.
-import portrait600 from "../assets/gjorgi-600.webp";
-import portrait900 from "../assets/gjorgi-900.webp";
-import portrait1160 from "../assets/gjorgi-1160.webp";
-
-const PORTRAIT_SRCSET = `${portrait600.src} 600w, ${portrait900.src} 900w, ${portrait1160.src} 1160w`;
-// Rendered width in each layout (globals.css): phone 88vw, tablet up to 62vw,
-// desktop up to ~46vw.
-const PORTRAIT_SIZES = "(max-width: 600px) 88vw, (max-width: 960px) 62vw, 46vw";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-// Set in lowercase by CSS (.hero__title), so the source, and what Google and
-// screen readers get, keeps its capitals.
+// What screen readers get. The visible lines below are lowercase, all but
+// "B2B SaaS".
 const HEADLINE = "Automated speed to lead systems for B2B SaaS.";
 
 const SUB = "I make sure more of your demo requests end up on a call with you.";
 
 // Two sets of controlled line breaks for the same sentence, one shown at a
-// time (globals.css). Wide lines step out short, medium, long: the first two
-// stay clear of his head and shoulder, the last runs across his chest, and the
-// photo is placed so it lands there (--portrait-lift). Narrow lines are for
-// phones, where the longest one sets the type size.
+// time (globals.css). Centred, so the lines are kept close in length: two on
+// wide screens, three on phones, where the longest one sets the type size.
 type Segment = { text: string; emph?: boolean };
 
 const WIDE: Segment[][] = [
-  [{ text: "Automated" }],
-  [{ text: "speed to lead" }],
+  [{ text: "automated speed to lead" }],
   [{ text: "systems for " }, { text: "B2B SaaS.", emph: true }],
 ];
 
 const NARROW: Segment[][] = [
-  [{ text: "Automated speed" }],
+  [{ text: "automated speed" }],
   [{ text: "to lead systems" }],
   [{ text: "for " }, { text: "B2B SaaS.", emph: true }],
 ];
@@ -65,7 +48,7 @@ function renderLines(lines: Segment[][], yHidden: number | string) {
         )}
       </motion.span>
       {/* Lines are separate block elements, so without this the extracted text
-          fuses them: "automatedspeed to leadsystems". That kind of fused
+          fuses them: "automated speed to leadsystems for". That kind of fused
           string was what Google was quoting in the search snippet. The space is
           collapsed visually because .hero__line is display: block. */}
       {" "}
@@ -75,16 +58,9 @@ function renderLines(lines: Segment[][], yHidden: number | string) {
 
 export default function Hero() {
   const reduce = useReducedMotion();
-  // The portrait animates in once it has actually loaded. Started on mount, the
-  // animation could finish before the file arrived and the photo then popped in
-  // with no fade. The ref catches a file that loaded before hydration.
-  const [portraitReady, setPortraitReady] = useState(false);
-  const portraitRef = useCallback((el: HTMLImageElement | null) => {
-    if (el?.complete && el.naturalWidth > 0) setPortraitReady(true);
-  }, []);
-  // line-height is 0.6, so the glyphs are ~1.2em tall and overflow their line
-  // box. The hidden offset must exceed the glyph height (not just the line box)
-  // or their tops peek above the mask before the rise. ~240% clears them fully.
+  // line-height is 0.5, so the glyphs overflow their line box. The hidden
+  // offset must exceed the glyph height (not just the line box) or their tops
+  // peek above the mask before the rise. ~240% clears them fully.
   const yHidden = reduce ? 0 : "240%";
 
   const fadeUp = (delay: number) => ({
@@ -95,44 +71,10 @@ export default function Hero() {
 
   return (
     <section className="hero" id="top">
-      {/* Morphs in (blur + scale + opacity, no rotation) as soon as it has
-          loaded. */}
-      <motion.img
-        ref={portraitRef}
-        className="hero__portrait"
-        src={portrait900.src}
-        srcSet={PORTRAIT_SRCSET}
-        sizes={PORTRAIT_SIZES}
-        width={portrait1160.width}
-        height={portrait1160.height}
-        alt="Gjorgi Krmzov"
-        fetchPriority="high"
-        onLoad={() => setPortraitReady(true)}
-        initial={
-          reduce
-            ? { opacity: 0 }
-            : { opacity: 0, scale: 1.04, filter: "blur(12px)" }
-        }
-        animate={
-          !portraitReady
-            ? undefined
-            : reduce
-              ? { opacity: 1 }
-              : { opacity: 1, scale: 1, filter: "blur(0px)" }
-        }
-        transition={{ duration: reduce ? 0.4 : 0.6, ease: EASE }}
-      />
-
       <div className="hero__content">
-        <motion.p className="hero__greeting" {...fadeUp(0.4)}>
-          {"I'm Gjorgi Krmzov"}
-        </motion.p>
-
         {/* The h1 carries the whole sentence for screen readers; both visual
             line sets are aria-hidden, so rendering two of them costs nothing
-            in the accessibility tree. Where the lines cross the portrait,
-            mix-blend-mode on .hero__title inverts the type over the photo, so
-            the overlap stays legible. */}
+            in the accessibility tree. */}
         <h1 className="hero__title" aria-label={HEADLINE}>
           <span className="hero__lines hero__lines--wide">
             {renderLines(WIDE, yHidden)}
@@ -171,7 +113,6 @@ export default function Hero() {
           </a>
         </motion.div>
       </div>
-
     </section>
   );
 }

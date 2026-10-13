@@ -589,16 +589,22 @@ video {
 }
 
 @media (max-width: 760px) {
-  /* Keep nowrap + the mask (overflow: hidden from the base rule) so the line
-     rise still works on mobile; only the size changes. The vw size keeps each
-     line on one visual line, so the tight line-height never overlaps wraps.
-     The narrow set's longest line, "automated speed", runs about 6.9 times the
-     font size, so 12vw fills 92 to 95% of the width between the gutters from
-     320 to 430px (Gjorgi asked for a bigger headline on phones, 2026-10-09).
-     It stops growing at 4rem, from about 530px. Verified 320-760px: the
-     longest line still clears the gutters. */
+  /* Keep nowrap + overflow: hidden from the base rule so the line rise still
+     works on mobile; only the size changes. The narrow set's longest line,
+     "speed to lead", runs 5.25 times the font size, so 0.178 of the width
+     between the gutters fills 94% of it at every phone width (Gjorgi asked
+     for a bigger headline on phones, 2026-10-13). It stops growing at 5.5rem,
+     on small tablets. */
   .hero__title {
-    font-size: clamp(1.95rem, 12vw, 4rem);
+    font-size: clamp(1.95rem, calc((100vw - 2 * var(--pad-x)) * 0.178), 5.5rem);
+  }
+  /* The centred lines run close to the gutters here, and the edge wash would
+     grey their first and last letters, which reads as a fault on a centred
+     line. The headline sits above the wash, so dropping its own copy of it
+     keeps every letter at full ink. */
+  .hero__line {
+    -webkit-mask-image: none;
+    mask-image: none;
   }
   /* tap area */
   .hero__audit a {

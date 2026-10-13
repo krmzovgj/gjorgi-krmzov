@@ -10,9 +10,10 @@ const HEADLINE = "I build automated speed to lead systems for B2B SaaS.";
 
 // Two sets of controlled line breaks for the same sentence, one shown at a
 // time (globals.css). Wide lines hold one idea each: who builds it, what it
-// is, who it's for. Narrow lines are shorter, which is what lets the phone
-// size step up: at the wide breaks the longest line would nearly fill a 390px
-// screen, so the type could not grow there without clipping.
+// is, who it's for. Narrow lines are short, five of them, so the phone size
+// can step right up: the longest, "speed to lead", sets it, and the stack
+// fills the screen as one balanced shape instead of leaving "I build" alone
+// over small type.
 type Segment = { text: string; emph?: boolean };
 
 const WIDE: Segment[][] = [
@@ -23,9 +24,10 @@ const WIDE: Segment[][] = [
 
 const NARROW: Segment[][] = [
   [{ text: "I build" }],
-  [{ text: "automated speed" }],
-  [{ text: "to lead systems" }],
-  [{ text: "for " }, { text: "B2B SaaS.", emph: true }],
+  [{ text: "automated" }],
+  [{ text: "speed to lead" }],
+  [{ text: "systems for" }],
+  [{ text: "B2B SaaS.", emph: true }],
 ];
 
 // Each line is masked (overflow: hidden) and rises into place, staggered.

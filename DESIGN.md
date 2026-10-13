@@ -59,8 +59,8 @@ match the hero (`app/components/Hero.tsx` + the `.hero` block in `app/globals.cs
   so the logo blends against the page behind it.
 
 ## Hero
-- Centred, no photo for now. The headline runs on 3 lines above 760px and 4 at
-  760px and below. It fills the first screen with its content centred, and the
+- Centred, no photo for now. The headline runs on 3 lines above 760px and 5 at
+  760px and below, sized so the longest fills the phone's width. It fills the first screen with its content centred, and the
   statement starts below the fold (Gjorgi's call, 2026-10-13).
 - `Hero.tsx` and the `.hero` block stay the reference implementation.
 

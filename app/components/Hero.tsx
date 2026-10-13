@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight } from "@phosphor-icons/react";
+import { ArrowRight, HandWaving } from "@phosphor-icons/react";
 import { AUDIT_URL, withUtm } from "../config";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -73,7 +73,11 @@ export default function Hero() {
     <section className="hero" id="top">
       <div className="hero__content">
         <motion.p className="hero__greeting" {...fadeUp(0.1)}>
-          <span>{"I'm Gjorgi Krmzov"}</span>
+          <span>
+            {"I'm Gjorgi Krmzov"}
+            {/* The accent's one small mark in the hero. */}
+            <HandWaving className="hero__wave" size="1.1em" weight="duotone" aria-hidden="true" />
+          </span>
         </motion.p>
 
         {/* The h1 carries the whole sentence for screen readers; both visual

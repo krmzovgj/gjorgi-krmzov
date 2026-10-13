@@ -444,7 +444,14 @@ video {
 }
 
 .hero__greeting span {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+}
+
+.hero__wave {
+  flex: none;
+  color: var(--accent);
 }
 
 .hero__title {

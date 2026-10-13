@@ -290,7 +290,7 @@
 
 .jr-icon {
   flex: none;
-  color: var(--text-dim);
+  color: var(--accent);
 }
 
 @media (min-width: 1000px) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight } from "@phosphor-icons/react";
+import { ArrowRight, HandWaving } from "@phosphor-icons/react";
 import { AUDIT_URL, withUtm } from "../config";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -10,9 +10,10 @@ const HEADLINE = "I build automated speed to lead systems for B2B SaaS.";
 
 // Two sets of controlled line breaks for the same sentence, one shown at a
 // time (globals.css). Wide lines hold one idea each: who builds it, what it
-// is, who it's for. Narrow lines are shorter, which is what lets the phone
-// size step up: at the wide breaks the longest line would nearly fill a 390px
-// screen, so the type could not grow there without clipping.
+// is, who it's for. Narrow lines are short, five of them, so the phone size
+// can step right up: the longest, "speed to lead", sets it, and the stack
+// fills the screen as one balanced shape instead of leaving "I build" alone
+// over small type.
 type Segment = { text: string; emph?: boolean };
 
 const WIDE: Segment[][] = [
@@ -23,9 +24,10 @@ const WIDE: Segment[][] = [
 
 const NARROW: Segment[][] = [
   [{ text: "I build" }],
-  [{ text: "automated speed" }],
-  [{ text: "to lead systems" }],
-  [{ text: "for " }, { text: "B2B SaaS.", emph: true }],
+  [{ text: "automated" }],
+  [{ text: "speed to lead" }],
+  [{ text: "systems for" }],
+  [{ text: "B2B SaaS.", emph: true }],
 ];
 
 // Each line is masked (overflow: hidden) and rises into place, staggered.
@@ -73,7 +75,11 @@ export default function Hero() {
     <section className="hero" id="top">
       <div className="hero__content">
         <motion.p className="hero__greeting" {...fadeUp(0.1)}>
-          <span>{"I'm Gjorgi Krmzov"}</span>
+          <span>
+            {"I'm Gjorgi Krmzov"}
+            {/* The accent's one small mark in the hero. */}
+            <HandWaving className="hero__wave" size="1.1em" weight="duotone" aria-hidden="true" />
+          </span>
         </motion.p>
 
         {/* The h1 carries the whole sentence for screen readers; both visual

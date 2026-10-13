@@ -1,39 +1,24 @@
 "use client";
 
-import { useCallback, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "@phosphor-icons/react";
-import { Swoosh } from "./Doodles";
 import { AUDIT_URL, withUtm } from "../config";
-// The portrait as WebP at three widths, imported so the build serves each from
-// a URL with the file's hash in it: every new photo gets a new address, so no
-// cache (browsers, Google Images) can keep an old one. The browser picks the
-// smallest that is sharp at its size (a phone gets ~40-110KB instead of the
-// 1.8MB PNG). public/gjorgi.png stays as the source the link-preview card reads.
-import portrait600 from "../assets/gjorgi-600.webp";
-import portrait900 from "../assets/gjorgi-900.webp";
-import portrait1160 from "../assets/gjorgi-1160.webp";
-
-const PORTRAIT_SRCSET = `${portrait600.src} 600w, ${portrait900.src} 900w, ${portrait1160.src} 1160w`;
-// Rendered width in each layout (globals.css): phone 88vw, tablet up to 62vw,
-// desktop up to ~46vw.
-const PORTRAIT_SIZES = "(max-width: 600px) 88vw, (max-width: 960px) 62vw, 46vw";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const HEADLINE = "I build automated speed to lead systems for B2B SaaS.";
 
 // Two sets of controlled line breaks for the same sentence, one shown at a
-// time (globals.css). Wide lines run long enough to cross the portrait on
-// purpose. Narrow lines are shorter, which is what lets the phone size step
-// up: at the wide breaks the longest line nearly fills a 390px screen, so the
-// type could not grow there without clipping.
+// time (globals.css). Wide lines hold one idea each: who builds it, what it
+// is, who it's for. Narrow lines are shorter, which is what lets the phone
+// size step up: at the wide breaks the longest line would nearly fill a 390px
+// screen, so the type could not grow there without clipping.
 type Segment = { text: string; emph?: boolean };
 
 const WIDE: Segment[][] = [
   [{ text: "I build automated" }],
-  [{ text: "speed to lead" }],
-  [{ text: "systems for " }, { text: "B2B SaaS.", emph: true }],
+  [{ text: "speed to lead systems" }],
+  [{ text: "for " }, { text: "B2B SaaS.", emph: true }],
 ];
 
 const NARROW: Segment[][] = [
@@ -50,7 +35,7 @@ function renderLines(lines: Segment[][], yHidden: number | string) {
       <motion.span
         initial={{ y: yHidden }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.85, ease: EASE, delay: 0.5 + i * 0.08 }}
+        transition={{ duration: 0.7, ease: EASE, delay: 0.1 + i * 0.06 }}
       >
         {segments.map((s, j) =>
           s.emph ? (
@@ -73,13 +58,6 @@ function renderLines(lines: Segment[][], yHidden: number | string) {
 
 export default function Hero() {
   const reduce = useReducedMotion();
-  // The portrait animates in once it has actually loaded. Started on mount, the
-  // animation could finish before the file arrived and the photo then popped in
-  // with no fade. The ref catches a file that loaded before hydration.
-  const [portraitReady, setPortraitReady] = useState(false);
-  const portraitRef = useCallback((el: HTMLImageElement | null) => {
-    if (el?.complete && el.naturalWidth > 0) setPortraitReady(true);
-  }, []);
   // line-height is 0.6, so the glyphs are ~1.2em tall and overflow their line
   // box. The hidden offset must exceed the glyph height (not just the line box)
   // or their tops peek above the mask before the rise. ~240% clears them fully.
@@ -88,60 +66,19 @@ export default function Hero() {
   const fadeUp = (delay: number) => ({
     initial: { opacity: 0, y: reduce ? 0 : 16 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.65, ease: EASE, delay },
+    transition: { duration: 0.5, ease: EASE, delay },
   });
 
   return (
     <section className="hero" id="top">
-      {/* The line the photo sits on. Painted behind the photo (and under the
-          edge wash, so its ends fade at the screen edges like the type). */}
-      <motion.div
-        className="hero__swoosh"
-        aria-hidden="true"
-        initial={{ opacity: 0 }}
-        animate={portraitReady ? { opacity: 1 } : undefined}
-        transition={{ duration: 0.5, ease: EASE, delay: reduce ? 0 : 0.2 }}
-      >
-        <Swoosh />
-      </motion.div>
-      {/* Morphs in (blur + scale + opacity, no rotation) as soon as it has
-          loaded. */}
-      <motion.img
-        ref={portraitRef}
-        className="hero__portrait"
-        src={portrait900.src}
-        srcSet={PORTRAIT_SRCSET}
-        sizes={PORTRAIT_SIZES}
-        width={portrait1160.width}
-        height={portrait1160.height}
-        alt="Gjorgi Krmzov"
-        fetchPriority="high"
-        onLoad={() => setPortraitReady(true)}
-        initial={
-          reduce
-            ? { opacity: 0 }
-            : { opacity: 0, scale: 1.04, filter: "blur(12px)" }
-        }
-        animate={
-          !portraitReady
-            ? undefined
-            : reduce
-              ? { opacity: 1 }
-              : { opacity: 1, scale: 1, filter: "blur(0px)" }
-        }
-        transition={{ duration: reduce ? 0.4 : 0.6, ease: EASE }}
-      />
-
       <div className="hero__content">
-        <motion.p className="hero__greeting" {...fadeUp(0.4)}>
+        <motion.p className="hero__greeting" {...fadeUp(0.1)}>
           <span>{"I'm Gjorgi Krmzov"}</span>
         </motion.p>
 
         {/* The h1 carries the whole sentence for screen readers; both visual
             line sets are aria-hidden, so rendering two of them costs nothing
-            in the accessibility tree. On wide screens the lines deliberately
-            cross the portrait - mix-blend-mode on .hero__title inverts the
-            type over the photo, so the overlap stays legible. */}
+            in the accessibility tree. */}
         <h1 className="hero__title" aria-label={HEADLINE}>
           <span className="hero__lines hero__lines--wide">
             {renderLines(WIDE, yHidden)}
@@ -151,34 +88,35 @@ export default function Hero() {
           </span>
         </h1>
 
-        <motion.div className="hero__foot" {...fadeUp(0.7)}>
+        {/* One row of actions that fades in as one: the button, then the
+            call link. On phones the row wraps and the link sits under the
+            button, both centred. */}
+        <motion.div className="hero__foot" {...fadeUp(0.3)}>
           <a className="btn" href="#how" data-cursor="Start here">
             See how it works
             <ArrowRight size={16} weight="bold" />
           </a>
+          <p className="hero__audit">
+            <a
+              href={withUtm(AUDIT_URL, "hero-audit")}
+              target="_blank"
+              rel="noopener"
+              data-cursor="Let's talk"
+            >
+              Or book a 15 minute call
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M7 17 17 7M9 7h8v8"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </a>
+          </p>
         </motion.div>
-
-        <motion.p className="hero__audit" {...fadeUp(0.82)}>
-          <a
-            href={withUtm(AUDIT_URL, "hero-audit")}
-            target="_blank"
-            rel="noopener"
-            data-cursor="Let's talk"
-          >
-            Or book a 15 minute call
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M7 17 17 7M9 7h8v8"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </a>
-        </motion.p>
       </div>
-
     </section>
   );
 }

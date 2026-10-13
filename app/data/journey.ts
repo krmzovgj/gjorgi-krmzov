@@ -2,14 +2,14 @@
 // the call because that's the return the page promises, more of the people
 // who ask for a demo end up on a call with you.
 // Every line on the section lives here: the step sentences on the left and
-// the words shown on the right (what Sarah wrote, what the system sent from
-// the reader's inbox, her reply) and the icon for each moment. Sarah, Northwind and the others are made up examples of the
+// the words shown on the right (what Megan wrote, what the system sent from
+// the reader's inbox, her reply) and the icon for each moment. Megan, Ordermill and the others are made up examples of the
 // reader's own leads. There is no rep in the story: the system does the
 // sending and the reader takes the call.
 
 export const JOURNEY_TITLE = "How it works";
 
-export const JOURNEY_SUB = "Sarah asks you for a demo on a Tuesday afternoon.";
+export const JOURNEY_SUB = "Megan asks you for a demo on a Tuesday afternoon.";
 
 // What the right side shows for each step. All type, no mock interface:
 // a line someone wrote or the time something landed.
@@ -18,7 +18,7 @@ export type Art =
   | { kind: "quote"; text: string; by: string; size?: "lg" | "md" }
   // The booked slot, with the follow ups that won't go out struck through.
   | { kind: "booked"; when: string; struck: string[]; by: string }
-  // The system asks, Sarah answers. Her answer is the big line.
+  // The system asks, Megan answers. Her answer is the big line.
   | { kind: "reply"; ask: string; askBy: string; answer: string; answerBy: string }
   // The call itself: the time, large.
   | { kind: "call"; time: string; by: string };
@@ -46,12 +46,12 @@ export const JOURNEY: Step[] = [
   {
     day: "Tuesday",
     time: "2:14 PM",
-    text: "Sarah, a warm lead, fills out your demo form.",
+    text: "Megan, a warm lead, fills out your demo form.",
     icon: "form",
     art: {
       kind: "quote",
       text: "Can we see pricing for a team of\u00a012?",
-      by: "Sarah Lin from Northwind, on your demo form",
+      by: "Megan Sullivan from Ordermill, on your demo form",
     },
   },
   {
@@ -61,7 +61,7 @@ export const JOURNEY: Step[] = [
     icon: "email",
     art: {
       kind: "quote",
-      text: "Hi Sarah, happy to walk you through pricing for\u00a012. Here's my calendar, pick any time that works.",
+      text: "Hi Megan, happy to walk you through pricing for\u00a012. Here's my calendar, pick any time that works.",
       by: "From your inbox, Tuesday at 2:15\u00a0PM",
       size: "md",
     },
@@ -73,8 +73,8 @@ export const JOURNEY: Step[] = [
     icon: "note",
     art: {
       kind: "quote",
-      text: "Sarah's at Northwind, they sell inventory software to wholesalers. She wants pricing for a team of\u00a012.",
-      by: "From her form and Northwind's website",
+      text: "Megan's at Ordermill, they sell inventory software to wholesalers. She wants pricing for a team of\u00a012.",
+      by: "From her form and Ordermill's website",
       size: "md",
     },
   },
@@ -85,7 +85,7 @@ export const JOURNEY: Step[] = [
     icon: "followup",
     art: {
       kind: "quote",
-      text: "Hi Sarah, in case my email got buried yesterday, here's my calendar again.",
+      text: "Hi Megan, in case my email got buried yesterday, here's my calendar again.",
       by: "From your inbox, Wednesday at 9:00\u00a0AM",
       size: "md",
     },
@@ -112,7 +112,7 @@ export const JOURNEY: Step[] = [
       ask: "Still good for tomorrow at 10? Reply yes and you're all set.",
       askBy: "From your inbox, Thursday at 10:00\u00a0AM",
       answer: "Yes, see you then.",
-      answerBy: "Sarah, 10:41\u00a0AM",
+      answerBy: "Megan, 10:41\u00a0AM",
     },
   },
   {
@@ -129,12 +129,12 @@ export const JOURNEY: Step[] = [
   {
     day: "Friday",
     time: "10:00 AM",
-    text: "You and Sarah are on the call.",
+    text: "You and Megan are on the call.",
     icon: "call",
     art: {
       kind: "call",
       time: "10:00\u00a0AM",
-      by: "You and Sarah, Friday",
+      by: "You and Megan, Friday",
     },
   },
 ];

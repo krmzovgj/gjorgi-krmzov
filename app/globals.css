@@ -93,22 +93,22 @@ body {
 }
 
 /* =================================================================
-   Edge treatment: a wash that takes ink out of whatever runs into the
-   margin, and a dot field painted on top of it. Both fixed, so they
-   frame the viewport and cost nothing to scroll.
+   Page texture and edge treatment. A dot grid behind the whole page,
+   full through the middle and fading out slightly toward the left and
+   right sides, and a wash over the content that takes ink out of
+   whatever runs into the margin. Both fixed, so they frame the
+   viewport and cost nothing to scroll.
 
-   Order matters and is the whole trick. The wash has to be over the
-   content to pale it, and the dots have to be over the wash or the
-   wash erases the very texture it sits behind. So: content, wash,
-   dots, and every fixed control (work reveal 40, nav 50, preview 60)
-   still sits clear above all three.
+   The dots sit under the content (z-index -1, above the canvas white),
+   so type always paints over them. The wash sits over the content (30)
+   to pale it; every fixed control (work reveal 40, nav 50, preview 60)
+   and the few solid controls in the gutter (32) still sit clear above
+   it.
    ================================================================= */
 
-/* The wash. Runs the SAME band as the dot field, deliberately: when it was
-   narrower there was a strip where dots fell over type that was still at full
-   ink, which read as dirt rather than as a fade. The middle stop is what keeps
-   it from being a flat ramp, so it bites hardest in the gutter and has eased
-   off by the time it reaches the text. */
+/* The wash. The middle stop is what keeps it from being a flat ramp, so it
+   bites hardest in the gutter and has eased off by the time it reaches the
+   text. */
 body::before {
   content: "";
   position: fixed;
@@ -126,30 +126,33 @@ body::before {
   );
 }
 
-/* The dot field, over the wash so it stays legible against it. */
+/* The dot grid. Full from --edge inward, easing out to a light trace at the
+   screen edges rather than gone, so the fade stays slight. */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: 31;
+  z-index: -1;
   pointer-events: none;
   background-image: radial-gradient(var(--dot) 1px, transparent 1px);
   background-size: var(--dot-gap) var(--dot-gap);
-  /* Solid at the edge, gone by --edge, so the middle stays clean canvas.
-     Same shape as the Figma mask, expressed as a length. */
   -webkit-mask-image: linear-gradient(
     to right,
-    #000 0,
-    transparent var(--edge),
-    transparent calc(100% - var(--edge)),
-    #000 100%
+    rgb(0 0 0 / 0.15) 0,
+    rgb(0 0 0 / 0.6) calc(var(--edge) * 0.5),
+    #000 var(--edge),
+    #000 calc(100% - var(--edge)),
+    rgb(0 0 0 / 0.6) calc(100% - var(--edge) * 0.5),
+    rgb(0 0 0 / 0.15) 100%
   );
   mask-image: linear-gradient(
     to right,
-    #000 0,
-    transparent var(--edge),
-    transparent calc(100% - var(--edge)),
-    #000 100%
+    rgb(0 0 0 / 0.15) 0,
+    rgb(0 0 0 / 0.6) calc(var(--edge) * 0.5),
+    #000 var(--edge),
+    #000 calc(100% - var(--edge)),
+    rgb(0 0 0 / 0.6) calc(100% - var(--edge) * 0.5),
+    rgb(0 0 0 / 0.15) 100%
   );
 }
 
@@ -304,8 +307,8 @@ video {
   transform: scale(1.04);
 }
 
-/* Above the edge wash (30) and the dot field (31). Type is meant to thin out
-   as it reaches the margin; a solid control washed to grey just reads as a
+/* Above the edge wash (30). Type is meant to thin out as it reaches the
+   margin; a solid control washed to grey just reads as a
    broken button, so the few that sit in the gutter opt out. */
 .btn,
 .footer__social,
@@ -411,15 +414,15 @@ video {
 
 /* =================================================================
    Hero - centred. A short greeting, one large light statement, one
-   row of actions. Not full height: the statement shows in the first
-   screen under it.
+   row of actions, centred in the first screen. The statement starts
+   below the fold (Gjorgi's call, 2026-10-13).
    ================================================================= */
 .hero {
   position: relative;
-  min-height: auto;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   padding: clamp(7.5rem, 17vh, 10rem) var(--pad-x) clamp(3rem, 7vh, 4.5rem);
   /* Clip any sideways overflow so it can never push out a horizontal
      scrollbar. clip (not hidden) does not isolate the headline's mix-blend. */
@@ -456,8 +459,8 @@ video {
   line-height: 0.5;
   letter-spacing: -0.03em;
   /* White type blended against everything behind it: reads near-black on the
-     light canvas. Above the edge layers (30, 31); the wash it would have had
-     is rebuilt on .hero__line. */
+     light canvas. Above the edge wash (30); the wash it would have had is
+     rebuilt on .hero__line. */
   color: #fff;
   mix-blend-mode: difference;
   position: relative;
@@ -695,15 +698,6 @@ video {
   display: block;
 }
 
-/* Above 760px the statement is a centred column under the centred hero; its
-   text stays left aligned. */
-@media (min-width: 761px) {
-  .statement {
-    width: fit-content;
-    margin-inline: auto;
-  }
-}
-
 /* Phones: a 50-char authored line wraps anyway and leaves one or two words
    stranded on their own line, so drop the breaks and let the prose reflow.
    The paragraph split between problem and promise still stands. */
@@ -724,8 +718,7 @@ video {
   }
 }
 
-/* The statement sits right under the hero, one top gap at every size, so its
-   first line shows in the first screen. */
+/* The statement sits right under the hero, one top gap at every size. */
 .statement-sec {
   padding-top: clamp(2.5rem, 6vh, 4.5rem);
 }

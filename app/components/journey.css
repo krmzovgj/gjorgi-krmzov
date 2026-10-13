@@ -182,8 +182,8 @@
 
 /* ---- the card look, shared by the pinned card and the phone panels ---- */
 
-/* z-index 32 opts it out of the page's edge wash and dot field (body
-   ::before and ::after, 30 and 31), the same way .btn does. */
+/* z-index 32 opts it out of the page's edge wash (body::before, 30), the
+   same way .btn does. */
 .jr-panel {
   position: relative;
   z-index: 32;
@@ -418,7 +418,7 @@
   text-decoration-thickness: 1.5px;
 }
 
-/* The system asks small, Sarah's answer is the big line */
+/* The system asks small, Megan's answer is the big line */
 .jr-reply__ask blockquote {
   max-width: 30ch;
   color: var(--text-dim);

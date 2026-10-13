@@ -51,6 +51,8 @@ match the hero (`app/components/Hero.tsx` + the `.hero` block in `app/globals.cs
   smooth scroll is already disabled under reduced motion.
 
 ## Signature devices
+- A dot grid behind the whole page (`body::after`, under the content), full
+  through the middle and fading out slightly toward the left and right sides.
 - `mix-blend-mode: difference` for type / logo that crosses B&W imagery: it
   auto-inverts (dark on light, light on dark).
 - Minimal fixed nav: text `gk` logo (blend) + one CTA. `.nav` is `display: contents`
@@ -58,7 +60,8 @@ match the hero (`app/components/Hero.tsx` + the `.hero` block in `app/globals.cs
 
 ## Hero
 - Centred, no photo for now. The headline runs on 3 lines above 760px and 4 at
-  760px and below. Not full height: the statement shows in the first screen.
+  760px and below. It fills the first screen with its content centred, and the
+  statement starts below the fold (Gjorgi's call, 2026-10-13).
 - `Hero.tsx` and the `.hero` block stay the reference implementation.
 
 ## Kill-list (never reintroduce)
@@ -69,8 +72,7 @@ match the hero (`app/components/Hero.tsx` + the `.hero` block in `app/globals.cs
   no two equal buttons, no scribbles or arrows. The hero is a centred headline
   with one button and one text link.
 - No framed or bento grids, no stat strips like "1 min", no mock UI cards
-  outside How it works, no decorative lines or scribbles around the photo, no
-  full height heroes.
+  outside How it works, no decorative lines or scribbles around the photo.
 - No placeholder / v1 / lorem content. Real copy only, from `app/data` + the offer.
 
 ## Accessibility

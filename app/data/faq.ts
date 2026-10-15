@@ -29,4 +29,8 @@ export const FAQS = [
     q: "What does it cost?",
     a: "It's a one time setup and then a monthly fee. You pay half the setup to start and the rest after it's running as agreed based on the service agreement. The monthly depends on how many demo requests you get, so I'll give you the number on the call.",
   },
+  {
+    q: "Why is there a monthly fee?",
+    a: "Some people still don't book or don't show up, even when they hear back in a minute. Every week I go through them and get the good ones back onto a call with your team, and every month you get their names to check in your CRM.",
+  },
 ];
